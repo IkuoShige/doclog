@@ -1,0 +1,521 @@
+---
+title: "TypeScriptでAPIを型安全に扱う方法"
+description: "TypeScriptを使ってAPIレスポンスを型安全に扱う実践的な手法を学びます"
+date: "2024-01-20"
+category: "バックエンド"
+difficulty: "intermediate"
+tags: ["TypeScript", "API", "型安全", "フロントエンド"]
+published: true
+---
+
+# TypeScriptでAPIを型安全に扱う方法
+
+TypeScriptを使用することで、APIとの通信を型安全に行い、ランタイムエラーを大幅に減らすことができます。
+
+<Callout type="info">
+このガイドでは、実際のプロジェクトで使える実践的な型安全なAPI処理の手法を紹介します。
+</Callout>
+
+## 基本的な型定義
+
+まず、APIレスポンスの型を定義します。
+
+<Step number={1}>
+### ユーザー情報の型定義
+
+<CodeBlock filename="types/api.ts" language="typescript">
+// 基本的なユーザー型
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// APIレスポンスの共通型
+export interface ApiResponse<T> {
+  data: T;
+  message?: string;
+  success: boolean;
+}
+
+// ページネーション型
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+  };
+}
+</CodeBlock>
+</Step>
+
+<Step number={2}>
+### APIエラーの型定義
+
+```typescript
+export interface ApiError {
+  message: string;
+  code: string;
+  details?: Record<string, string[]>;
+}
+
+export class ApiException extends Error {
+  constructor(
+    public status: number,
+    public error: ApiError
+  ) {
+    super(error.message);
+    this.name = 'ApiException';
+  }
+}
+```
+</Step>
+
+## 型安全なHTTPクライアント
+
+型安全なAPIクライアントを作成しましょう。
+
+<CodeBlock filename="lib/api-client.ts" language="typescript">
+import { ApiResponse, ApiError, ApiException } from '@/types/api';
+
+class ApiClient {
+  private baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const url = `${this.baseUrl}${endpoint}`;
+    
+    const config: RequestInit = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      
+      if (!response.ok) {
+        const errorData: ApiError = await response.json();
+        throw new ApiException(response.status, errorData);
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (error instanceof ApiException) {
+        throw error;
+      }
+      
+      // ネットワークエラーなど
+      throw new ApiException(0, {
+        message: 'ネットワークエラーが発生しました',
+        code: 'NETWORK_ERROR',
+      });
+    }
+  }
+
+  async get<T>(endpoint: string): Promise<T> {
+    return this.request<T>(endpoint, { method: 'GET' });
+  }
+
+  async post<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'POST',
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async put<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'PUT',
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async delete<T>(endpoint: string): Promise<T> {
+    return this.request<T>(endpoint, { method: 'DELETE' });
+  }
+}
+
+export const apiClient = new ApiClient(process.env.NEXT_PUBLIC_API_URL || '');
+</CodeBlock>
+
+## Zodを使った実行時バリデーション
+
+TypeScriptの型は実行時には存在しないため、Zodを使って実行時バリデーションを行います。
+
+<Callout type="warning">
+TypeScriptの型チェックはコンパイル時のみ有効です。実行時の型安全性を保証するには、Zodなどのライブラリが必要です。
+</Callout>
+
+<Step number={1}>
+### Zodスキーマの定義
+
+```bash
+npm install zod
+```
+
+<CodeBlock filename="schemas/user.ts" language="typescript">
+import { z } from 'zod';
+
+export const UserSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1, '名前は必須です'),
+  email: z.string().email('有効なメールアドレスを入力してください'),
+  avatar: z.string().url().optional(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
+
+export const ApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
+  z.object({
+    data: dataSchema,
+    message: z.string().optional(),
+    success: z.boolean(),
+  });
+
+export const PaginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
+  z.object({
+    data: z.array(itemSchema),
+    pagination: z.object({
+      currentPage: z.number(),
+      totalPages: z.number(),
+      totalItems: z.number(),
+      itemsPerPage: z.number(),
+    }),
+  });
+
+// 型を推論
+export type User = z.infer<typeof UserSchema>;
+export type ApiResponse<T> = {
+  data: T;
+  message?: string;
+  success: boolean;
+};
+</CodeBlock>
+</Step>
+
+<Step number={2}>
+### バリデーション付きAPIクライアント
+
+```typescript
+import { z } from 'zod';
+import { UserSchema, ApiResponseSchema } from '@/schemas/user';
+
+class ValidatedApiClient extends ApiClient {
+  async getValidated<T>(
+    endpoint: string,
+    schema: z.ZodSchema<T>
+  ): Promise<T> {
+    const response = await this.get(endpoint);
+    return schema.parse(response);
+  }
+
+  async postValidated<TResponse, TRequest>(
+    endpoint: string,
+    data: TRequest,
+    responseSchema: z.ZodSchema<TResponse>,
+    requestSchema?: z.ZodSchema<TRequest>
+  ): Promise<TResponse> {
+    // リクエストデータのバリデーション
+    const validatedData = requestSchema ? requestSchema.parse(data) : data;
+    
+    const response = await this.post(endpoint, validatedData);
+    return responseSchema.parse(response);
+  }
+}
+
+export const validatedApiClient = new ValidatedApiClient(
+  process.env.NEXT_PUBLIC_API_URL || ''
+);
+```
+</Step>
+
+## 実践的なAPI処理関数
+
+実際のアプリケーションで使用するAPI処理関数を作成します。
+
+<Tabs defaultValue="users">
+  <TabsList>
+    <TabsTrigger value="users">ユーザー管理</TabsTrigger>
+    <TabsTrigger value="posts">投稿管理</TabsTrigger>
+    <TabsTrigger value="hooks">React Hooks</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="users">
+    <CodeBlock filename="services/users.ts" language="typescript">
+    import { validatedApiClient } from '@/lib/api-client';
+    import { UserSchema, ApiResponseSchema, PaginatedResponseSchema } from '@/schemas/user';
+    import type { User } from '@/schemas/user';
+
+    // ユーザー一覧取得
+    export async function getUsers(page: number = 1, limit: number = 10) {
+      const schema = PaginatedResponseSchema(UserSchema);
+      
+      return validatedApiClient.getValidated(
+        `/users?page=${page}&limit=${limit}`,
+        schema
+      );
+    }
+
+    // 単一ユーザー取得
+    export async function getUser(id: number): Promise<User> {
+      const schema = ApiResponseSchema(UserSchema);
+      
+      const response = await validatedApiClient.getValidated(
+        `/users/${id}`,
+        schema
+      );
+      
+      return response.data;
+    }
+
+    // ユーザー作成
+    export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) {
+      const requestSchema = UserSchema.omit({ 
+        id: true, 
+        createdAt: true, 
+        updatedAt: true 
+      });
+      const responseSchema = ApiResponseSchema(UserSchema);
+      
+      const response = await validatedApiClient.postValidated(
+        '/users',
+        userData,
+        responseSchema,
+        requestSchema
+      );
+      
+      return response.data;
+    }
+    </CodeBlock>
+  </TabsContent>
+  
+  <TabsContent value="posts">
+    <CodeBlock filename="schemas/post.ts" language="typescript">
+    import { z } from 'zod';
+
+    export const PostSchema = z.object({
+      id: z.number(),
+      title: z.string().min(1, 'タイトルは必須です'),
+      content: z.string().min(1, '内容は必須です'),
+      authorId: z.number(),
+      tags: z.array(z.string()),
+      published: z.boolean(),
+      createdAt: z.string().datetime(),
+      updatedAt: z.string().datetime(),
+    });
+
+    export type Post = z.infer<typeof PostSchema>;
+    </CodeBlock>
+  </TabsContent>
+  
+  <TabsContent value="hooks">
+    <CodeBlock filename="hooks/useUsers.ts" language="typescript">
+    import { useState, useEffect } from 'react';
+    import { getUsers, getUser } from '@/services/users';
+    import type { User } from '@/schemas/user';
+    import { ApiException } from '@/lib/api-client';
+
+    export function useUsers(page: number = 1) {
+      const [users, setUsers] = useState<User[]>([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState<string | null>(null);
+      const [pagination, setPagination] = useState(null);
+
+      useEffect(() => {
+        async function fetchUsers() {
+          setLoading(true);
+          setError(null);
+          
+          try {
+            const response = await getUsers(page);
+            setUsers(response.data);
+            setPagination(response.pagination);
+          } catch (err) {
+            if (err instanceof ApiException) {
+              setError(err.error.message);
+            } else {
+              setError('ユーザーの取得に失敗しました');
+            }
+          } finally {
+            setLoading(false);
+          }
+        }
+
+        fetchUsers();
+      }, [page]);
+
+      return { users, loading, error, pagination };
+    }
+
+    export function useUser(id: number) {
+      const [user, setUser] = useState<User | null>(null);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState<string | null>(null);
+
+      useEffect(() => {
+        async function fetchUser() {
+          if (!id) return;
+          
+          setLoading(true);
+          setError(null);
+          
+          try {
+            const userData = await getUser(id);
+            setUser(userData);
+          } catch (err) {
+            if (err instanceof ApiException) {
+              setError(err.error.message);
+            } else {
+              setError('ユーザーの取得に失敗しました');
+            }
+          } finally {
+            setLoading(false);
+          }
+        }
+
+        fetchUser();
+      }, [id]);
+
+      return { user, loading, error };
+    }
+    </CodeBlock>
+  </TabsContent>
+</Tabs>
+
+## エラーハンドリング
+
+適切なエラーハンドリングを実装しましょう。
+
+<CodeBlock filename="components/ErrorBoundary.tsx" language="typescript">
+import React, { Component, ReactNode } from 'react';
+
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+  error?: Error;
+}
+
+export class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        this.props.fallback || (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <h2 className="text-lg font-semibold text-red-800 mb-2">
+              エラーが発生しました
+            </h2>
+            <p className="text-red-600">
+              {this.state.error?.message || '予期しないエラーが発生しました'}
+            </p>
+          </div>
+        )
+      );
+    }
+
+    return this.props.children;
+  }
+}
+</CodeBlock>
+
+## テストの書き方
+
+型安全なAPIクライアントのテストを書きましょう。
+
+<CodeBlock filename="__tests__/api-client.test.ts" language="typescript">
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
+import { validatedApiClient } from '@/lib/api-client';
+import { UserSchema } from '@/schemas/user';
+
+// fetchのモック
+global.fetch = jest.fn();
+
+describe('ValidatedApiClient', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('正常なレスポンスを正しく処理する', async () => {
+    const mockUser = {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      createdAt: '2024-01-01T00:00:00Z',
+      updatedAt: '2024-01-01T00:00:00Z',
+    };
+
+    (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUser,
+    } as Response);
+
+    const result = await validatedApiClient.getValidated('/users/1', UserSchema);
+    
+    expect(result).toEqual(mockUser);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/users/1'),
+      expect.objectContaining({ method: 'GET' })
+    );
+  });
+
+  it('不正なデータの場合はエラーを投げる', async () => {
+    const invalidUser = {
+      id: 'invalid', // 数値であるべき
+      name: '',
+      email: 'invalid-email',
+    };
+
+    (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+      ok: true,
+      json: async () => invalidUser,
+    } as Response);
+
+    await expect(
+      validatedApiClient.getValidated('/users/1', UserSchema)
+    ).rejects.toThrow();
+  });
+});
+</CodeBlock>
+
+## まとめ
+
+TypeScriptを使った型安全なAPI処理では以下のポイントが重要です：
+
+1. **適切な型定義**：APIレスポンスの構造を正確に型定義する
+2. **実行時バリデーション**：Zodなどを使ってランタイムでの型安全性を保証する
+3. **エラーハンドリング**：予期しないエラーに対する適切な処理を実装する
+4. **テスト**：型安全性を含めた包括的なテストを作成する
+
+<Callout type="success">
+これらの手法を適用することで、バグの少ない堅牢なAPIクライアントを構築できます。
+</Callout>

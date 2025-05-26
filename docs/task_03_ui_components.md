@@ -6,46 +6,46 @@ shadcn/uiを基盤としたデザインシステムを構築し、サイト全�
 ## 📋 実行内容
 
 ### 1. shadcn/ui の初期設定
-- [ ] shadcn/ui CLIのインストール
-- [ ] 初期設定の実行
-- [ ] components.jsonの設定
-- [ ] 基本的なUIコンポーネントの追加
+- [x] shadcn/ui CLIのインストール
+- [x] 初期設定の実行
+- [x] components.jsonの設定
+- [x] 基本的なUIコンポーネントの追加
 
 ### 2. 基本UIコンポーネントの導入
-- [ ] Button コンポーネント
-- [ ] Card コンポーネント
-- [ ] Badge コンポーネント
-- [ ] Input コンポーネント
-- [ ] Separator コンポーネント
-- [ ] Avatar コンポーネント
+- [x] Button コンポーネント
+- [x] Card コンポーネント
+- [x] Badge コンポーネント
+- [x] Input コンポーネント
+- [x] Separator コンポーネント
+- [x] Avatar コンポーネント
 - [ ] Typography コンポーネント
 
 ### 3. レイアウトコンポーネントの実装
-- [ ] Header コンポーネント
-- [ ] Navigation コンポーネント
-- [ ] Footer コンポーネント
+- [x] Header コンポーネント
+- [x] Navigation コンポーネント
+- [x] Footer コンポーネント
 - [ ] Sidebar コンポーネント
-- [ ] Container コンポーネント
+- [x] Container コンポーネント
 - [ ] Grid コンポーネント
 
 ### 4. カスタムコンポーネントの作成
-- [ ] BlogCard コンポーネント
-- [ ] PortfolioCard コンポーネント
-- [ ] GuideCard コンポーネント
-- [ ] TagList コンポーネント
-- [ ] SearchBox コンポーネント
-- [ ] ThemeToggle コンポーネント
+- [x] BlogCard コンポーネント
+- [x] PortfolioCard コンポーネント
+- [x] GuideCard コンポーネント
+- [x] TagList コンポーネント
+- [x] SearchBox コンポーネント
+- [x] ThemeToggle コンポーネント
 
 ### 5. ダークモード対応
-- [ ] next-themes の導入
-- [ ] テーマプロバイダーの設定
-- [ ] ダークモード用カラーパレット
-- [ ] テーマ切り替えボタンの実装
+- [x] next-themes の導入
+- [x] テーマプロバイダーの設定
+- [x] ダークモード用カラーパレット
+- [x] テーマ切り替えボタンの実装
 
 ### 6. レスポンシブデザインの実装
-- [ ] モバイルファーストのアプローチ
-- [ ] ブレークポイントの設定
-- [ ] フレックス・グリッドレイアウト
+- [x] モバイルファーストのアプローチ
+- [x] ブレークポイントの設定
+- [x] フレックス・グリッドレイアウト
 - [ ] 画像の最適化
 
 ## 🛠️ 技術詳細

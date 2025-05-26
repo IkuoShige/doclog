@@ -1,0 +1,266 @@
+---
+title: "React Hooksの基本ガイド"
+description: "React Hooksの基本的な使い方とベストプラクティスを学びます"
+date: "2024-01-15"
+category: "フロントエンド"
+difficulty: "beginner"
+tags: ["React", "Hooks", "JavaScript", "フロントエンド"]
+published: true
+---
+
+# React Hooksの基本ガイド
+
+React HooksはReact 16.8で導入された機能で、関数コンポーネントでもstateやライフサイクルメソッドを使用できるようになりました。
+
+<Callout type="info">
+このガイドでは、React Hooksの基本的な使い方から実践的な活用方法まで丁寧に解説します。
+</Callout>
+
+## useState Hook
+
+`useState`は最も基本的なHookの一つで、関数コンポーネントでstateを管理するために使用します。
+
+<Step number={1}>
+### 基本的な使い方
+
+```javascript
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>現在のカウント: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        カウントアップ
+      </button>
+    </div>
+  );
+}
+```
+</Step>
+
+<Step number={2}>
+### 複数のstateの管理
+
+```javascript
+function UserProfile() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState(0);
+
+  return (
+    <form>
+      <input 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+        placeholder="名前"
+      />
+      <input 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+        placeholder="メールアドレス"
+      />
+      <input 
+        type="number"
+        value={age} 
+        onChange={(e) => setAge(parseInt(e.target.value))} 
+        placeholder="年齢"
+      />
+    </form>
+  );
+}
+```
+</Step>
+
+## useEffect Hook
+
+`useEffect`はサイドエフェクト（副作用）を処理するためのHookです。
+
+<Callout type="warning">
+useEffectの依存配列を正しく設定しないと、無限ループや予期しない動作の原因となります。
+</Callout>
+
+<Tabs defaultValue="basic">
+  <TabsList>
+    <TabsTrigger value="basic">基本的な使い方</TabsTrigger>
+    <TabsTrigger value="cleanup">クリーンアップ</TabsTrigger>
+    <TabsTrigger value="dependencies">依存配列</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="basic">
+    ```javascript
+    import { useState, useEffect } from 'react';
+
+    function Timer() {
+      const [seconds, setSeconds] = useState(0);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+      }, []);
+
+      return <div>経過時間: {seconds}秒</div>;
+    }
+    ```
+  </TabsContent>
+  
+  <TabsContent value="cleanup">
+    ```javascript
+    function EventListenerComponent() {
+      useEffect(() => {
+        function handleResize() {
+          console.log('ウィンドウサイズが変更されました');
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // クリーンアップ関数
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+
+      return <div>ウィンドウサイズを変更してください</div>;
+    }
+    ```
+  </TabsContent>
+  
+  <TabsContent value="dependencies">
+    ```javascript
+    function UserData({ userId }) {
+      const [user, setUser] = useState(null);
+
+      useEffect(() => {
+        async function fetchUser() {
+          const response = await fetch(`/api/users/${userId}`);
+          const userData = await response.json();
+          setUser(userData);
+        }
+
+        fetchUser();
+      }, [userId]); // userIdが変更された時のみ実行
+
+      return user ? <div>{user.name}</div> : <div>読み込み中...</div>;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+## カスタムHooks
+
+カスタムHooksを作成することで、ロジックを再利用可能な形で抽出できます。
+
+<CodeBlock filename="hooks/useCounter.js" language="javascript">
+import { useState } from 'react';
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+  const reset = () => setCount(initialValue);
+
+  return { count, increment, decrement, reset };
+}
+
+export default useCounter;
+</CodeBlock>
+
+使用例：
+
+```javascript
+import useCounter from './hooks/useCounter';
+
+function CounterApp() {
+  const { count, increment, decrement, reset } = useCounter(10);
+
+  return (
+    <div>
+      <p>カウント: {count}</p>
+      <button onClick={increment}>+1</button>
+      <button onClick={decrement}>-1</button>
+      <button onClick={reset}>リセット</button>
+    </div>
+  );
+}
+```
+
+## ベストプラクティス
+
+### 1. Hooksのルール
+
+<Callout type="error">
+React Hooksには以下のルールがあります：
+- Hooksは関数の最上位でのみ呼び出す
+- Hooksはループ、条件分岐、ネストした関数内で呼び出さない
+</Callout>
+
+### 2. 依存配列の管理
+
+依存配列を正しく設定することで、パフォーマンスの問題を避けられます。
+
+```javascript
+// ❌ 良くない例
+useEffect(() => {
+  fetchData(userId);
+}, []); // userIdが依存配列に含まれていない
+
+// ✅ 良い例
+useEffect(() => {
+  fetchData(userId);
+}, [userId]); // userIdを依存配列に含める
+```
+
+### 3. メモ化の活用
+
+`useMemo`と`useCallback`を使ってパフォーマンスを最適化できます。
+
+```javascript
+import { useMemo, useCallback } from 'react';
+
+function ExpensiveComponent({ items, query }) {
+  const filteredItems = useMemo(() => {
+    return items.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [items, query]);
+
+  const handleClick = useCallback((id) => {
+    console.log('Clicked item:', id);
+  }, []);
+
+  return (
+    <div>
+      {filteredItems.map(item => (
+        <div key={item.id} onClick={() => handleClick(item.id)}>
+          {item.name}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## まとめ
+
+React Hooksを使うことで、関数コンポーネントでも柔軟で再利用可能なロジックを作成できます。重要なのは：
+
+1. **Hooksのルールを守る**
+2. **依存配列を正しく設定する**
+3. **カスタムHooksでロジックを再利用する**
+4. **必要に応じてメモ化を活用する**
+
+これらのポイントを押さえて、効率的なReactアプリケーションを開発しましょう。
+
+<Image 
+  src="/images/react-hooks-flow.png" 
+  alt="React Hooksのライフサイクル図"
+  caption="React Hooksのライフサイクルとデータフロー"
+  width={800}
+  height={600}
+/>

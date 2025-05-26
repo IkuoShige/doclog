@@ -1,0 +1,370 @@
+---
+title: "React Hooksの実践的な使い方"
+description: "React Hooksを使った効率的なコンポーネント設計と状態管理の方法について、実用的な例とともに解説します。"
+date: "2024-03-05"
+author: "Developer"
+category: "React"
+tags: ["React", "Hooks", "JavaScript", "Frontend", "State Management"]
+image: "/images/blog/react-hooks.png"
+featured: true
+published: true
+---
+
+# React Hooksの実践的な使い方
+
+React Hooksは、関数コンポーネントでstate管理や副作用処理を行うための強力な機能です。この記事では、実践的な使い方とベストプラクティスを紹介します。
+
+## 基本的なHooksの使い方
+
+### useState - 状態管理
+
+```typescript
+import { useState } from 'react'
+
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+function UserProfile() {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchUser = async (id: string) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(`/api/users/${id}`)
+      const userData = await response.json()
+      setUser(userData)
+    } catch (err) {
+      setError('Failed to fetch user')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      {loading && <div>Loading...</div>}
+      {error && <div className="error">{error}</div>}
+      {user && (
+        <div>
+          <h2>{user.name}</h2>
+          <p>{user.email}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### useEffect - 副作用処理
+
+```typescript
+import { useEffect, useState } from 'react'
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout
+
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setSeconds(prevSeconds => prevSeconds + 1)
+      }, 1000)
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [isRunning])
+
+  const handleStart = () => setIsRunning(true)
+  const handleStop = () => setIsRunning(false)
+  const handleReset = () => {
+    setSeconds(0)
+    setIsRunning(false)
+  }
+
+  return (
+    <div>
+      <div>Time: {seconds}s</div>
+      <button onClick={handleStart} disabled={isRunning}>
+        Start
+      </button>
+      <button onClick={handleStop} disabled={!isRunning}>
+        Stop
+      </button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  )
+}
+```
+
+## カスタムHooksの作成
+
+### データフェッチHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+interface UseApiResult<T> {
+  data: T | null
+  loading: boolean
+  error: string | null
+  refetch: () => void
+}
+
+function useApi<T>(url: string): UseApiResult<T> {
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result = await response.json()
+      setData(result)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [url])
+
+  return { data, loading, error, refetch: fetchData }
+}
+
+// 使用例
+function UsersList() {
+  const { data: users, loading, error, refetch } = useApi<User[]>('/api/users')
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+
+  return (
+    <div>
+      <button onClick={refetch}>Refresh</button>
+      {users?.map(user => (
+        <div key={user.id}>{user.name}</div>
+      ))}
+    </div>
+  )
+}
+```
+
+### ローカルストレージHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error)
+      return initialValue
+    }
+  })
+
+  const setValue = (value: T) => {
+    try {
+      setStoredValue(value)
+      window.localStorage.setItem(key, JSON.stringify(value))
+    } catch (error) {
+      console.error(`Error setting localStorage key "${key}":`, error)
+    }
+  }
+
+  return [storedValue, setValue]
+}
+
+// 使用例
+function Settings() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light')
+  const [language, setLanguage] = useLocalStorage('language', 'en')
+
+  return (
+    <div>
+      <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+      </select>
+    </div>
+  )
+}
+```
+
+## 高度なHooksパターン
+
+### useReducer - 複雑な状態管理
+
+```typescript
+import { useReducer } from 'react'
+
+interface Todo {
+  id: string
+  text: string
+  completed: boolean
+}
+
+interface TodoState {
+  todos: Todo[]
+  filter: 'all' | 'active' | 'completed'
+}
+
+type TodoAction =
+  | { type: 'ADD_TODO'; text: string }
+  | { type: 'TOGGLE_TODO'; id: string }
+  | { type: 'DELETE_TODO'; id: string }
+  | { type: 'SET_FILTER'; filter: TodoState['filter'] }
+
+function todoReducer(state: TodoState, action: TodoAction): TodoState {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            id: Date.now().toString(),
+            text: action.text,
+            completed: false,
+          },
+        ],
+      }
+    case 'TOGGLE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ),
+      }
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.id),
+      }
+    case 'SET_FILTER':
+      return {
+        ...state,
+        filter: action.filter,
+      }
+    default:
+      return state
+  }
+}
+
+function TodoApp() {
+  const [state, dispatch] = useReducer(todoReducer, {
+    todos: [],
+    filter: 'all',
+  })
+
+  const addTodo = (text: string) => {
+    dispatch({ type: 'ADD_TODO', text })
+  }
+
+  const toggleTodo = (id: string) => {
+    dispatch({ type: 'TOGGLE_TODO', id })
+  }
+
+  const deleteTodo = (id: string) => {
+    dispatch({ type: 'DELETE_TODO', id })
+  }
+
+  const filteredTodos = state.todos.filter(todo => {
+    switch (state.filter) {
+      case 'active':
+        return !todo.completed
+      case 'completed':
+        return todo.completed
+      default:
+        return true
+    }
+  })
+
+  return (
+    <div>
+      <input
+        type="text"
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            addTodo(e.currentTarget.value)
+            e.currentTarget.value = ''
+          }
+        }}
+      />
+      
+      <div>
+        {['all', 'active', 'completed'].map(filter => (
+          <button
+            key={filter}
+            onClick={() => dispatch({ type: 'SET_FILTER', filter: filter as TodoState['filter'] })}
+            className={state.filter === filter ? 'active' : ''}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+
+      <ul>
+        {filteredTodos.map(todo => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className={todo.completed ? 'completed' : ''}>
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+## まとめ
+
+React Hooksの効果的な使用には以下のポイントが重要です：
+
+1. **useState** - シンプルな状態管理
+2. **useEffect** - 副作用とクリーンアップの適切な処理
+3. **カスタムHooks** - ロジックの再利用性向上
+4. **useReducer** - 複雑な状態管理
+5. **最適化** - useMemo、useCallbackを適切に使用
+
+これらのパターンを組み合わせることで、保守性が高く効率的なReactアプリケーションを構築できます。

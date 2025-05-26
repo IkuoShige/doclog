@@ -6,22 +6,22 @@ Next.js 15プロジェクトの基盤を構築し、基本的な開発環境を�
 ## 📋 実行内容
 
 ### 1. プロジェクト初期化
-- [ ] Next.js 15プロジェクトの作成（App Router使用）
-- [ ] TypeScriptの設定
-- [ ] 基本的なプロジェクト構造の確立
-- [ ] Git初期化とignore設定
+- [x] Next.js 15プロジェクトの作成（App Router使用）
+- [x] TypeScriptの設定
+- [x] 基本的なプロジェクト構造の確立
+- [x] Git初期化とignore設定
 
 ### 2. 依存関係のインストール
-- [ ] Tailwind CSS v4のセットアップ
-- [ ] shadcn/uiの導入
-- [ ] MDXサポートの追加
-- [ ] 必要なDevDependenciesの追加
+- [x] Tailwind CSS v4のセットアップ
+- [x] shadcn/uiの導入
+- [x] MDXサポートの追加
+- [x] 必要なDevDependenciesの追加
 
 ### 3. 基本設定ファイルの作成
-- [ ] `next.config.js` の設定
-- [ ] `tailwind.config.js` の設定
-- [ ] `tsconfig.json` の調整
-- [ ] ESLint/Prettierの設定
+- [x] `next.config.js` の設定
+- [x] `tailwind.config.js` の設定
+- [x] `tsconfig.json` の調整
+- [x] ESLint/Prettierの設定
 
 ### 4. 基本ディレクトリ構造の作成
 ```
@@ -42,10 +42,10 @@ src/
 ```
 
 ### 5. 基本レイアウトの実装
-- [ ] ルートレイアウト（`app/layout.tsx`）
-- [ ] ヘッダーコンポーネント
-- [ ] フッターコンポーネント
-- [ ] ナビゲーションコンポーネント
+- [x] ルートレイアウト（`app/layout.tsx`）
+- [x] ヘッダーコンポーネント
+- [x] フッターコンポーネント
+- [x] ナビゲーションコンポーネント
 
 ## 🛠️ 技術詳細
 
@@ -82,11 +82,24 @@ module.exports = {
 ```
 
 ## ✅ 完了条件
-- [ ] `npm run dev` でローカル開発サーバーが起動する
-- [ ] Tailwind CSSのスタイルが適用される
-- [ ] TypeScriptエラーがない状態
-- [ ] 基本的なページ構造が表示される
-- [ ] Gitリポジトリが適切に設定されている
+- [x] `npm run dev` でローカル開発サーバーが起動する
+- [x] Tailwind CSSのスタイルが適用される
+- [x] TypeScriptエラーがない状態
+- [x] 基本的なページ構造が表示される
+- [x] Gitリポジトリが適切に設定されている
+
+## ✅ タスク1完了状況
+
+### 実装済み機能
+- [x] Next.js 15プロジェクトの作成（App Router、TypeScript、Tailwind CSS v4、ESLint付き）
+- [x] shadcn/uiの初期化とセットアップ（Slateカラーテーマ）
+- [x] MDX基本サポートの追加（@next/mdx、gray-matter、reading-time）
+- [x] 基本ディレクトリ構造の作成（components、content、types）
+- [x] レイアウトシステムの実装（Header、Footer、RootLayout）
+- [x] サンプルコンテンツの作成（ブログ記事2件、ポートフォリオ1件）
+- [x] 開発サーバーの起動確認（localhost:3000で稼働中）
+
+**タスク1完了** ✅
 
 ## 🔗 関連リソース
 - [Next.js 15 ドキュメント](https://nextjs.org/docs)
