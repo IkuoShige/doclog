@@ -55,6 +55,7 @@ export function createBlogPostFromMDX(fileName: string): BlogPost {
   const { frontMatter, content, readingTime: rt } = getMDXData(fileName)
   
   return {
+    id: frontMatter.id || slug,
     slug,
     title: frontMatter.title || '',
     description: frontMatter.description || '',

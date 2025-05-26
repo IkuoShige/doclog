@@ -70,6 +70,7 @@ export function getBlogPost(slug: string): BlogPost | null {
   const readingTimeData = readingTime(content);
   
   const post: BlogPost = {
+    id: data.id || slug,
     slug,
     title: data.title || '',
     description: data.description || generateExcerpt(content),
@@ -227,13 +228,18 @@ export function getPortfolioProject(slug: string): { project: PortfolioProject; 
   const { data, content } = matter(fileContents);
   
   const project: PortfolioProject = {
+    id: data.id || slug,
     slug,
     title: data.title || '',
     description: data.description || '',
     date: data.date || '',
     technologies: data.technologies || [],
     category: data.category || '',
+    tags: data.tags || [],
     featured: data.featured || false,
+    status: data.status || 'completed',
+    highlights: data.highlights || [],
+    published: data.published !== false,
     github: data.github,
     demo: data.demo,
     image: data.image,
@@ -289,12 +295,15 @@ export function getGuide(slug: string): { guide: Guide; content: string } | null
   const { data, content } = matter(fileContents);
   
   const guide: Guide = {
+    id: data.id || slug,
     slug,
     title: data.title || '',
     description: data.description || '',
     date: data.date || '',
+    author: data.author || 'Developer',
     category: data.category || '',
     difficulty: data.difficulty || 'beginner',
+    estimatedTime: data.estimatedTime || '5分',
     tags: data.tags || [],
     published: data.published !== false,
   };
@@ -366,7 +375,7 @@ export function getRelatedContent(
   if (contentType === 'blog') {
     const currentPost = getBlogPost(slug);
     if (currentPost) {
-      currentTags = currentPost.post.tags || [];
+      currentTags = currentPost.tags || [];
     }
   } else if (contentType === 'portfolio') {
     const currentProject = getPortfolioProject(slug);
@@ -521,7 +530,9 @@ export function getRelatedBlogPosts(currentSlug: string, limit: number = 3): Blo
       let score = 0;
       
       // タグの一致で点数付け
-      const sharedTags = post.tags.filter(tag => currentPost.tags.includes(tag));
+      const postTags = post.tags || [];
+      const currentTags = currentPost.tags || [];
+      const sharedTags = postTags.filter(tag => currentTags.includes(tag));
       score += sharedTags.length * 3;
       
       // 作成者が同じ場合
@@ -622,14 +633,14 @@ export function getRelatedGuides(currentSlug: string, limit: number = 3): Guide[
 // 全ブログ記事のタグを取得
 export function getAllBlogTags(): string[] {
   const posts = getBlogPosts();
-  const allTags = posts.flatMap(post => post.tags);
+  const allTags = posts.flatMap(post => post.tags || []);
   return [...new Set(allTags)].sort();
 }
 
 // 全ポートフォリオの技術スタックを取得
 export function getAllTechnologies(): string[] {
   const projects = getPortfolioProjects();
-  const allTechnologies = projects.flatMap(project => project.technologies);
+  const allTechnologies = projects.flatMap(project => project.technologies || []);
   return [...new Set(allTechnologies)].sort();
 }
 

@@ -7,6 +7,7 @@ const isServerSide = typeof window === 'undefined'
 function getFallbackBlogPosts(): BlogPost[] {
   return [
     {
+      id: 'nextjs-15-features',
       slug: 'nextjs-15-features',
       title: 'Next.js 15の新機能とパフォーマンス向上',
       description: 'Next.js 15で追加された新機能とパフォーマンス改善について詳しく解説します。App Router、Server Components、そしてTurbopackの活用方法を学びましょう。',
@@ -55,6 +56,7 @@ Next.js 15は開発者とユーザーの両方にとって大きな改善をも�
 `
     },
     {
+      id: 'react-hooks-guide',
       slug: 'react-hooks-guide',
       title: 'React Hooksの実践ガイド',
       description: 'useEffect、useState、useCallbackなど、React Hooksの効果的な使い方とパフォーマンス最適化のテクニックを実例とともに学習します。',
@@ -137,6 +139,7 @@ React Hooksを効果的に使用することで、より保守性の高いコー
 `
     },
     {
+      id: 'typescript-performance',
       slug: 'typescript-performance',
       title: 'TypeScriptによるパフォーマンス最適化',
       description: 'TypeScriptプロジェクトでのコンパイル時間短縮、型チェックの最適化、そして効率的な開発環境の構築方法について詳しく解説します。',

@@ -2,6 +2,7 @@ import { ReadTimeResults } from 'reading-time'
 
 // ブログ記事の型定義
 export interface BlogPost {
+  id: string
   slug: string
   title: string
   description: string
@@ -18,12 +19,14 @@ export interface BlogPost {
 
 // ポートフォリオプロジェクトの型定義
 export interface PortfolioProject {
+  id: string
   slug: string
   title: string
   description: string
   date: string
   technologies: string[]
   category: string
+  tags: string[]
   image?: string
   github?: string
   demo?: string
@@ -35,6 +38,7 @@ export interface PortfolioProject {
 
 // ガイドの型定義
 export interface Guide {
+  id: string
   slug: string
   title: string
   description: string

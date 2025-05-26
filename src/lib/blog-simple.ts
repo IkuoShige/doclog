@@ -3,6 +3,7 @@ import { BlogPost } from '@/types/mdx'
 // サンプルブログデータ（実際のプロダクションでは、これらのデータはCMSやMarkdownファイルから取得）
 const sampleBlogPosts: BlogPost[] = [
   {
+    id: 'nextjs-15-features',
     slug: 'nextjs-15-features',
     title: 'Next.js 15の新機能を徹底解説',
     description: 'Next.js 15で追加された新機能について詳しく解説します。React 19のサポート、新しいキャッシング機能、パフォーマンス改善について説明します。',
@@ -16,6 +17,7 @@ const sampleBlogPosts: BlogPost[] = [
     published: true,
   },
   {
+    id: 'typescript-performance',
     slug: 'typescript-performance',
     title: 'TypeScriptのパフォーマンス最適化テクニック',
     description: 'TypeScriptプロジェクトのコンパイル時間を短縮し、開発効率を向上させるための実践的なテクニックを紹介します。',
@@ -29,6 +31,7 @@ const sampleBlogPosts: BlogPost[] = [
     published: true,
   },
   {
+    id: 'react-hooks-guide',
     slug: 'react-hooks-guide',
     title: 'React Hooks完全ガイド: 実践的な使い方とベストプラクティス',
     description: 'React Hooksの基本から応用まで、実際のプロジェクトで使える実践的なテクニックとベストプラクティスを解説します。',

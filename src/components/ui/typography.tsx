@@ -35,24 +35,35 @@ export interface TypographyProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof typographyVariants> {
   asChild?: boolean
-  as?: keyof JSX.IntrinsicElements
+  as?: string
 }
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ className, variant, asChild = false, as, ...props }, ref) => {
-    const Comp = asChild ? Slot : (as || getDefaultElement(variant))
-    return (
-      <Comp
-        className={cn(typographyVariants({ variant, className }))}
-        ref={ref}
-        {...props}
-      />
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(typographyVariants({ variant, className }))}
+          ref={ref}
+          {...props}
+        />
+      )
+    }
+
+    const element = as || getDefaultElement(variant)
+    
+    return React.createElement(
+      element,
+      {
+        className: cn(typographyVariants({ variant, className })),
+        ref,
+        ...props
+      }
     )
   }
 )
-Typography.displayName = "Typography"
 
-function getDefaultElement(variant: TypographyProps["variant"]): keyof JSX.IntrinsicElements {
+function getDefaultElement(variant: TypographyProps["variant"]): string {
   switch (variant) {
     case "h1":
       return "h1"
@@ -83,5 +94,7 @@ function getDefaultElement(variant: TypographyProps["variant"]): keyof JSX.Intri
       return "p"
   }
 }
+
+Typography.displayName = "Typography"
 
 export { Typography, typographyVariants }

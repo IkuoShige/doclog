@@ -2,6 +2,7 @@ import { getBlogPosts, getAllBlogTags, getAllBlogCategories } from '@/lib/blog'
 import { PageHeader } from '@/components/ui/page-header'
 import { Container } from '@/components/layout/container'
 import { BlogPageClient } from '@/components/blog/blog-page-client'
+import { Suspense } from 'react'
 
 export default async function BlogPage() {
   // サーバーサイドで全ての記事、タグ、カテゴリを取得
@@ -19,11 +20,13 @@ export default async function BlogPage() {
         
         <div className="mt-8">
           {/* クライアントコンポーネントに記事データ、タグ、カテゴリを渡す */}
-          <BlogPageClient 
-            initialPosts={allPosts} 
-            allTags={allTags}
-            allCategories={allCategories}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <BlogPageClient 
+              initialPosts={allPosts} 
+              allTags={allTags}
+              allCategories={allCategories}
+            />
+          </Suspense>
         </div>
       </div>
     </Container>
