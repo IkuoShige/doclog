@@ -7,12 +7,12 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { generateBlurDataURL } from '@/lib/image-utils'
-import { withBasePath } from '@/lib/utils/basePath'
+// import { withBasePath } from '@/lib/utils/basePath'
 
 const socialLinks = [
   {
     name: 'GitHub',
-    href: 'https://github.com',
+    href: 'https://github.com/IkuoShige',
     icon: Github,
   },
   {
@@ -36,7 +36,8 @@ export function HeroSection() {
           <div className="flex-shrink-0">
             <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden bg-muted">
               <OptimizedImage
-                src={withBasePath("/images/profile.jpg")}
+                // src={withBasePath('/images/profile.jpg')}
+                src="https://github.com/IkuoShige.png"
                 alt="プロフィール画像"
                 width={128}
                 height={128}
@@ -50,11 +51,11 @@ export function HeroSection() {
           {/* Content */}
           <div className="flex-1">
             <Typography variant="h1" className="text-3xl lg:text-4xl font-bold mb-4">
-              ロボティクス修士学生
+              Ikuo Shige
             </Typography>
             <Typography variant="large" className="text-muted-foreground mb-6 max-w-2xl">
-              ソフトウェア開発、機械学習、ウェブ開発を学習中。
-              研究活動や個人プロジェクトの記録を公開しています。
+              移動ロボットのソフトウェアを学習中。
+              研究室活動や個人プロジェクトの記録を公開しています。
             </Typography>
             
             {/* Quick Actions */}

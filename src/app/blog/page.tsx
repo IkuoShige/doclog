@@ -15,7 +15,7 @@ export default async function BlogPage() {
       <div className="py-12">
         <PageHeader
           title="ブログ"
-          description="Web開発やプログラミングに関する技術記事を公開しています"
+          description="ソフトウェア開発やプログラミングに関する技術記事を公開しています"
         />
         
         <div className="mt-8">

@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-// import { Home, BookOpen, Briefcase, User, Menu, X, Book } from 'lucide-react'
-import { Home, BookOpen, User, Menu, X, Book } from 'lucide-react'
+import { Home, BookOpen, Briefcase, User, Menu, X, Book } from 'lucide-react'// Enable ポートフォリオ
+// import { Home, BookOpen, User, Menu, X, Book } from 'lucide-react'// Disable ポートフォリオ
 
 interface NavigationItem {
   href: string
@@ -18,25 +18,26 @@ interface NavigationItem {
 const navigationItems: NavigationItem[] = [
   {
     href: '/',
-    label: 'ホーム',
+    label: 'Home',
     icon: <Home className="h-4 w-4" />,
     description: 'トップページ'
   },
   {
     href: '/blog',
-    label: 'ブログ',
+    label: 'Blog',
     icon: <BookOpen className="h-4 w-4" />,
     description: '技術記事やコラム'
   },
-  // {
-  //   href: '/portfolio',
-  //   label: 'ポートフォリオ',
-  //   icon: <Briefcase className="h-4 w-4" />,
-  //   description: '制作物や実績'
-  // },
+  // Enable ポートフォリオ
+  {
+    href: '/portfolio',
+    label: 'Projects',
+    icon: <Briefcase className="h-4 w-4" />,
+    description: '制作物や実績'
+  },
   {
     href: '/documents',
-    label: 'ドキュメント',
+    label: 'Documents',
     icon: <Book className="h-4 w-4" />,
     description: '技術ドキュメントと学習記録'
   },

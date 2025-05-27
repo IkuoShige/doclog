@@ -28,11 +28,14 @@ export interface PortfolioProject {
   category: string
   tags: string[]
   image?: string
+  images?: string[]
   github?: string
   demo?: string
   featured: boolean
   status: 'completed' | 'in-progress' | 'planned'
   highlights: string[]
+  duration?: string
+  teamSize?: string
   published: boolean
 }
 

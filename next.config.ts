@@ -19,7 +19,15 @@ const nextConfig: NextConfig = {
   },
   output: 'export', // 静的サイト生成用
   images: {
-    unoptimized: true // 静的エクスポート時に必要
+    unoptimized: true, // 静的エクスポート時に必要
+    domains: ['github.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        pathname: '/**',
+      },
+    ],
   },
   trailingSlash: true, // 静的サイト用
   skipTrailingSlashRedirect: true,

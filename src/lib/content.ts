@@ -5,7 +5,7 @@ import readingTime from 'reading-time';
 import { BlogPost, PortfolioProject, Guide } from '@/types/mdx';
 import { generateExcerpt } from './content-utils';
 
-const contentDirectory = path.join(process.cwd(), 'src/content');
+const contentDirectory = path.join(process.cwd(), 'content');
 
 // ファイルの存在チェック
 function checkDirectoryExists(dir: string) {
@@ -210,10 +210,13 @@ export function getPortfolioProjects(): PortfolioProject[] {
         featured: data.featured || false,
         status: data.status || 'completed',
         highlights: data.highlights || [],
+        duration: data.duration,
+        teamSize: data.teamSize,
         published: data.published !== false,
         github: data.github,
         demo: data.demo,
         image: data.image,
+        images: data.images,
       } as PortfolioProject;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -245,10 +248,13 @@ export function getPortfolioProject(slug: string): { project: PortfolioProject; 
     featured: data.featured || false,
     status: data.status || 'completed',
     highlights: data.highlights || [],
+    duration: data.duration,
+    teamSize: data.teamSize,
     published: data.published !== false,
     github: data.github,
     demo: data.demo,
     image: data.image,
+    images: data.images,
   };
   
   return { project, content };

@@ -1,120 +1,65 @@
+import { Suspense } from 'react';
 import { getPortfolioProjects } from '@/lib/content';
-import Link from 'next/link';
+import { PortfolioGrid } from '@/components/portfolio/portfolio-grid';
+import { PortfolioCard } from '@/components/portfolio/portfolio-card';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'ポートフォリオ | Doclog',
+  description: 'Web開発プロジェクトの作品集です。React、Next.js、TypeScriptを使用した様々なアプリケーションをご紹介します。',
+  keywords: ['ポートフォリオ', 'Web開発', 'React', 'Next.js', 'TypeScript'],
+};
+
+function PortfolioGridSkeleton() {
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="h-96 bg-muted animate-pulse rounded-lg" />
+      ))}
+    </div>
+  );
+}
 
 export default function PortfolioPage() {
   const projects = getPortfolioProjects();
+  const featuredProjects = projects.filter(project => project.featured);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            ポートフォリオ
-          </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            実際に開発したプロジェクトやアプリケーションを紹介
-          </p>
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      {/* ページヘッダー */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold tracking-tight mb-4">
+          プロジェクト
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          これまでに開発したソフトウェアやプロジェクトをご紹介します
+          {/* これまでに開発したWebアプリケーションやプロジェクトをご紹介します */}
+        </p>
+      </div>
 
-        <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => (
-            <div
-              key={project.slug}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              {project.image && (
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              )}
-              
-              <div className="p-6">
-                <div className="flex items-center text-sm text-gray-500 mb-3">
-                  <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-md text-xs font-medium">
-                    {project.category}
-                  </span>
-                  <span className="mx-2">•</span>
-                  <time dateTime={project.date}>
-                    {new Date(project.date).toLocaleDateString('ja-JP')}
-                  </time>
-                  {project.featured && (
-                    <>
-                      <span className="mx-2">•</span>
-                      <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-medium">
-                        Featured
-                      </span>
-                    </>
-                  )}
-                </div>
-                
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">
-                  <Link 
-                    href={`/portfolio/${project.slug}`}
-                    className="hover:text-indigo-600 transition-colors"
-                  >
-                    {project.title}
-                  </Link>
-                </h2>
-                
-                <p className="text-gray-600 mb-4">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <Link
-                    href={`/portfolio/${project.slug}`}
-                    className="text-indigo-600 font-medium hover:text-indigo-500 transition-colors"
-                  >
-                    詳細を見る →
-                  </Link>
-                  
-                  <div className="flex gap-3">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
-                      >
-                        GitHub
-                      </a>
-                    )}
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
-                      >
-                        Demo
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {projects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">まだプロジェクトがありません。</p>
+      {/* 注目プロジェクトセクション */}
+      {featuredProjects.length > 0 && (
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">注目プロジェクト</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project) => (
+              <PortfolioCard 
+                key={project.slug} 
+                project={project} 
+                featured={true}
+              />
+            ))}
           </div>
-        )}
+        </div>
+      )}
+
+      {/* すべてのプロジェクト */}
+      <div className="space-y-8">
+        <h2 className="text-2xl font-bold">すべてのプロジェクト</h2>
+        
+        <Suspense fallback={<PortfolioGridSkeleton />}>
+          <PortfolioGrid projects={projects} />
+        </Suspense>
       </div>
     </div>
   );

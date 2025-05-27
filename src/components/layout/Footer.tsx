@@ -34,6 +34,7 @@ export default function Footer() {
     コンテンツ: [
       { name: 'ブログ', href: '/blog' },
       { name: 'ポートフォリオ', href: '/portfolio' },
+      { name: 'ドキュメント', href: '/documents' },
       { name: 'ガイド', href: '/guides' },
     ],
     情報: [
@@ -55,8 +56,9 @@ export default function Footer() {
                 <span className="font-bold text-lg">Portfolio</span>
               </Link>
               <p className="text-muted-foreground text-sm mb-4 max-w-md">
-                モダンなWebテクノロジーを使った開発・技術記事・ポートフォリオを公開しています。
-                継続的な学習と実践を通じて、価値あるコンテンツをお届けします。
+                学生生活中に書き留めておきたいこと（技術系）をまとめたものです。
+                {/* モダンなWebテクノロジーを使った開発・技術記事・ポートフォリオを公開しています。 */}
+                {/* 継続的な学習と実践を通じて、価値あるコンテンツをお届けします。 */}
               </p>
               <div className="flex items-center gap-2 mb-4">
                 <Badge variant="secondary" className="text-xs">
@@ -67,6 +69,9 @@ export default function Footer() {
                 </Badge>
                 <Badge variant="secondary" className="text-xs">
                   Tailwind CSS
+                </Badge>
+                <Badge variant="secondary" className="text-xs">
+                  shadcn/ui
                 </Badge>
               </div>
             </div>
