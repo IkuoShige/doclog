@@ -197,14 +197,20 @@ export function getPortfolioProjects(): PortfolioProject[] {
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const { data } = matter(fileContents);
       
+      const slug = filename.replace(/\.mdx$/, '');
       return {
-        slug: filename.replace(/\.mdx$/, ''),
+        id: data.id || slug,
+        slug: slug,
         title: data.title || '',
         description: data.description || '',
         date: data.date || '',
         technologies: data.technologies || [],
         category: data.category || '',
+        tags: data.tags || [],
         featured: data.featured || false,
+        status: data.status || 'completed',
+        highlights: data.highlights || [],
+        published: data.published !== false,
         github: data.github,
         demo: data.demo,
         image: data.image,

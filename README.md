@@ -2,6 +2,8 @@
 
 This is a modern portfolio website built with Next.js 15, TypeScript, and Tailwind CSS, featuring a blog, project showcase, and documentation. The site is configured for static site generation (SSG) and deployment to GitHub Pages.
 
+🔗 **Live Demo**: [https://[YOUR_USERNAME].github.io/portfolio/](https://[YOUR_USERNAME].github.io/portfolio/)
+
 ## ✨ Features
 
 - **📝 Blog System**: MDX-powered blog with categories, tags, and syntax highlighting
@@ -104,14 +106,68 @@ liveUrl: "https://..."
 ---
 ```
 
+## 📦 GitHub Pages Deployment
+
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+
+### Deployment Setup
+
+1. **Create GitHub Repository**
+   ```bash
+   # Create a new public repository on GitHub
+   # Name: portfolio (or your preferred name)
+   ```
+
+2. **Push to GitHub**
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/portfolio.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+3. **Enable GitHub Pages**
+   - Go to repository Settings > Pages
+   - Source: Deploy from a branch or GitHub Actions
+   - The `.github/workflows/deploy.yml` will handle automatic deployment
+
+### Deployment Features
+
+- ✅ **Automatic Static Export**: Next.js builds static files in `out/` directory
+- ✅ **GitHub Actions Workflow**: Automated build and deployment on push to main
+- ✅ **Jekyll Bypass**: `.nojekyll` file included for proper asset handling
+- ✅ **Error Handling**: Build fails if TypeScript/ESLint errors exist
+- ✅ **Optimized Output**: All pages pre-rendered as static HTML
+
+### Manual Deployment
+
+For manual deployment or testing:
+
+```bash
+# Build static site
+npm run build
+
+# Test locally
+npx serve out
+
+# Deploy (GitHub Actions handles this automatically)
+```
+
+### Site URL
+
+Once deployed, your site will be available at:
+- `https://YOUR_USERNAME.github.io/portfolio/` (default)
+- Custom domain (if configured in GitHub Pages settings)
+
+---
+
 ## 🚦 Deployment Status
 
-✅ **Type System**: All TypeScript errors resolved
-✅ **Build Process**: Static site generation working
-✅ **GitHub Actions**: Workflow configured
-✅ **Local Testing**: Production build verified
+✅ **Type System**: All TypeScript errors resolved  
+✅ **Build Process**: Static site generation working  
+✅ **GitHub Actions**: Workflow configured  
+✅ **Local Testing**: Production build verified  
 
-Ready for GitHub Pages deployment!
+**Ready for GitHub Pages deployment!**
 
 ## Deploy on Vercel
 
