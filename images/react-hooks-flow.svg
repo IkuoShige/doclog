@@ -1,0 +1,52 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e293b">React Hooks Lifecycle Flow</text>
+  
+  <!-- useState -->
+  <rect x="50" y="120" width="150" height="80" rx="10" fill="#3b82f6" opacity="0.8"/>
+  <text x="125" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">useState</text>
+  <text x="125" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">State Management</text>
+  
+  <!-- useEffect -->
+  <rect x="250" y="120" width="150" height="80" rx="10" fill="#10b981" opacity="0.8"/>
+  <text x="325" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">useEffect</text>
+  <text x="325" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Side Effects</text>
+  
+  <!-- useContext -->
+  <rect x="450" y="120" width="150" height="80" rx="10" fill="#8b5cf6" opacity="0.8"/>
+  <text x="525" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">useContext</text>
+  <text x="525" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Context API</text>
+  
+  <!-- Custom Hooks -->
+  <rect x="250" y="300" width="150" height="80" rx="10" fill="#f59e0b" opacity="0.8"/>
+  <text x="325" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Custom Hooks</text>
+  <text x="325" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Reusable Logic</text>
+  
+  <!-- Arrows -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+    </marker>
+  </defs>
+  
+  <!-- useState to useEffect -->
+  <line x1="200" y1="160" x2="250" y2="160" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- useEffect to useContext -->
+  <line x1="400" y1="160" x2="450" y2="160" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- All to Custom Hooks -->
+  <line x1="125" y1="200" x2="275" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="325" y1="200" x2="325" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="525" y1="200" x2="375" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Labels -->
+  <text x="400" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#64748b">
+    React Hooks enable functional components to manage state and side effects
+  </text>
+  <text x="400" y="530" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#64748b">
+    Custom Hooks allow you to extract and reuse stateful logic between components
+  </text>
+</svg>
