@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  basePath: '/portfolio', // GitHub Pages のサブディレクトリ
+  basePath: '/doclog', // GitHub Pages のサブディレクトリ
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   experimental: {
     optimizePackageImports: ['@next/mdx'],
@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true, // 静的サイト用
   skipTrailingSlashRedirect: true,
   env: {
-    NEXT_PUBLIC_BASE_PATH: '/portfolio',
+    NEXT_PUBLIC_BASE_PATH: '/doclog',
   },
   webpack: (config, { isServer }) => {
     // クライアントサイドでは fs を除外
