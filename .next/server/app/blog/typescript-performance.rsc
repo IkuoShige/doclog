@@ -1,0 +1,1428 @@
+1:"$Sreact.fragment"
+2:I[7890,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","177","static/chunks/app/layout-3daa43ca0bc7b0ca.js"],"ThemeProvider"]
+3:I[6874,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],""]
+4:I[8460,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","177","static/chunks/app/layout-3daa43ca0bc7b0ca.js"],"Navigation"]
+5:I[6685,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","177","static/chunks/app/layout-3daa43ca0bc7b0ca.js"],"ThemeToggle"]
+6:I[7555,[],""]
+7:I[1295,[],""]
+8:I[9100,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","177","static/chunks/app/layout-3daa43ca0bc7b0ca.js"],"Separator"]
+a:I[9665,[],"MetadataBoundary"]
+c:I[9665,[],"OutletBoundary"]
+f:I[4911,[],"AsyncMetadataOutlet"]
+11:I[9665,[],"ViewportBoundary"]
+13:I[6614,[],""]
+:HL["/_next/static/media/569ce4b8f30dc480-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/93f479601ee12b01-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/css/e11f14b2a32761c8.css","style"]
+:HL["/_next/static/css/5eacd01f773eed7f.css","style"]
+0:{"P":null,"b":"DBH0AkX6BFpoRu4OHnK5e","p":"","c":["","blog","typescript-performance",""],"i":false,"f":[[["",{"children":["blog",{"children":[["slug","typescript-performance","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/e11f14b2a32761c8.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"ja","className":"scroll-smooth","suppressHydrationWarning":true,"children":["$","body",null,{"className":"__variable_5cfdac __variable_9a8899 antialiased min-h-screen flex flex-col","children":["$","$L2",null,{"attribute":"class","defaultTheme":"system","enableSystem":true,"disableTransitionOnChange":true,"children":[["$","header",null,{"className":"sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60","children":["$","div",null,{"className":"mx-auto w-full max-w-screen-lg px-4 sm:px-6","children":["$","div",null,{"className":"flex h-16 items-center justify-between","children":[["$","div",null,{"className":"flex items-center","children":["$","$L3",null,{"href":"/","className":"flex items-center space-x-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-code-xml h-6 w-6","aria-hidden":"true","children":[["$","path","1inbqp",{"d":"m18 16 4-4-4-4"}],["$","path","15zrgr",{"d":"m6 8-4 4 4 4"}],["$","path","e7oirm",{"d":"m14.5 4-5 16"}],"$undefined"]}],["$","span",null,{"className":"hidden font-bold sm:inline-block","children":"Portfolio"}]]}]}],["$","div",null,{"className":"flex items-center space-x-4","children":[["$","$L4",null,{}],["$","$L5",null,{}]]}]]}]}]}],["$","main",null,{"className":"flex-1","children":["$","$L6",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"border-t bg-muted/50","children":["$","div",null,{"className":"mx-auto w-full max-w-screen-lg px-4 sm:px-6","children":[["$","div",null,{"className":"py-12","children":["$","div",null,{"className":"grid grid-cols-1 md:grid-cols-4 gap-8","children":[["$","div",null,{"className":"col-span-1 md:col-span-2","children":[["$","$L3",null,{"href":"/","className":"flex items-center space-x-2 mb-4","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-code-xml h-6 w-6","aria-hidden":"true","children":[["$","path","1inbqp",{"d":"m18 16 4-4-4-4"}],["$","path","15zrgr",{"d":"m6 8-4 4 4 4"}],["$","path","e7oirm",{"d":"m14.5 4-5 16"}],"$undefined"]}],["$","span",null,{"className":"font-bold text-lg","children":"Portfolio"}]]}],["$","p",null,{"className":"text-muted-foreground text-sm mb-4 max-w-md","children":"モダンなWebテクノロジーを使った開発・技術記事・ポートフォリオを公開しています。 継続的な学習と実践を通じて、価値あるコンテンツをお届けします。"}],["$","div",null,{"className":"flex items-center gap-2 mb-4","children":[["$","span",null,{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs","children":"Next.js 15"}],["$","span",null,{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs","children":"TypeScript"}],["$","span",null,{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs","children":"Tailwind CSS"}]]}]]}],[["$","div","コンテンツ",{"children":[["$","h3",null,{"className":"font-semibold text-sm mb-4","children":"コンテンツ"}],["$","ul",null,{"className":"space-y-2","children":[["$","li","ブログ",{"children":["$","$L3",null,{"href":"/blog","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"ブログ"}]}],["$","li","ポートフォリオ",{"children":["$","$L3",null,{"href":"/portfolio","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"ポートフォリオ"}]}],["$","li","ガイド",{"children":["$","$L3",null,{"href":"/guides","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"ガイド"}]}]]}]]}],["$","div","情報",{"children":[["$","h3",null,{"className":"font-semibold text-sm mb-4","children":"情報"}],["$","ul",null,{"className":"space-y-2","children":[["$","li","About",{"children":["$","$L3",null,{"href":"/about","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"About"}]}],["$","li","プライバシーポリシー",{"children":["$","$L3",null,{"href":"/privacy","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"プライバシーポリシー"}]}],["$","li","お問い合わせ",{"children":["$","$L3",null,{"href":"/contact","className":"text-sm text-muted-foreground hover:text-foreground transition-colors","children":"お問い合わせ"}]}]]}]]}]]]}]}],["$","$L8",null,{}],["$","div",null,{"className":"py-6","children":["$","div",null,{"className":"flex flex-col md:flex-row justify-between items-center gap-4","children":[["$","div",null,{"className":"flex items-center text-sm text-muted-foreground","children":[["$","span",null,{"children":["© ",2025," Portfolio. Made with"]}],["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-heart h-4 w-4 mx-1 text-red-500","aria-hidden":"true","children":[["$","path","c3ymky",{"d":"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"}],"$undefined"]}],["$","span",null,{"children":"by Developer"}]]}],["$","div",null,{"className":"flex space-x-4","children":[["$","$L3","GitHub",{"href":"https://github.com","className":"text-muted-foreground hover:text-foreground transition-colors","target":"_blank","rel":"noopener noreferrer","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-github h-5 w-5","aria-hidden":"true","children":[["$","path","tonef",{"d":"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"}],["$","path","9comsn",{"d":"M9 18c-4.51 2-5-2-7-2"}],"$undefined"]}],["$","span",null,{"className":"sr-only","children":"GitHub"}]]}],["$","$L3","Twitter",{"href":"https://twitter.com","className":"text-muted-foreground hover:text-foreground transition-colors","target":"_blank","rel":"noopener noreferrer","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-twitter h-5 w-5","aria-hidden":"true","children":[["$","path","pff0z6",{"d":"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"}],"$undefined"]}],["$","span",null,{"className":"sr-only","children":"Twitter"}]]}],["$","$L3","LinkedIn",{"href":"https://linkedin.com","className":"text-muted-foreground hover:text-foreground transition-colors","target":"_blank","rel":"noopener noreferrer","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-linkedin h-5 w-5","aria-hidden":"true","children":[["$","path","c2jq9f",{"d":"M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"}],["$","rect","mk3on5",{"width":"4","height":"12","x":"2","y":"9"}],["$","circle","bt5ra8",{"cx":"4","cy":"4","r":"2"}],"$undefined"]}],["$","span",null,{"className":"sr-only","children":"LinkedIn"}]]}],["$","$L3","Email",{"href":"mailto:contact@example.com","className":"text-muted-foreground hover:text-foreground transition-colors","target":"_blank","rel":"noopener noreferrer","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-mail h-5 w-5","aria-hidden":"true","children":[["$","path","132q7q",{"d":"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"}],["$","rect","izxlao",{"x":"2","y":"4","width":"20","height":"16","rx":"2"}],"$undefined"]}],["$","span",null,{"className":"sr-only","children":"Email"}]]}]]}]]}]}]]}]}]]}]}]}]]}],{"children":["blog",["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["slug","typescript-performance","d"],["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L9",["$","$La",null,{"children":"$Lb"}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/5eacd01f773eed7f.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","$Lc",null,{"children":["$Ld","$Le",["$","$Lf",null,{"promise":"$@10"}]]}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","_anNrRSf6hWLjIl0UKVns",{"children":[["$","$L11",null,{"children":"$L12"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],null]}],false]],"m":"$undefined","G":["$13","$undefined"],"s":false,"S":true}
+14:"$Sreact.suspense"
+15:I[4911,[],"AsyncMetadata"]
+17:I[6152,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"OptimizedImage"]
+18:I[5611,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"BlogContent"]
+1a:I[3852,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"ShareButtons"]
+1b:I[5648,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"TableOfContents"]
+1c:I[9262,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"BlogNavigation"]
+1f:I[5654,["874","static/chunks/874-cb5c1db6d30b8bea.js","455","static/chunks/455-ab86e3ee0833a77a.js","131","static/chunks/131-0d2411aa2a0ef186.js","376","static/chunks/376-0344d73f4acb5bc0.js","0","static/chunks/0-027a799e7749ff02.js","953","static/chunks/app/blog/%5Bslug%5D/page-467c66f704a07fb3.js"],"RelatedPosts"]
+b:["$","$14",null,{"fallback":null,"children":["$","$L15",null,{"promise":"$@16"}]}]
+19:T1464,
+# TypeScriptでのパフォーマンス最適化テクニック
+
+TypeScriptアプリケーションのパフォーマンス向上は、ユーザー体験の改善に直結する重要な要素です。この記事では、実践的な最適化テクニックを紹介します。
+
+## 1. 型定義の最適化
+
+### インターフェースの効率的な設計
+
+```typescript
+// ❌ 非効率な型定義
+interface User {
+  id: number
+  name: string
+  email: string
+  profile: {
+    avatar: string
+    bio: string
+    socialLinks: {
+      twitter?: string
+      github?: string
+      linkedin?: string
+    }
+  }
+}
+
+// ✅ 効率的な型定義
+interface UserBase {
+  id: number
+  name: string
+  email: string
+}
+
+interface UserProfile {
+  avatar: string
+  bio: string
+  socialLinks: Record<string, string>
+}
+
+interface User extends UserBase {
+  profile?: UserProfile
+}
+```
+
+### 条件付き型の活用
+
+```typescript
+type ApiResponse<T> = {
+  data: T
+  status: 'success'
+} | {
+  error: string
+  status: 'error'
+}
+
+// 型安全なレスポンス処理
+function handleResponse<T>(response: ApiResponse<T>) {
+  if (response.status === 'success') {
+    // TypeScriptが自動的にdataプロパティの存在を認識
+    return response.data
+  } else {
+    // TypeScriptが自動的にerrorプロパティの存在を認識
+    throw new Error(response.error)
+  }
+}
+```
+
+## 2. 遅延読み込みとコード分割
+
+### Dynamic Imports
+
+```typescript
+// コンポーネントの遅延読み込み
+const LazyChart = React.lazy(() => import('./Chart'))
+
+function Dashboard() {
+  return (
+    <Suspense fallback={<div>Loading chart...</div>}>
+      <LazyChart />
+    </Suspense>
+  )
+}
+
+// ユーティリティ関数の遅延読み込み
+async function processLargeData(data: unknown[]) {
+  const { heavyProcessor } = await import('./heavy-processor')
+  return heavyProcessor(data)
+}
+```
+
+### 型情報の分離
+
+```typescript
+// types/api.ts - 型定義のみ
+export interface UserData {
+  id: string
+  name: string
+  // ... その他のプロパティ
+}
+
+// services/user.ts - 実装
+import type { UserData } from '../types/api'
+
+export class UserService {
+  async getUser(id: string): Promise<UserData> {
+    // 実装
+  }
+}
+```
+
+## 3. メモ化と最適化
+
+### useMemoとuseCallbackの効果的な使用
+
+```typescript
+import { useMemo, useCallback } from 'react'
+
+interface Props {
+  items: Item[]
+  onItemClick: (id: string) => void
+}
+
+function ItemList({ items, onItemClick }: Props) {
+  // 重い計算をメモ化
+  const expensiveValue = useMemo(() => {
+    return items.reduce((acc, item) => acc + item.value, 0)
+  }, [items])
+
+  // コールバック関数をメモ化
+  const handleClick = useCallback((id: string) => {
+    onItemClick(id)
+  }, [onItemClick])
+
+  return (
+    <div>
+      <div>Total: {expensiveValue}</div>
+      {items.map(item => (
+        <Item
+          key={item.id}
+          item={item}
+          onClick={handleClick}
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+## 4. バンドルサイズの最適化
+
+### Tree Shakingの活用
+
+```typescript
+// ❌ 全体をインポート
+import * as lodash from 'lodash'
+
+// ✅ 必要な関数のみインポート
+import { debounce, throttle } from 'lodash'
+
+// または個別インポート
+import debounce from 'lodash/debounce'
+```
+
+### TypeScript設定の最適化
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+## 5. 実行時パフォーマンスの監視
+
+### パフォーマンス測定ユーティリティ
+
+```typescript
+class PerformanceMonitor {
+  private static measurements = new Map<string, number>()
+
+  static start(label: string): void {
+    this.measurements.set(label, performance.now())
+  }
+
+  static end(label: string): number {
+    const startTime = this.measurements.get(label)
+    if (!startTime) {
+      console.warn(`No start time found for ${label}`)
+      return 0
+    }
+
+    const duration = performance.now() - startTime
+    this.measurements.delete(label)
+    
+    console.log(`${label}: ${duration.toFixed(2)}ms`)
+    return duration
+  }
+
+  static measure<T>(label: string, fn: () => T): T {
+    this.start(label)
+    const result = fn()
+    this.end(label)
+    return result
+  }
+}
+
+// 使用例
+const result = PerformanceMonitor.measure('data-processing', () => {
+  return processLargeDataset(data)
+})
+```
+
+## まとめ
+
+TypeScriptでのパフォーマンス最適化は以下のポイントが重要です：
+
+1. **型定義の効率化** - 適切な型設計でコンパイル時間を短縮
+2. **コード分割** - 必要な時に必要なコードのみ読み込み
+3. **メモ化** - 重い処理の結果をキャッシュ
+4. **バンドル最適化** - 不要なコードの除去
+5. **監視** - パフォーマンスの継続的な測定
+
+これらのテクニックを組み合わせることで、高性能なTypeScriptアプリケーションを構築できます。
+1d:T104b,
+# Next.js 15の新機能と実装方法a
+
+Next.js 15が正式リリースされ、多くの新機能と改善点が追加されました。この記事では、主要な新機能と実装方法について詳しく解説します。
+
+## 主要な新機能
+
+### 1. App Routerの完全安定化
+
+Next.js 15では、App Routerが完全に安定版となり、以下の改善が行われました：
+
+- **Server Components**の最適化
+- **Streaming**の性能向上
+- **Suspense**境界の改善
+
+```typescript
+// app/dashboard/page.tsx
+import { Suspense } from 'react'
+import { UserProfile } from '@/components/user-profile'
+import { Analytics } from '@/components/analytics'
+
+export default function Dashboard() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Suspense fallback={<div>Loading profile...</div>}>
+        <UserProfile />
+      </Suspense>
+      <Suspense fallback={<div>Loading analytics...</div>}>
+        <Analytics />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+### 2. React 19対応とServer Actions
+
+React 19の新機能に完全対応し、Server Actionsがより使いやすくなりました：
+
+```typescript
+// app/actions.ts
+'use server'
+
+import { revalidatePath } from 'next/cache'
+
+export async function createPost(formData: FormData) {
+  const title = formData.get('title') as string
+  const content = formData.get('content') as string
+  
+  // データベースに保存
+  await savePost({ title, content })
+  
+  // キャッシュを無効化
+  revalidatePath('/posts')
+  
+  return { success: true }
+}
+```
+
+### 3. Turbopackによるビルド最適化
+
+開発環境でのビルド速度が大幅に向上：
+
+```javascript
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        canvas: './empty-module.js',
+      },
+    },
+  },
+}
+
+module.exports = nextConfig
+```
+
+## 実装のベストプラクティス
+
+### 1. データフェッチの最適化
+
+```typescript
+// app/posts/page.tsx
+import { getPosts } from '@/lib/data'
+
+export default async function Posts() {
+  // サーバーサイドでのデータフェッチ
+  const posts = await getPosts()
+  
+  return (
+    <div className="grid gap-6">
+      {posts.map((post) => (
+        <article key={post.id} className="p-6 border rounded-lg">
+          <h2 className="text-xl font-bold">{post.title}</h2>
+          <p className="text-gray-600">{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  )
+}
+```
+
+### 2. フォーム処理の改善
+
+```typescript
+// components/contact-form.tsx
+'use client'
+
+import { useFormStatus } from 'react-dom'
+import { submitContactForm } from '@/app/actions'
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+    >
+      {pending ? 'Sending...' : 'Send Message'}
+    </button>
+  )
+}
+
+export function ContactForm() {
+  return (
+    <form action={submitContactForm} className="space-y-4">
+      <input
+        name="email"
+        type="email"
+        placeholder="Your email"
+        className="w-full p-2 border rounded"
+        required
+      />
+      <textarea
+        name="message"
+        placeholder="Your message"
+        className="w-full p-2 border rounded"
+        rows={4}
+        required
+      />
+      <SubmitButton />
+    </form>
+  )
+}
+```
+
+## まとめ
+
+Next.js 15は、開発者の生産性とアプリケーションのパフォーマンスを大幅に向上させる多くの新機能を提供しています。特に：
+
+- **App Routerの安定化**により、より信頼性の高いアプリケーションが構築可能
+- **React 19対応**で最新のReact機能を活用
+- **Turbopack**による開発体験の向上
+
+これらの新機能を活用して、より良いWebアプリケーションを構築していきましょう。
+
+## 参考リンク
+
+- [Next.js 15 公式ドキュメント](https://nextjs.org/docs)
+- [React 19 新機能](https://react.dev/blog/2024/04/25/react-19)
+- [Turbopack ドキュメント](https://turbo.build/pack)
+1e:T20a6,
+# React Hooksの実践的な使い方
+
+React Hooksは、関数コンポーネントでstate管理や副作用処理を行うための強力な機能です。この記事では、実践的な使い方とベストプラクティスを紹介します。
+
+## 基本的なHooksの使い方
+
+### useState - 状態管理
+
+```typescript
+import { useState } from 'react'
+
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+function UserProfile() {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchUser = async (id: string) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(`/api/users/${id}`)
+      const userData = await response.json()
+      setUser(userData)
+    } catch (err) {
+      setError('Failed to fetch user')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      {loading && <div>Loading...</div>}
+      {error && <div className="error">{error}</div>}
+      {user && (
+        <div>
+          <h2>{user.name}</h2>
+          <p>{user.email}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### useEffect - 副作用処理
+
+```typescript
+import { useEffect, useState } from 'react'
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout
+
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setSeconds(prevSeconds => prevSeconds + 1)
+      }, 1000)
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [isRunning])
+
+  const handleStart = () => setIsRunning(true)
+  const handleStop = () => setIsRunning(false)
+  const handleReset = () => {
+    setSeconds(0)
+    setIsRunning(false)
+  }
+
+  return (
+    <div>
+      <div>Time: {seconds}s</div>
+      <button onClick={handleStart} disabled={isRunning}>
+        Start
+      </button>
+      <button onClick={handleStop} disabled={!isRunning}>
+        Stop
+      </button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  )
+}
+```
+
+## カスタムHooksの作成
+
+### データフェッチHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+interface UseApiResult<T> {
+  data: T | null
+  loading: boolean
+  error: string | null
+  refetch: () => void
+}
+
+function useApi<T>(url: string): UseApiResult<T> {
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result = await response.json()
+      setData(result)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [url])
+
+  return { data, loading, error, refetch: fetchData }
+}
+
+// 使用例
+function UsersList() {
+  const { data: users, loading, error, refetch } = useApi<User[]>('/api/users')
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+
+  return (
+    <div>
+      <button onClick={refetch}>Refresh</button>
+      {users?.map(user => (
+        <div key={user.id}>{user.name}</div>
+      ))}
+    </div>
+  )
+}
+```
+
+### ローカルストレージHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error)
+      return initialValue
+    }
+  })
+
+  const setValue = (value: T) => {
+    try {
+      setStoredValue(value)
+      window.localStorage.setItem(key, JSON.stringify(value))
+    } catch (error) {
+      console.error(`Error setting localStorage key "${key}":`, error)
+    }
+  }
+
+  return [storedValue, setValue]
+}
+
+// 使用例
+function Settings() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light')
+  const [language, setLanguage] = useLocalStorage('language', 'en')
+
+  return (
+    <div>
+      <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+      </select>
+    </div>
+  )
+}
+```
+
+## 高度なHooksパターン
+
+### useReducer - 複雑な状態管理
+
+```typescript
+import { useReducer } from 'react'
+
+interface Todo {
+  id: string
+  text: string
+  completed: boolean
+}
+
+interface TodoState {
+  todos: Todo[]
+  filter: 'all' | 'active' | 'completed'
+}
+
+type TodoAction =
+  | { type: 'ADD_TODO'; text: string }
+  | { type: 'TOGGLE_TODO'; id: string }
+  | { type: 'DELETE_TODO'; id: string }
+  | { type: 'SET_FILTER'; filter: TodoState['filter'] }
+
+function todoReducer(state: TodoState, action: TodoAction): TodoState {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            id: Date.now().toString(),
+            text: action.text,
+            completed: false,
+          },
+        ],
+      }
+    case 'TOGGLE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ),
+      }
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.id),
+      }
+    case 'SET_FILTER':
+      return {
+        ...state,
+        filter: action.filter,
+      }
+    default:
+      return state
+  }
+}
+
+function TodoApp() {
+  const [state, dispatch] = useReducer(todoReducer, {
+    todos: [],
+    filter: 'all',
+  })
+
+  const addTodo = (text: string) => {
+    dispatch({ type: 'ADD_TODO', text })
+  }
+
+  const toggleTodo = (id: string) => {
+    dispatch({ type: 'TOGGLE_TODO', id })
+  }
+
+  const deleteTodo = (id: string) => {
+    dispatch({ type: 'DELETE_TODO', id })
+  }
+
+  const filteredTodos = state.todos.filter(todo => {
+    switch (state.filter) {
+      case 'active':
+        return !todo.completed
+      case 'completed':
+        return todo.completed
+      default:
+        return true
+    }
+  })
+
+  return (
+    <div>
+      <input
+        type="text"
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            addTodo(e.currentTarget.value)
+            e.currentTarget.value = ''
+          }
+        }}
+      />
+      
+      <div>
+        {['all', 'active', 'completed'].map(filter => (
+          <button
+            key={filter}
+            onClick={() => dispatch({ type: 'SET_FILTER', filter: filter as TodoState['filter'] })}
+            className={state.filter === filter ? 'active' : ''}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+
+      <ul>
+        {filteredTodos.map(todo => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className={todo.completed ? 'completed' : ''}>
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+## まとめ
+
+React Hooksの効果的な使用には以下のポイントが重要です：
+
+1. **useState** - シンプルな状態管理
+2. **useEffect** - 副作用とクリーンアップの適切な処理
+3. **カスタムHooks** - ロジックの再利用性向上
+4. **useReducer** - 複雑な状態管理
+5. **最適化** - useMemo、useCallbackを適切に使用
+
+これらのパターンを組み合わせることで、保守性が高く効率的なReactアプリケーションを構築できます。
+20:T104b,
+# Next.js 15の新機能と実装方法a
+
+Next.js 15が正式リリースされ、多くの新機能と改善点が追加されました。この記事では、主要な新機能と実装方法について詳しく解説します。
+
+## 主要な新機能
+
+### 1. App Routerの完全安定化
+
+Next.js 15では、App Routerが完全に安定版となり、以下の改善が行われました：
+
+- **Server Components**の最適化
+- **Streaming**の性能向上
+- **Suspense**境界の改善
+
+```typescript
+// app/dashboard/page.tsx
+import { Suspense } from 'react'
+import { UserProfile } from '@/components/user-profile'
+import { Analytics } from '@/components/analytics'
+
+export default function Dashboard() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Suspense fallback={<div>Loading profile...</div>}>
+        <UserProfile />
+      </Suspense>
+      <Suspense fallback={<div>Loading analytics...</div>}>
+        <Analytics />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+### 2. React 19対応とServer Actions
+
+React 19の新機能に完全対応し、Server Actionsがより使いやすくなりました：
+
+```typescript
+// app/actions.ts
+'use server'
+
+import { revalidatePath } from 'next/cache'
+
+export async function createPost(formData: FormData) {
+  const title = formData.get('title') as string
+  const content = formData.get('content') as string
+  
+  // データベースに保存
+  await savePost({ title, content })
+  
+  // キャッシュを無効化
+  revalidatePath('/posts')
+  
+  return { success: true }
+}
+```
+
+### 3. Turbopackによるビルド最適化
+
+開発環境でのビルド速度が大幅に向上：
+
+```javascript
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        canvas: './empty-module.js',
+      },
+    },
+  },
+}
+
+module.exports = nextConfig
+```
+
+## 実装のベストプラクティス
+
+### 1. データフェッチの最適化
+
+```typescript
+// app/posts/page.tsx
+import { getPosts } from '@/lib/data'
+
+export default async function Posts() {
+  // サーバーサイドでのデータフェッチ
+  const posts = await getPosts()
+  
+  return (
+    <div className="grid gap-6">
+      {posts.map((post) => (
+        <article key={post.id} className="p-6 border rounded-lg">
+          <h2 className="text-xl font-bold">{post.title}</h2>
+          <p className="text-gray-600">{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  )
+}
+```
+
+### 2. フォーム処理の改善
+
+```typescript
+// components/contact-form.tsx
+'use client'
+
+import { useFormStatus } from 'react-dom'
+import { submitContactForm } from '@/app/actions'
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+    >
+      {pending ? 'Sending...' : 'Send Message'}
+    </button>
+  )
+}
+
+export function ContactForm() {
+  return (
+    <form action={submitContactForm} className="space-y-4">
+      <input
+        name="email"
+        type="email"
+        placeholder="Your email"
+        className="w-full p-2 border rounded"
+        required
+      />
+      <textarea
+        name="message"
+        placeholder="Your message"
+        className="w-full p-2 border rounded"
+        rows={4}
+        required
+      />
+      <SubmitButton />
+    </form>
+  )
+}
+```
+
+## まとめ
+
+Next.js 15は、開発者の生産性とアプリケーションのパフォーマンスを大幅に向上させる多くの新機能を提供しています。特に：
+
+- **App Routerの安定化**により、より信頼性の高いアプリケーションが構築可能
+- **React 19対応**で最新のReact機能を活用
+- **Turbopack**による開発体験の向上
+
+これらの新機能を活用して、より良いWebアプリケーションを構築していきましょう。
+
+## 参考リンク
+
+- [Next.js 15 公式ドキュメント](https://nextjs.org/docs)
+- [React 19 新機能](https://react.dev/blog/2024/04/25/react-19)
+- [Turbopack ドキュメント](https://turbo.build/pack)
+21:T20a6,
+# React Hooksの実践的な使い方
+
+React Hooksは、関数コンポーネントでstate管理や副作用処理を行うための強力な機能です。この記事では、実践的な使い方とベストプラクティスを紹介します。
+
+## 基本的なHooksの使い方
+
+### useState - 状態管理
+
+```typescript
+import { useState } from 'react'
+
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+function UserProfile() {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchUser = async (id: string) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(`/api/users/${id}`)
+      const userData = await response.json()
+      setUser(userData)
+    } catch (err) {
+      setError('Failed to fetch user')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      {loading && <div>Loading...</div>}
+      {error && <div className="error">{error}</div>}
+      {user && (
+        <div>
+          <h2>{user.name}</h2>
+          <p>{user.email}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### useEffect - 副作用処理
+
+```typescript
+import { useEffect, useState } from 'react'
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout
+
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setSeconds(prevSeconds => prevSeconds + 1)
+      }, 1000)
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [isRunning])
+
+  const handleStart = () => setIsRunning(true)
+  const handleStop = () => setIsRunning(false)
+  const handleReset = () => {
+    setSeconds(0)
+    setIsRunning(false)
+  }
+
+  return (
+    <div>
+      <div>Time: {seconds}s</div>
+      <button onClick={handleStart} disabled={isRunning}>
+        Start
+      </button>
+      <button onClick={handleStop} disabled={!isRunning}>
+        Stop
+      </button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  )
+}
+```
+
+## カスタムHooksの作成
+
+### データフェッチHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+interface UseApiResult<T> {
+  data: T | null
+  loading: boolean
+  error: string | null
+  refetch: () => void
+}
+
+function useApi<T>(url: string): UseApiResult<T> {
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result = await response.json()
+      setData(result)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [url])
+
+  return { data, loading, error, refetch: fetchData }
+}
+
+// 使用例
+function UsersList() {
+  const { data: users, loading, error, refetch } = useApi<User[]>('/api/users')
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+
+  return (
+    <div>
+      <button onClick={refetch}>Refresh</button>
+      {users?.map(user => (
+        <div key={user.id}>{user.name}</div>
+      ))}
+    </div>
+  )
+}
+```
+
+### ローカルストレージHook
+
+```typescript
+import { useState, useEffect } from 'react'
+
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error)
+      return initialValue
+    }
+  })
+
+  const setValue = (value: T) => {
+    try {
+      setStoredValue(value)
+      window.localStorage.setItem(key, JSON.stringify(value))
+    } catch (error) {
+      console.error(`Error setting localStorage key "${key}":`, error)
+    }
+  }
+
+  return [storedValue, setValue]
+}
+
+// 使用例
+function Settings() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light')
+  const [language, setLanguage] = useLocalStorage('language', 'en')
+
+  return (
+    <div>
+      <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+      </select>
+    </div>
+  )
+}
+```
+
+## 高度なHooksパターン
+
+### useReducer - 複雑な状態管理
+
+```typescript
+import { useReducer } from 'react'
+
+interface Todo {
+  id: string
+  text: string
+  completed: boolean
+}
+
+interface TodoState {
+  todos: Todo[]
+  filter: 'all' | 'active' | 'completed'
+}
+
+type TodoAction =
+  | { type: 'ADD_TODO'; text: string }
+  | { type: 'TOGGLE_TODO'; id: string }
+  | { type: 'DELETE_TODO'; id: string }
+  | { type: 'SET_FILTER'; filter: TodoState['filter'] }
+
+function todoReducer(state: TodoState, action: TodoAction): TodoState {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            id: Date.now().toString(),
+            text: action.text,
+            completed: false,
+          },
+        ],
+      }
+    case 'TOGGLE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ),
+      }
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.id),
+      }
+    case 'SET_FILTER':
+      return {
+        ...state,
+        filter: action.filter,
+      }
+    default:
+      return state
+  }
+}
+
+function TodoApp() {
+  const [state, dispatch] = useReducer(todoReducer, {
+    todos: [],
+    filter: 'all',
+  })
+
+  const addTodo = (text: string) => {
+    dispatch({ type: 'ADD_TODO', text })
+  }
+
+  const toggleTodo = (id: string) => {
+    dispatch({ type: 'TOGGLE_TODO', id })
+  }
+
+  const deleteTodo = (id: string) => {
+    dispatch({ type: 'DELETE_TODO', id })
+  }
+
+  const filteredTodos = state.todos.filter(todo => {
+    switch (state.filter) {
+      case 'active':
+        return !todo.completed
+      case 'completed':
+        return todo.completed
+      default:
+        return true
+    }
+  })
+
+  return (
+    <div>
+      <input
+        type="text"
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            addTodo(e.currentTarget.value)
+            e.currentTarget.value = ''
+          }
+        }}
+      />
+      
+      <div>
+        {['all', 'active', 'completed'].map(filter => (
+          <button
+            key={filter}
+            onClick={() => dispatch({ type: 'SET_FILTER', filter: filter as TodoState['filter'] })}
+            className={state.filter === filter ? 'active' : ''}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+
+      <ul>
+        {filteredTodos.map(todo => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className={todo.completed ? 'completed' : ''}>
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+## まとめ
+
+React Hooksの効果的な使用には以下のポイントが重要です：
+
+1. **useState** - シンプルな状態管理
+2. **useEffect** - 副作用とクリーンアップの適切な処理
+3. **カスタムHooks** - ロジックの再利用性向上
+4. **useReducer** - 複雑な状態管理
+5. **最適化** - useMemo、useCallbackを適切に使用
+
+これらのパターンを組み合わせることで、保守性が高く効率的なReactアプリケーションを構築できます。
+22:Tb27,
+# Git 実践ノウハウまとめ
+
+## 目次
+1. ブランチの作成とプッシュ
+2. プルリクエスト前の最新化（mainの取り込み）
+3. rebaseとmergeの違い
+4. push時のエラー対応（non-fast-forward）
+5. よく使うGitコマンド集
+6. 注意点とベストプラクティス
+
+---
+
+## 1. ブランチの作成とプッシュ
+
+```bash
+# 作業用ブランチを作成
+git checkout -b feat/feature-name
+
+# GitHub に初回 push
+git push -u origin feat/feature-name
+```
+
+---
+
+## 2. プルリクエスト前の最新化（mainの変更を取り込む）
+
+### ✅ 変更をマージする（履歴を保ちたい）
+
+```bash
+git pull origin main  # または git pull --no-rebase origin main
+```
+
+### ✅ 変更をrebaseする（履歴をきれいにしたい）
+
+```bash
+git pull --rebase origin main
+```
+
+> `rebase`は履歴が直線的になり、PRが見やすくなります。
+
+---
+
+## 3. `rebase` と `merge` の違い
+
+| 項目       | rebase                      | merge                       |
+|------------|-----------------------------|-----------------------------|
+| 履歴の見た目 | 直線的に整理される             | 分岐がそのまま残る           |
+| コンフリクト | 自分の変更に対して解決する必要あり | 他人の変更に対して解決する必要あり |
+| チーム作業   | **単独作業ブランチならOK**       | **共有ブランチならmerge推奨**    |
+
+---
+
+## 4. push時のエラー対応（non-fast-forward）
+
+### ❌ エラー例（rebase後などで履歴がズレている）
+
+```
+! [rejected]        feat/... -> feat/... (non-fast-forward)
+error: failed to push some refs to ...
+```
+
+### ✅ 対応：強制 push（履歴を書き換える）
+
+```bash
+git push --force-with-lease
+```
+
+> `--force-with-lease` は安全性が高い（他人のpushがあった場合に止まる）
+
+---
+
+## 5. よく使うGitコマンド集
+
+### 🔍 現在のブランチ確認
+```bash
+git branch
+```
+
+### 📡 リモートのブランチ確認
+```bash
+git branch -r
+```
+
+### 🔁 リモート追跡設定
+```bash
+git branch --set-upstream-to=origin/main main
+```
+
+### 🔄 リモートのmainブランチ作成＋プッシュ
+```bash
+git checkout -b main
+git push -u origin main
+```
+
+---
+
+## 6. 注意点とベストプラクティス
+
+- `main`は常に最新にしてから作業ブランチを作る
+- 作業ブランチではこまめに`rebase`してmainを取り込む
+- チーム開発では共有ブランチに`force push`しない
+- `rebase`後は`--force-with-lease`でpushする
+- PR作成前に`git diff origin/main`などで差分確認すると安心
+
+---
+
+## 📎 参考リンク
+
+- [Git rebase vs merge（Atlassian）](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
+- [Git push force with lease 解説（Qiita）](https://qiita.com/)
+
+9:["$","div",null,{"className":"mx-auto w-full max-w-screen-lg px-4 sm:px-6","children":["$","div",null,{"className":"py-8","children":[["$","article",null,{"className":"max-w-4xl mx-auto","children":[["$","header",null,{"className":"space-y-6","children":[["$","div",null,{"children":["$","$L3",null,{"href":"/blog","className":"inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left h-4 w-4","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"ブログ一覧に戻る"],"data-slot":"button","ref":null}]}],["$","div",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90","children":"TypeScript"}],false]}],["$","h1",null,{"className":"text-4xl font-bold tracking-tight lg:text-5xl","children":"TypeScriptでのパフォーマンス最適化テクニック"}],["$","p",null,{"className":"text-xl text-muted-foreground leading-relaxed","children":"TypeScriptアプリケーションのパフォーマンスを向上させるための実践的なテクニックとベストプラクティスを紹介します。"}],["$","div",null,{"className":"flex flex-wrap items-center gap-4 text-sm text-muted-foreground","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-user h-4 w-4","aria-hidden":"true","children":[["$","path","975kel",{"d":"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"}],["$","circle","17ys0d",{"cx":"12","cy":"7","r":"4"}],"$undefined"]}],["$","span",null,{"children":"Developer"}]]}],["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-calendar h-4 w-4","aria-hidden":"true","children":[["$","path","1cmpym",{"d":"M8 2v4"}],["$","path","4m81vk",{"d":"M16 2v4"}],["$","rect","1hopcy",{"width":"18","height":"18","x":"3","y":"4","rx":"2"}],["$","path","8toen8",{"d":"M3 10h18"}],"$undefined"]}],["$","time",null,{"dateTime":"2024-03-10","children":"2024年3月10日"}]]}],["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock h-4 w-4","aria-hidden":"true","children":[["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],["$","polyline","68esgv",{"points":"12 6 12 12 16 14"}],"$undefined"]}],["$","span",null,{"children":"4 min read"}]]}]]}],["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","TypeScript",{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground","children":"TypeScript"}],["$","span","Performance",{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground","children":"Performance"}],["$","span","Optimization",{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground","children":"Optimization"}],["$","span","JavaScript",{"data-slot":"badge","className":"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground","children":"JavaScript"}]]}],["$","div",null,{"className":"relative aspect-video overflow-hidden rounded-lg","children":["$","$L17",null,{"src":"/images/blog/typescript-performance.png","alt":"TypeScriptでのパフォーマンス最適化テクニック","fill":true,"className":"object-cover","priority":true}]}]]}],["$","div",null,{"className":"mt-8 lg:grid lg:grid-cols-4 lg:gap-8","children":[["$","div",null,{"className":"lg:col-span-3","children":[["$","$L18",null,{"post":{"id":"typescript-performance","slug":"typescript-performance","title":"TypeScriptでのパフォーマンス最適化テクニック","description":"TypeScriptアプリケーションのパフォーマンスを向上させるための実践的なテクニックとベストプラクティスを紹介します。","content":"$19","date":"2024-03-10","author":"Developer","category":"TypeScript","tags":["TypeScript","Performance","Optimization","JavaScript"],"image":"/images/blog/typescript-performance.png","featured":false,"published":true,"readingTime":{"text":"4 min read","minutes":3.86,"time":231600,"words":772}}}],["$","div",null,{"className":"mt-8 pt-8 border-t","children":["$","$L1a",null,{"post":"$9:props:children:props:children:0:props:children:1:props:children:0:props:children:0:props:post"}]}]]}],["$","div",null,{"className":"mt-8 lg:mt-0 lg:col-span-1","children":["$","div",null,{"className":"sticky top-8 space-y-6","children":["$","$L1b",null,{}]}]}]]}],["$","div",null,{"className":"mt-12 pt-8 border-t","children":["$","$L1c",null,{"prevPost":{"id":"nextjs-15-features","slug":"nextjs-15-features","title":"Next.js 15の新機能と実装方法","description":"Next.js 15で追加された新機能とその実装方法について詳しく解説します。App Routerの改善点、React 19対応、TurbopackによるビルドパフォーマンスなHint向上について説明します。","content":"$1d","date":"2024-03-15","author":"Developer","category":"Frontend","tags":["Next.js","React","JavaScript","TypeScript","Frontend"],"image":"/images/blog/nextjs-15.png","featured":true,"published":true,"readingTime":{"text":"4 min read","minutes":3.05,"time":183000,"words":610}},"nextPost":{"id":"react-hooks-guide","slug":"react-hooks-guide","title":"React Hooksの実践的な使い方","description":"React Hooksを使った効率的なコンポーネント設計と状態管理の方法について、実用的な例とともに解説します。","content":"$1e","date":"2024-03-05","author":"Developer","category":"React","tags":["React","Hooks","JavaScript","Frontend","State Management"],"image":"/images/blog/react-hooks.png","featured":true,"published":true,"readingTime":{"text":"5 min read","minutes":4.955,"time":297300,"words":991}}}]}]]}],["$","div",null,{"className":"mt-16 pt-8 border-t","children":["$","$L1f",null,{"posts":[{"id":"nextjs-15-features","slug":"nextjs-15-features","title":"Next.js 15の新機能と実装方法","description":"Next.js 15で追加された新機能とその実装方法について詳しく解説します。App Routerの改善点、React 19対応、TurbopackによるビルドパフォーマンスなHint向上について説明します。","content":"$20","date":"2024-03-15","author":"Developer","category":"Frontend","tags":"$9:props:children:props:children:0:props:children:2:props:children:props:prevPost:tags","image":"/images/blog/nextjs-15.png","featured":true,"published":true,"readingTime":{"text":"4 min read","minutes":3.05,"time":183000,"words":610}},{"id":"react-hooks-guide","slug":"react-hooks-guide","title":"React Hooksの実践的な使い方","description":"React Hooksを使った効率的なコンポーネント設計と状態管理の方法について、実用的な例とともに解説します。","content":"$21","date":"2024-03-05","author":"Developer","category":"React","tags":"$9:props:children:props:children:0:props:children:2:props:children:props:nextPost:tags","image":"/images/blog/react-hooks.png","featured":true,"published":true,"readingTime":{"text":"5 min read","minutes":4.955,"time":297300,"words":991}},{"id":"github-workflow","slug":"github-workflow","title":"GitHub ノウハウまとめ","description":"Github ノウハウまとめ","content":"$22","date":"2024-03-15","author":"Developer","category":"Tools","tags":["GitHub","Tutorial"],"image":"/images/blog/github.png","featured":true,"published":true,"readingTime":{"text":"3 min read","minutes":2.645,"time":158700,"words":529}}],"currentPostSlug":"typescript-performance"}]}]]}]}]
+e:null
+12:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+d:null
+16:{"metadata":[["$","title","0",{"children":"TypeScriptでのパフォーマンス最適化テクニック | ブログ"}],["$","meta","1",{"name":"description","content":"TypeScriptアプリケーションのパフォーマンスを向上させるための実践的なテクニックとベストプラクティスを紹介します。"}],["$","meta","2",{"name":"author","content":"Developer"}],["$","meta","3",{"name":"keywords","content":"TypeScript,Performance,Optimization,JavaScript"}],["$","meta","4",{"property":"og:title","content":"TypeScriptでのパフォーマンス最適化テクニック"}],["$","meta","5",{"property":"og:description","content":"TypeScriptアプリケーションのパフォーマンスを向上させるための実践的なテクニックとベストプラクティスを紹介します。"}],["$","meta","6",{"property":"og:image","content":"http://localhost:3000/images/blog/typescript-performance.png"}],["$","meta","7",{"property":"og:type","content":"article"}],["$","meta","8",{"property":"article:published_time","content":"2024-03-10"}],["$","meta","9",{"property":"article:author","content":"Developer"}],["$","meta","10",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","11",{"name":"twitter:title","content":"TypeScriptでのパフォーマンス最適化テクニック"}],["$","meta","12",{"name":"twitter:description","content":"TypeScriptアプリケーションのパフォーマンスを向上させるための実践的なテクニックとベストプラクティスを紹介します。"}],["$","meta","13",{"name":"twitter:image","content":"http://localhost:3000/images/blog/typescript-performance.png"}],["$","link","14",{"rel":"icon","href":"/favicon.ico","type":"image/x-icon","sizes":"16x16"}]],"error":null,"digest":"$undefined"}
+10:{"metadata":"$16:metadata","error":null,"digest":"$undefined"}
