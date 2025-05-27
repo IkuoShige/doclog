@@ -7,6 +7,7 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { generateBlurDataURL } from '@/lib/image-utils'
+import { withBasePath } from '@/lib/utils/basePath'
 
 const socialLinks = [
   {
@@ -35,7 +36,7 @@ export function HeroSection() {
           <div className="flex-shrink-0">
             <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden bg-muted">
               <OptimizedImage
-                src="/images/profile.jpg"
+                src={withBasePath("/images/profile.jpg")}
                 alt="プロフィール画像"
                 width={128}
                 height={128}
