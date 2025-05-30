@@ -1,27 +1,23 @@
-'use client'
-
 import { Container } from '@/components/layout/container'
 import { Typography } from '@/components/ui/typography'
 import { Card, CardContent } from '@/components/ui/card'
 import { FileText, FolderOpen } from 'lucide-react'
-import { getBlogPosts } from '@/lib/blog'
-import { getPublishedPortfolioProjects } from '@/lib/portfolio'
+import { getBlogPostCounts, getPortfolioProjectCounts } from '@/lib/content-counter'
 
 export function DashboardStats() {
-  const blogPosts = getBlogPosts()
-  const publishedPosts = blogPosts.filter(post => post.published)
-  const publishedProjects = getPublishedPortfolioProjects()
+  const blogCounts = getBlogPostCounts()
+  const portfolioCounts = getPortfolioProjectCounts()
   
   const stats = [
     {
       title: 'ブログ投稿',
-      value: publishedPosts.length,
+      value: blogCounts.published,
       icon: FileText,
       description: '技術ブログ記事',
     },
     {
       title: 'プロジェクト',
-      value: publishedProjects.length,
+      value: portfolioCounts.published,
       icon: FolderOpen,
       description: '学習・研究プロジェクト',
     },

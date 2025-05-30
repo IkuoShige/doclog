@@ -1,25 +1,14 @@
-'use client'
-
 import { Container } from '@/components/layout/container'
 import { Typography } from '@/components/ui/typography'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
-import { getBlogPosts } from '@/lib/blog'
-import { getPublishedPortfolioProjects } from '@/lib/portfolio'
+import { getRecentBlogPosts, getRecentPortfolioProjects } from '@/lib/mdx-content'
 
 export function RecentActivity() {
-  const blogPosts = getBlogPosts()
-  const recentPosts = blogPosts
-    .filter(post => post.published)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 3)
-
-  const portfolioProjects = getPublishedPortfolioProjects()
-  const recentProjects = portfolioProjects
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 3)
+  const recentPosts = getRecentBlogPosts(3)
+  const recentProjects = getRecentPortfolioProjects(3)
 
   return (
     <section className="py-8">
