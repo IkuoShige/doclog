@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { Document } from '@/types/mdx'
 import { DocumentSearchAndFilter } from './document-search-filter'
 import { BookOpen } from 'lucide-react'
@@ -106,9 +107,9 @@ export function DocumentsPageClient({
             <div className="space-y-3">
               <div className="flex items-start justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 leading-tight">
-                  <a href={`/documents/${document.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <Link href={`/documents/${document.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     {document.title}
-                  </a>
+                  </Link>
                 </h3>
               </div>
               
