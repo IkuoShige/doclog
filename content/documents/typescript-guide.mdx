@@ -1,0 +1,293 @@
+---
+title: "TypeScript入門ガイド"
+description: "JavaScriptエンジニアのためのTypeScript基礎から実践まで"
+category: "プログラミング"
+tags: ["TypeScript", "JavaScript", "型安全性", "開発効率"]
+published: true
+lastUpdated: "2025-01-31"
+author: "TypeScript開発者"
+readingTime: "25分"
+---
+
+# TypeScript入門ガイド
+
+TypeScriptは、Microsoftが開発したJavaScriptに静的型付けを追加したプログラミング言語です。
+
+## TypeScriptとは
+
+### メリット
+
+- **型安全性**: コンパイル時にエラーを検出
+- **IntelliSense**: IDEでの自動補完とリファクタリング
+- **大規模開発**: チーム開発での保守性向上
+- **最新JS機能**: ES2015+の機能を安全に使用
+
+## 基本的な型
+
+### プリミティブ型
+
+```typescript
+// 基本型
+let name: string = "田中太郎"
+let age: number = 30
+let isActive: boolean = true
+let nothing: null = null
+let undef: undefined = undefined
+
+// 配列
+let numbers: number[] = [1, 2, 3, 4, 5]
+let names: Array<string> = ["太郎", "花子", "次郎"]
+
+// タプル
+let person: [string, number] = ["田中太郎", 30]
+```
+
+### オブジェクト型
+
+```typescript
+// インターフェース
+interface User {
+  id: number
+  name: string
+  email?: string // オプショナル
+  readonly createdAt: Date // 読み取り専用
+}
+
+// 使用例
+const user: User = {
+  id: 1,
+  name: "田中太郎",
+  createdAt: new Date()
+}
+```
+
+### 関数型
+
+```typescript
+// 関数の型定義
+function greet(name: string): string {
+  return `こんにちは、${name}さん`
+}
+
+// アロー関数
+const add = (a: number, b: number): number => a + b
+
+// 関数型の変数
+type CalculatorFunction = (a: number, b: number) => number
+
+const multiply: CalculatorFunction = (a, b) => a * b
+```
+
+## 高度な型
+
+### ユニオン型
+
+```typescript
+type Status = "pending" | "success" | "error"
+
+function handleResponse(status: Status) {
+  switch (status) {
+    case "pending":
+      return "処理中..."
+    case "success":
+      return "成功しました"
+    case "error":
+      return "エラーが発生しました"
+  }
+}
+```
+
+### ジェネリクス
+
+```typescript
+// ジェネリック関数
+function identity<T>(arg: T): T {
+  return arg
+}
+
+const stringResult = identity<string>("hello") // string型
+const numberResult = identity<number>(42)      // number型
+
+// ジェネリックインターフェース
+interface ApiResponse<T> {
+  data: T
+  status: number
+  message: string
+}
+
+interface User {
+  id: number
+  name: string
+}
+
+const userResponse: ApiResponse<User> = {
+  data: { id: 1, name: "田中太郎" },
+  status: 200,
+  message: "成功"
+}
+```
+
+### 条件付き型
+
+```typescript
+type NonNullable<T> = T extends null | undefined ? never : T
+
+type Example1 = NonNullable<string | null>     // string
+type Example2 = NonNullable<number | undefined> // number
+```
+
+## 実践的な例
+
+### React コンポーネント
+
+```typescript
+import React from 'react'
+
+interface Props {
+  title: string
+  description?: string
+  onSubmit: (data: FormData) => void
+}
+
+interface FormData {
+  email: string
+  password: string
+}
+
+export const LoginForm: React.FC<Props> = ({ 
+  title, 
+  description, 
+  onSubmit 
+}) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    
+    onSubmit({
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+      <input type="email" name="email" required />
+      <input type="password" name="password" required />
+      <button type="submit">ログイン</button>
+    </form>
+  )
+}
+```
+
+### API クライアント
+
+```typescript
+class ApiClient {
+  private baseUrl: string
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl
+  }
+
+  async get<T>(endpoint: string): Promise<T> {
+    const response = await fetch(`${this.baseUrl}${endpoint}`)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    return response.json()
+  }
+
+  async post<T, U>(endpoint: string, data: T): Promise<U> {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    return response.json()
+  }
+}
+
+// 使用例
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+interface CreateUserRequest {
+  name: string
+  email: string
+}
+
+const api = new ApiClient('https://api.example.com')
+
+// ユーザー取得
+const user = await api.get<User>('/users/1')
+
+// ユーザー作成
+const newUser = await api.post<CreateUserRequest, User>('/users', {
+  name: '山田太郎',
+  email: 'yamada@example.com'
+})
+```
+
+## ベストプラクティス
+
+### 1. 厳密な型チェック
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}
+```
+
+### 2. 型の再利用
+
+```typescript
+// types/user.ts
+export interface User {
+  id: number
+  name: string
+  email: string
+}
+
+export type CreateUserRequest = Omit<User, 'id'>
+export type UpdateUserRequest = Partial<CreateUserRequest>
+```
+
+### 3. 型ガード
+
+```typescript
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
+function processValue(value: unknown) {
+  if (isString(value)) {
+    // この時点でvalueはstring型として扱われる
+    console.log(value.toUpperCase())
+  }
+}
+```
+
+## まとめ
+
+TypeScriptを導入することで、開発体験が大幅に向上し、バグの早期発見とコードの保守性が向上します。段階的に導入して、チーム全体のスキル向上を図りましょう。
