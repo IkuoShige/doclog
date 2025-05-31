@@ -41,7 +41,7 @@ export function DocsSidebar({ documents }: DocsSidebarProps) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       <div className="p-6 border-b">
-        <Link href="/doclog/documents" className="flex items-center space-x-2">
+        <Link href="/documents" className="flex items-center space-x-2">
           <BookOpen className="h-6 w-6" />
           <span className="font-semibold text-lg">ドキュメント</span>
         </Link>
@@ -63,12 +63,12 @@ export function DocsSidebar({ documents }: DocsSidebarProps) {
                 
                 <div className="space-y-1">
                   {docs.map((doc) => {
-                    const isActive = pathname === `/doclog/documents/${doc.slug}`;
+                    const isActive = pathname === `/documents/${doc.slug}`;
                     
                     return (
                       <Link
                         key={doc.slug}
-                        href={`/doclog/documents/${doc.slug}`}
+                        href={`/documents/${doc.slug}`}
                         className={cn(
                           'block px-3 py-2 rounded-md text-sm transition-colors',
                           'hover:bg-accent hover:text-accent-foreground',

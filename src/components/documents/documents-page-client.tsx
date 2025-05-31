@@ -106,7 +106,7 @@ export function DocumentsPageClient({
             <div className="space-y-3">
               <div className="flex items-start justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 leading-tight">
-                  <a href={`/doclog/documents/${document.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <a href={`/documents/${document.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     {document.title}
                   </a>
                 </h3>

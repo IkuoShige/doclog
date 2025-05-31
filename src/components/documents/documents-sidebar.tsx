@@ -74,12 +74,12 @@ export function DocumentsSidebar({ documents, className }: DocumentsSidebarProps
                 
                 <div className="ml-6 space-y-1">
                   {docs.map((doc: Document) => {
-                    const isActive = pathname === `/doclog/documents/${doc.slug}`
+                    const isActive = pathname === `/documents/${doc.slug}`
                     
                     return (
                       <Link
                         key={doc.slug}
-                        href={`/doclog/documents/${doc.slug}`}
+                        href={`/documents/${doc.slug}`}
                         className={`
                           block p-2 rounded-md text-sm transition-colors hover:bg-muted/50
                           ${isActive ? 'bg-muted border-l-2 border-primary' : ''}
@@ -116,7 +116,7 @@ export function DocumentsSidebar({ documents, className }: DocumentsSidebarProps
         
         <div className="p-4 border-t">
           <Button asChild variant="outline" className="w-full">
-            <Link href="/doclog/documents">
+            <Link href="/documents">
               <BookOpen className="h-4 w-4 mr-2" />
               全てのドキュメント
             </Link>

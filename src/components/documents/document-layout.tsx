@@ -37,7 +37,7 @@ export function DocumentLayout({
         <Container>
           <div className="flex items-center py-4">
             <Button asChild variant="ghost" size="sm" className="mr-4">
-              <Link href="/doclog/documents" className="flex items-center gap-2">
+              <Link href="/documents" className="flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" />
                 ドキュメント一覧
               </Link>
@@ -119,7 +119,7 @@ export function DocumentLayout({
             <div className="mt-8 pt-6 border-t">
               <div className="flex justify-between items-center">
                 <Button asChild variant="outline">
-                  <Link href="/doclog/documents">
+                  <Link href="/documents">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     ドキュメント一覧に戻る
                   </Link>

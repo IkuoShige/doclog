@@ -41,7 +41,7 @@ export function DocsLayout({
   const toc: TocItem[] = generateToc(content);
 
   const breadcrumbItems = [
-    { label: 'ドキュメント', href: '/doclog/documents' },
+    { label: 'ドキュメント', href: '/documents' },
     { label: title }
   ];
 

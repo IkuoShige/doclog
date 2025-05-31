@@ -11,7 +11,7 @@ interface DocumentCardProps {
 
 export function DocumentCard({ document, className }: DocumentCardProps) {
   return (
-    <Link href={`/doclog/documents/${document.slug}`} className={className}>
+    <Link href={`/documents/${document.slug}`} className={className}>
       <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2 mb-2">
