@@ -11,7 +11,6 @@ export interface ContentItem {
   published: boolean
   featured?: boolean
   content?: string
-  difficulty?: 'beginner' | 'intermediate' | 'advanced'
   readingTime?: number
   technologies?: string[]
   image?: string

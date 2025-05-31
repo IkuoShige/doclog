@@ -283,7 +283,6 @@ export function getGuides(): Guide[] {
         description: data.description || '',
         date: data.date || '',
         category: data.category || '',
-        difficulty: data.difficulty || 'beginner',
         tags: data.tags || [],
         published: data.published !== false,
       } as Guide;
@@ -314,7 +313,6 @@ export function getGuide(slug: string): { guide: Guide; content: string } | null
     date: data.date || '',
     author: data.author || 'Developer',
     category: data.category || '',
-    difficulty: data.difficulty || 'beginner',
     estimatedTime: data.estimatedTime || '5分',
     tags: data.tags || [],
     published: data.published !== false,
@@ -509,7 +507,7 @@ export function searchPortfolioProjects(query: string, technologies?: string[], 
 }
 
 // ガイドの検索
-export function searchGuides(query: string, tags?: string[], category?: string, difficulty?: string): Guide[] {
+export function searchGuides(query: string, tags?: string[], category?: string): Guide[] {
   const guides = getGuides();
   
   return guides.filter(guide => {
@@ -521,9 +519,8 @@ export function searchGuides(query: string, tags?: string[], category?: string, 
       tags.some(tag => guide.tags.includes(tag));
     
     const matchesCategory = !category || guide.category === category;
-    const matchesDifficulty = !difficulty || guide.difficulty === difficulty;
     
-    return matchesQuery && matchesTags && matchesCategory && matchesDifficulty;
+    return matchesQuery && matchesTags && matchesCategory;
   });
 }
 
@@ -623,11 +620,6 @@ export function getRelatedGuides(currentSlug: string, limit: number = 3): Guide[
       // カテゴリが同じ場合
       if (guide.category === currentGuide.category) {
         score += 2;
-      }
-      
-      // 難易度が同じ場合
-      if (guide.difficulty === currentGuide.difficulty) {
-        score += 1;
       }
       
       return { guide, score };

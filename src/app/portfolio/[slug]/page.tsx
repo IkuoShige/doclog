@@ -6,7 +6,7 @@ import { TechStack } from '@/components/portfolio/tech-stack';
 import { ProjectLinks } from '@/components/portfolio/project-links';
 import { RelatedProjects } from '@/components/portfolio/related-projects';
 import { PortfolioMDXContent } from '@/components/portfolio/portfolio-mdx-content';
-import { serializeMDX } from '@/components/MDXContent';
+import { serializeMDX } from '@/lib/mdx-serialize';
 import { Metadata } from 'next';
 
 interface ProjectPageProps {

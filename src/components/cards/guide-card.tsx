@@ -3,30 +3,14 @@ import { Badge } from '@/components/ui/badge'
 import { ContentItem } from '@/types/content'
 import Link from 'next/link'
 import { formatDate, formatRelativeDate } from '@/lib/utils'
-import { BookOpen, Clock, TrendingUp, Users } from 'lucide-react'
+import { BookOpen, Clock, Users } from 'lucide-react'
 
 interface GuideCardProps {
   guide: ContentItem
   showReadingTime?: boolean
-  showDifficulty?: boolean
 }
 
-export function GuideCard({ guide, showReadingTime = true, showDifficulty = true }: GuideCardProps) {
-  const getDifficultyColor = (difficulty?: string) => {
-    switch (difficulty?.toLowerCase()) {
-      case '初級':
-      case 'beginner':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-      case '中級':
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-      case '上級':
-      case 'advanced':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
-    }
-  }
+export function GuideCard({ guide, showReadingTime = true }: GuideCardProps) {
 
   return (
     <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 group">
@@ -51,18 +35,8 @@ export function GuideCard({ guide, showReadingTime = true, showDifficulty = true
       </CardHeader>
       
       <CardContent className="space-y-3">
-        {/* 難易度とメタ情報 */}
+        {/* メタ情報 */}
         <div className="flex items-center justify-between text-sm">
-          {showDifficulty && guide.difficulty && (
-            <Badge 
-              variant="secondary" 
-              className={`text-xs ${getDifficultyColor(guide.difficulty)}`}
-            >
-              <TrendingUp className="h-3 w-3 mr-1" />
-              {guide.difficulty}
-            </Badge>
-          )}
-          
           {showReadingTime && guide.readingTime && (
             <div className="flex items-center gap-1 text-muted-foreground">
               <Clock className="h-3 w-3" />

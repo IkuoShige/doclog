@@ -1,7 +1,41 @@
 import { Document } from '@/types/mdx'
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
 
 // サーバーサイドかどうかを判定
 const isServerSide = typeof window === 'undefined'
+
+// MDXファイルからドキュメントデータを読み込む
+function loadDocumentsFromMDX(): Document[] {
+  const documentsDir = path.join(process.cwd(), 'content/documents')
+  
+  if (!fs.existsSync(documentsDir)) {
+    return []
+  }
+
+  const files = fs.readdirSync(documentsDir)
+    .filter(file => file.endsWith('.mdx'))
+
+  return files.map(file => {
+    const slug = file.replace(/\.mdx$/, '')
+    const filePath = path.join(documentsDir, file)
+    const fileContents = fs.readFileSync(filePath, 'utf8')
+    const { data } = matter(fileContents)
+
+    return {
+      slug,
+      title: data.title || slug,
+      description: data.description || '',
+      category: data.category || 'その他',
+      tags: data.tags || [],
+      lastUpdated: data.lastUpdated || new Date().toISOString().split('T')[0],
+      published: data.published !== false,
+      author: data.author,
+      readingTime: data.readingTime,
+    }
+  })
+}
 
 // フォールバック用の静的データ
 function getFallbackDocuments(): Document[] {
@@ -12,7 +46,6 @@ function getFallbackDocuments(): Document[] {
       description: 'React Hooksの基本的な使い方とパターンをまとめました',
       category: 'React',
       tags: ['React', 'Hooks', 'JavaScript'],
-      difficulty: 'intermediate',
       lastUpdated: '2024-05-20',
       published: true,
     },
@@ -22,7 +55,6 @@ function getFallbackDocuments(): Document[] {
       description: 'TypeScriptの便利なユーティリティ型の使い方と実例',
       category: 'TypeScript',
       tags: ['TypeScript', '型システム'],
-      difficulty: 'advanced',
       lastUpdated: '2024-05-15',
       published: true,
     },
@@ -32,7 +64,6 @@ function getFallbackDocuments(): Document[] {
       description: 'Next.js開発で知っておきたいベストプラクティス集',
       category: 'Next.js',
       tags: ['Next.js', 'React', 'ベストプラクティス'],
-      difficulty: 'intermediate',
       lastUpdated: '2024-05-10',
       published: true,
     },
@@ -42,7 +73,6 @@ function getFallbackDocuments(): Document[] {
       description: 'よく使うGitコマンドと実行例をまとめました',
       category: 'Git',
       tags: ['Git', 'バージョン管理', 'CLI'],
-      difficulty: 'beginner',
       lastUpdated: '2024-05-05',
       published: true,
     },
@@ -52,7 +82,6 @@ function getFallbackDocuments(): Document[] {
       description: 'FlexboxとCSS Gridの使い分けと実装パターン',
       category: 'CSS',
       tags: ['CSS', 'レイアウト', 'Flexbox', 'Grid'],
-      difficulty: 'intermediate',
       lastUpdated: '2024-04-30',
       published: true,
     },
@@ -62,7 +91,6 @@ function getFallbackDocuments(): Document[] {
       description: 'Pandas、NumPy、Matplotlibを使ったデータ分析の基礎',
       category: 'Python',
       tags: ['Python', 'データ分析', 'Pandas', 'NumPy'],
-      difficulty: 'beginner',
       lastUpdated: '2024-04-25',
       published: true,
     },
@@ -72,7 +100,6 @@ function getFallbackDocuments(): Document[] {
       description: 'Robot Operating System (ROS) の基本概念とよく使う機能',
       category: 'Robotics',
       tags: ['ROS', 'ロボティクス', 'Python'],
-      difficulty: 'intermediate',
       lastUpdated: '2024-04-20',
       published: true,
     },
@@ -82,7 +109,6 @@ function getFallbackDocuments(): Document[] {
       description: 'OpenCVを使った基本的な画像処理のコード例集',
       category: 'Computer Vision',
       tags: ['OpenCV', 'Python', '画像処理', 'コンピュータビジョン'],
-      difficulty: 'intermediate',
       lastUpdated: '2024-04-15',
       published: true,
     },
@@ -97,7 +123,15 @@ export function getDocuments(): Document[] {
   }
 
   try {
-    // サーバーサイドでの処理（現在は静的データを返す）
+    // サーバーサイドでMDXファイルから読み込み
+    const mdxDocuments = loadDocumentsFromMDX()
+    
+    if (mdxDocuments.length > 0) {
+      console.log(`[Server] Loaded ${mdxDocuments.length} documents:`, mdxDocuments.map(d => d.slug))
+      return mdxDocuments
+    }
+    
+    // MDXファイルがない場合はフォールバックデータを返す
     return getFallbackDocuments()
   } catch (error) {
     console.error('Error loading documents:', error)
@@ -134,13 +168,6 @@ export function getDocumentTags(): string[] {
   const documents = getDocuments()
   const tags = [...new Set(documents.flatMap(doc => doc.tags))]
   return tags.sort()
-}
-
-// 難易度別にドキュメントを取得
-export function getDocumentsByDifficulty(difficulty: Document['difficulty']): Document[] {
-  return getDocuments().filter(doc => 
-    doc.difficulty === difficulty && doc.published
-  )
 }
 
 // 最近更新されたドキュメントを取得

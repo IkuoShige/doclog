@@ -48,7 +48,6 @@ export interface Guide {
   date: string
   author: string
   tags: string[]
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
   estimatedTime: string
   category: string
   published: boolean
@@ -61,7 +60,6 @@ export interface Document {
   description: string
   category: string
   tags: string[]
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
   lastUpdated: string
   published: boolean
   content?: string

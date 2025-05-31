@@ -1,188 +1,61 @@
+import { getPublishedDocuments, getDocumentCategories, getDocumentTags } from '@/lib/documents'
+import { DocumentsPageClient } from '@/components/documents/documents-page-client'
+import { DocumentsSidebar } from '@/components/documents/documents-sidebar'
+import { BookOpen } from 'lucide-react'
 import { Metadata } from 'next'
-import { Container } from '@/components/layout/container'
-import { Typography } from '@/components/ui/typography'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Book, Calendar } from 'lucide-react'
-import Link from 'next/link'
-import { getPublishedDocuments, getDocumentCategories } from '@/lib/documents'
 
 export const metadata: Metadata = {
-  title: 'ドキュメント | Portfolio',
-  description: '学習記録とナレッジベース - 技術ドキュメントのまとめ',
+  title: 'ドキュメント | Doclog',
+  description: '技術ドキュメント・学習記録・ナレッジベース',
+  keywords: ['ドキュメント', '技術資料', '学習記録', 'ナレッジベース'],
 }
 
 export default function DocumentsPage() {
   const documents = getPublishedDocuments()
-  const categories = getDocumentCategories()
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner':
-        return 'bg-green-100 text-green-800 border-green-200'
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      case 'advanced':
-        return 'bg-red-100 text-red-800 border-red-200'
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
-    }
-  }
-
-  const getDifficultyLabel = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner':
-        return '初級'
-      case 'intermediate':
-        return '中級'
-      case 'advanced':
-        return '上級'
-      default:
-        return difficulty
-    }
-  }
+  const allCategories = getDocumentCategories()
+  const allTags = getDocumentTags()
 
   return (
-    <main className="min-h-screen bg-background">
-      <Container>
-        <div className="py-8 lg:py-12">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Book className="h-6 w-6 text-primary" />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="flex">
+        {/* 左サイドバー - ナビゲーション */}
+        <aside className="fixed left-0 top-0 z-40 h-screen w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <Typography variant="h1" className="text-3xl lg:text-4xl font-bold">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 ドキュメント
-              </Typography>
+              </h1>
             </div>
-            <Typography variant="large" className="text-muted-foreground max-w-2xl">
-              学習過程で作成した技術ドキュメントとナレッジベース。
-              実装方法、ベストプラクティス、よく使うコマンドなどをまとめています。
-            </Typography>
+            <DocumentsSidebar documents={documents} />
           </div>
+        </aside>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardContent className="p-4 text-center">
-                <Typography variant="h3" className="text-2xl font-bold text-primary mb-1">
-                  {documents.length}
-                </Typography>
-                <Typography variant="small" className="text-muted-foreground">
-                  ドキュメント
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <Typography variant="h3" className="text-2xl font-bold text-primary mb-1">
-                  {categories.length}
-                </Typography>
-                <Typography variant="small" className="text-muted-foreground">
-                  カテゴリ
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <Typography variant="h3" className="text-2xl font-bold text-primary mb-1">
-                  {documents.filter(doc => doc.difficulty === 'beginner').length}
-                </Typography>
-                <Typography variant="small" className="text-muted-foreground">
-                  初級レベル
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <Typography variant="h3" className="text-2xl font-bold text-primary mb-1">
-                  {documents.filter(doc => new Date(doc.lastUpdated) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).length}
-                </Typography>
-                <Typography variant="small" className="text-muted-foreground">
-                  最近更新
-                </Typography>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Categories */}
-          <div className="mb-8">
-            <Typography variant="h2" className="text-xl font-semibold mb-4">
-              カテゴリ
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => {
-                const count = documents.filter(doc => doc.category === category).length
-                return (
-                  <Badge key={category} variant="secondary" className="px-3 py-1">
-                    {category} ({count})
-                  </Badge>
-                )
-              })}
+        {/* メインコンテンツ */}
+        <main className="flex-1 ml-80">
+          <div className="container mx-auto px-8 py-8">
+            {/* ページヘッダー */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                ドキュメント一覧
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                技術ドキュメント、学習記録、ナレッジベースの集約サイトです。
+                開発で学んだ知識やベストプラクティス、トラブルシューティングガイドなどを体系的にまとめています。
+              </p>
             </div>
-          </div>
 
-          {/* Documents Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {documents.map((doc) => (
-              <Card key={doc.slug} className="hover:shadow-md transition-shadow h-full">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <Badge variant="outline" className="shrink-0">
-                      {doc.category}
-                    </Badge>
-                    <Badge 
-                      variant="outline" 
-                      className={`shrink-0 ${getDifficultyColor(doc.difficulty)}`}
-                    >
-                      {getDifficultyLabel(doc.difficulty)}
-                    </Badge>
-                  </div>
-                  <CardTitle className="text-lg line-clamp-2">
-                    {doc.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0 flex flex-col flex-1">
-                  <Typography variant="muted" className="text-sm mb-4 line-clamp-3 flex-1">
-                    {doc.description}
-                  </Typography>
-                  
-                  <div className="space-y-3">
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1">
-                      {doc.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {doc.tags.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{doc.tags.length - 3}
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="flex items-center justify-between pt-2 border-t">
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Calendar className="h-3 w-3" />
-                        <span>{new Date(doc.lastUpdated).toLocaleDateString('ja-JP')}</span>
-                      </div>
-                      <Button asChild size="sm" variant="ghost">
-                        <Link href={`/documents/${doc.slug}`}>
-                          読む
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {/* 検索とフィルター機能 */}
+            <DocumentsPageClient
+              documents={documents}
+              allCategories={allCategories}
+              allTags={allTags}
+            />
           </div>
-        </div>
-      </Container>
-    </main>
+        </main>
+      </div>
+    </div>
   )
 }

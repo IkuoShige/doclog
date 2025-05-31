@@ -36,7 +36,6 @@ export interface PortfolioProject {
   demoUrl?: string;
   image?: string;
   readingTime?: number;
-  difficulty?: string;
 }
 
 export interface Guide {
@@ -45,7 +44,6 @@ export interface Guide {
   description: string;
   date: string;
   category: string;
-  difficulty?: 'beginner' | 'intermediate' | 'advanced' | '初級' | '中級' | '上級';
   tags: string[];
   technologies?: string[];
   published: boolean;
