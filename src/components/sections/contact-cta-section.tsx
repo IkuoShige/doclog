@@ -93,7 +93,7 @@ export function ContactCTASection() {
             const Icon = method.icon
             return (
               <motion.div key={method.title} variants={itemVariants}>
-                <Card className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <Card className="group hover:shadow-lg transition-all duration-300 hover:scale-105 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                   <CardContent className="p-6 text-center">
                     <div className="mb-4">
                       <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">

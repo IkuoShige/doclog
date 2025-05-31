@@ -25,7 +25,8 @@ export default function PortfolioPage() {
   const featuredProjects = projects.filter(project => project.featured);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
       {/* ページヘッダー */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold tracking-tight mb-4">
@@ -61,6 +62,7 @@ export default function PortfolioPage() {
           <PortfolioGrid projects={projects} />
         </Suspense>
       </div>
+    </div>
     </div>
   );
 }

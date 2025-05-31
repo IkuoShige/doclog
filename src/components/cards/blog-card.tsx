@@ -14,7 +14,7 @@ interface BlogCardProps {
 
 export function BlogCard({ post, showAuthor = true, showReadingTime = true }: BlogCardProps) {
   return (
-    <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 group">
+    <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-3">
           <CardTitle className="line-clamp-2 text-lg group-hover:text-primary transition-colors">

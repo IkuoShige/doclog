@@ -11,8 +11,9 @@ export default async function BlogPage() {
   const allCategories = getAllBlogCategories()
 
   return (
-    <Container>
-      <div className="py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <Container>
+        <div className="py-12">
         <PageHeader
           title="ブログ"
           description="ソフトウェア開発やプログラミングに関する技術記事を公開しています"
@@ -28,7 +29,8 @@ export default async function BlogPage() {
             />
           </Suspense>
         </div>
-      </div>
-    </Container>
+        </div>
+      </Container>
+    </div>
   )
 }

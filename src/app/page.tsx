@@ -5,7 +5,7 @@ import { RecentActivity } from '@/components/sections/recent-activity'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <HeroSection />
       <div className="border-t">
         <DashboardStats />

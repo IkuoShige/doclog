@@ -27,7 +27,7 @@ interface PortfolioCardProps {
 
 export function PortfolioCard({ project, featured = false }: PortfolioCardProps) {
   return (
-    <Card className={`h-full hover:shadow-lg transition-all duration-300 dark:hover:shadow-xl ${
+    <Card className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 ${
       featured ? 'ring-2 ring-primary dark:ring-primary' : ''
     }`}>
       {project.image && (
@@ -48,25 +48,27 @@ export function PortfolioCard({ project, featured = false }: PortfolioCardProps)
         </div>
       )}
       
-      <CardHeader>
-        <div className="flex justify-between items-start gap-2">
-          <CardTitle className="line-clamp-2">
-            <Link href={`/portfolio/${project.slug}`} className="hover:underline">
-              {project.title}
-            </Link>
-          </CardTitle>
+      <CardHeader className="pb-3">
+        <div className="flex justify-between items-start gap-2 mb-2">
           <Badge variant="outline" className="text-xs whitespace-nowrap">
             {project.category}
           </Badge>
         </div>
-        <CardDescription className="line-clamp-2">
+        
+        <CardTitle className="text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+          <Link href={`/portfolio/${project.slug}`} className="hover:underline">
+            {project.title}
+          </Link>
+        </CardTitle>
+        
+        <CardDescription className="text-sm line-clamp-2">
           {project.description}
         </CardDescription>
       </CardHeader>
       
-      <CardContent>
+      <CardContent className="pt-0">
         <div className="space-y-4">
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 mb-4">
             {project.technologies.slice(0, 4).map((tech) => (
               <Badge key={tech} variant="secondary" className="text-xs">
                 {tech}
@@ -79,8 +81,8 @@ export function PortfolioCard({ project, featured = false }: PortfolioCardProps)
             )}
           </div>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center text-sm text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex items-center">
               <Calendar className="mr-1 h-3 w-3" />
               {new Date(project.date).toLocaleDateString('ja-JP', { 
                 year: 'numeric', 

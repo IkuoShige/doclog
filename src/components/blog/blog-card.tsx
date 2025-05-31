@@ -19,7 +19,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
   })
 
   return (
-    <Card className={cn('group hover:shadow-lg transition-all duration-300', className)}>
+    <Card className={cn('h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700', className)}>
       {/* アイキャッチ画像 */}
       {post.image && (
         <div className="relative overflow-hidden rounded-t-lg">
@@ -36,38 +36,40 @@ export function BlogCard({ post, className }: BlogCardProps) {
         </div>
       )}
 
-      <CardHeader className="space-y-2">
-        {/* カテゴリバッジ */}
-        {post.category && (
-          <Badge variant="secondary" className="w-fit">
-            {post.category}
-          </Badge>
-        )}
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-2 mb-2">
+          {/* カテゴリバッジ */}
+          {post.category && (
+            <Badge variant="outline" className="text-xs">
+              {post.category}
+            </Badge>
+          )}
+        </div>
 
         {/* タイトル */}
-        <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+        <h3 className="text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
           <Link href={`/blog/${post.slug}`} className="hover:underline">
             {post.title}
           </Link>
         </h3>
 
         {/* 説明 */}
-        <p className="text-muted-foreground line-clamp-3 text-sm">
+        <p className="text-sm line-clamp-2">
           {post.description}
         </p>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="pt-0">
         {/* タグ */}
         {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 mb-4">
             {post.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
+              <Badge key={tag} variant="secondary" className="text-xs">
                 {tag}
               </Badge>
             ))}
             {post.tags.length > 3 && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="secondary" className="text-xs">
                 +{post.tags.length - 3}
               </Badge>
             )}
@@ -75,7 +77,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
         )}
 
         {/* メタ情報 */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-4">
             {/* 投稿日 */}
             <div className="flex items-center gap-1">
@@ -96,14 +98,6 @@ export function BlogCard({ post, className }: BlogCardProps) {
             <span>{post.author}</span>
           </div>
         </div>
-
-        {/* 続きを読むリンク */}
-        <Link
-          href={`/blog/${post.slug}`}
-          className="inline-flex items-center text-sm font-medium text-primary hover:underline"
-        >
-          続きを読む →
-        </Link>
       </CardContent>
     </Card>
   )

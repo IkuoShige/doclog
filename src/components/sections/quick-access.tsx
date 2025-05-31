@@ -57,17 +57,17 @@ export function QuickAccess() {
           {quickLinks.map((link) => {
             const Icon = link.icon
             return (
-              <Card key={link.href} className="hover:shadow-md transition-all duration-200 hover:scale-105">
+              <Card key={link.href} className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3 mb-3">
                     <div className={`p-2 rounded-md ${link.color}/10`}>
                       <Icon className={`h-5 w-5 ${link.color.replace('bg-', 'text-')}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <Typography variant="h4" className="font-semibold mb-1">
+                      <Typography variant="h4" className="font-semibold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {link.title}
                       </Typography>
-                      <Typography variant="muted" className="text-sm mb-3">
+                      <Typography variant="muted" className="text-sm mb-3 text-gray-500 dark:text-gray-400">
                         {link.description}
                       </Typography>
                     </div>

@@ -14,7 +14,7 @@ interface PortfolioCardProps {
 
 export function PortfolioCard({ project, showDate = true }: PortfolioCardProps) {
   return (
-    <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 group overflow-hidden">
+    <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 group overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
       {project.image && (
         <div className="relative h-48 overflow-hidden">
           <Image

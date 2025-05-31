@@ -103,7 +103,7 @@ export function ExperienceSection() {
           <div className="space-y-8">
             {experiences.map((exp, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="relative md:ml-16 hover:shadow-lg transition-shadow duration-300">
+                <Card className="relative md:ml-16 hover:shadow-lg transition-shadow duration-300 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                   {/* Timeline dot */}
                   <div className="absolute -left-20 top-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block" />
                   
