@@ -5,8 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Home, BookOpen, Briefcase, User, Menu, X, Book } from 'lucide-react'// Enable ポートフォリオ
-// import { Home, BookOpen, User, Menu, X, Book } from 'lucide-react'// Disable ポートフォリオ
+import { Home, BookOpen, Briefcase, Menu, X, Book } from 'lucide-react'
 
 interface NavigationItem {
   href: string
@@ -40,12 +39,6 @@ const navigationItems: NavigationItem[] = [
     label: 'Documents',
     icon: <Book className="h-4 w-4" />,
     description: '技術ドキュメントと学習記録'
-  },
-  {
-    href: '/about',
-    label: 'About',
-    icon: <User className="h-4 w-4" />,
-    description: '自己紹介'
   }
 ]
 
