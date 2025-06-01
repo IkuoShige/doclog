@@ -1,0 +1,973 @@
+---
+id: "tailwind-design-system"
+title: "Tailwind CSSでモダンなデザインシステムを作る"
+description: "Tailwind CSS v4を使用して、保守性と一貫性を兼ね備えたモダンなデザインシステムを構築する方法を解説します。"
+date: "2025-01-17"
+category: "Design System"
+tags: ["Tailwind CSS", "Design System", "CSS", "UI/UX", "Frontend"]
+author: "Developer"
+image: "/images/blog/tailwind-design-system.jpg"
+featured: true
+published: true
+readingTime: 11
+---
+
+# Tailwind CSSでモダンなデザインシステムを作る
+
+Tailwind CSSは単なるCSSフレームワークを超えて、包括的なデザインシステムを構築するための強力なツールです。本記事では、Tailwind CSS v4を使用してスケーラブルで保守性の高いデザインシステムを構築する方法を詳しく解説します。
+
+## 🎯 デザインシステムの重要性
+
+### 従来のCSS開発の課題
+- **一貫性の欠如**: プロジェクト全体で統一されていないスタイル
+- **重複コード**: 同じようなスタイルが複数箇所に散らばる
+- **保守性の問題**: 変更時の影響範囲が把握しにくい
+- **命名の困難**: BEMなどの方法論でも煩雑になりがち
+
+### Tailwindが解決する問題
+- **ユーティリティファースト**: 再利用可能な小さなクラス
+- **一貫性**: 統一されたデザイントークン
+- **開発効率**: HTMLから離れずにスタイリング
+- **カスタマイズ性**: プロジェクトに合わせた調整が容易
+
+## 🛠️ Tailwind CSS v4のセットアップ
+
+### 1. インストールと基本設定
+
+```bash
+npm install tailwindcss@next @tailwindcss/postcss@next
+npm install -D @tailwindcss/cli@next
+```
+
+```typescript
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './content/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      // カスタムデザイントークンを定義
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'Menlo', 'monospace'],
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in': 'fade-in 0.5s ease-out',
+        'slide-up': 'slide-up 0.3s ease-out',
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'slide-up': {
+          from: { transform: 'translateY(10px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
+};
+
+export default config;
+```
+
+### 2. CSS変数によるテーマ管理
+
+```css
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light theme */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Dark theme */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+```
+
+## 🧩 コンポーネントベースの設計
+
+### 1. ベースコンポーネント
+
+```tsx
+// components/ui/button.tsx
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Button.displayName = "Button";
+
+export { Button, buttonVariants };
+```
+
+### 2. カードコンポーネント
+
+```tsx
+// components/ui/card.tsx
+import { cn } from "@/lib/utils";
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className
+    )}
+    {...props}
+  />
+));
+Card.displayName = "Card";
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
+));
+CardHeader.displayName = "CardHeader";
+
+const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props}
+  />
+));
+CardTitle.displayName = "CardTitle";
+
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+));
+CardDescription.displayName = "CardDescription";
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+));
+CardContent.displayName = "CardContent";
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("flex items-center p-6 pt-0", className)} {...props} />
+));
+CardFooter.displayName = "CardFooter";
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+```
+
+## 🎨 レスポンシブデザインの実装
+
+### 1. ブレークポイント戦略
+
+```typescript
+// tailwind.config.ts - カスタムブレークポイント
+const config: Config = {
+  theme: {
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
+  },
+};
+```
+
+### 2. レスポンシブコンポーネント
+
+```tsx
+// components/responsive-grid.tsx
+interface ResponsiveGridProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function ResponsiveGrid({ children, className }: ResponsiveGridProps) {
+  return (
+    <div className={cn(
+      "grid gap-6",
+      // Mobile first approach
+      "grid-cols-1",           // 1 column on mobile
+      "sm:grid-cols-2",        // 2 columns on small screens
+      "lg:grid-cols-3",        // 3 columns on large screens
+      "xl:grid-cols-4",        // 4 columns on extra large screens
+      className
+    )}>
+      {children}
+    </div>
+  );
+}
+
+// 使用例
+<ResponsiveGrid>
+  {posts.map(post => (
+    <BlogCard key={post.slug} post={post} />
+  ))}
+</ResponsiveGrid>
+```
+
+### 3. レスポンシブタイポグラフィ
+
+```tsx
+// components/responsive-typography.tsx
+export function ResponsiveHeading({ 
+  children, 
+  level = 1, 
+  className 
+}: {
+  children: React.ReactNode;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  className?: string;
+}) {
+  const baseClasses = "font-bold leading-tight tracking-tight";
+  
+  const sizeClasses = {
+    1: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl",
+    2: "text-2xl sm:text-3xl lg:text-4xl",
+    3: "text-xl sm:text-2xl lg:text-3xl",
+    4: "text-lg sm:text-xl lg:text-2xl",
+    5: "text-base sm:text-lg lg:text-xl",
+    6: "text-sm sm:text-base lg:text-lg",
+  };
+
+  const Component = `h${level}` as keyof JSX.IntrinsicElements;
+
+  return (
+    <Component className={cn(baseClasses, sizeClasses[level], className)}>
+      {children}
+    </Component>
+  );
+}
+```
+
+## 🌗 ダークモード対応
+
+### 1. テーマプロバイダー
+
+```tsx
+// components/theme-provider.tsx
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+
+type Theme = "dark" | "light" | "system";
+
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+};
+
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
+
+const initialState: ThemeProviderState = {
+  theme: "system",
+  setTheme: () => null,
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "doclog-ui-theme",
+  ...props
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage?.getItem(storageKey) as Theme) || defaultTheme
+  );
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.classList.remove("light", "dark");
+
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+
+      root.classList.add(systemTheme);
+      return;
+    }
+
+    root.classList.add(theme);
+  }, [theme]);
+
+  const value = {
+    theme,
+    setTheme: (theme: Theme) => {
+      localStorage?.setItem(storageKey, theme);
+      setTheme(theme);
+    },
+  };
+
+  return (
+    <ThemeProviderContext.Provider {...props} value={value}>
+      {children}
+    </ThemeProviderContext.Provider>
+  );
+}
+
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext);
+
+  if (context === undefined)
+    throw new Error("useTheme must be used within a ThemeProvider");
+
+  return context;
+};
+```
+
+### 2. テーマ切り替えコンポーネント
+
+```tsx
+// components/theme-toggle.tsx
+"use client";
+
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export function ThemeToggle() {
+  const { setTheme } = useTheme();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">テーマを切り替え</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          ライト
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          ダーク
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          システム
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## 🔧 ユーティリティクラスのカスタマイズ
+
+### 1. カスタムユーティリティ
+
+```css
+/* globals.css */
+@layer utilities {
+  /* グラデーションテキスト */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  /* ガラスモーフィズム効果 */
+  .glass-morphism {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
+  }
+
+  /* アニメーション付きホバー効果 */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* コンテナクエリ */
+  .container-query {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 768px) {
+    .cq-md\:text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
+
+  /* カスタムスクロールバー */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background));
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/80;
+  }
+
+  /* フォーカス可視性 */
+  .focus-visible-enhanced {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+```
+
+### 2. コンポーネント層の活用
+
+```css
+/* globals.css */
+@layer components {
+  /* プロ仕様のボタンスタイル */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md;
+    @apply bg-primary text-primary-foreground shadow-sm;
+    @apply hover:bg-primary/90 focus-visible-enhanced;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+    @apply transition-all duration-200;
+  }
+
+  /* カードスタイル */
+  .card-base {
+    @apply rounded-xl border bg-card text-card-foreground shadow-sm;
+    @apply hover:shadow-md transition-shadow duration-200;
+  }
+
+  /* 入力フィールド */
+  .input-base {
+    @apply flex h-9 w-full rounded-md border border-input;
+    @apply bg-background px-3 py-1 text-sm shadow-sm;
+    @apply placeholder:text-muted-foreground;
+    @apply focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* プログレスバー */
+  .progress-bar {
+    @apply relative h-2 w-full overflow-hidden rounded-full bg-secondary;
+  }
+
+  .progress-bar::after {
+    content: '';
+    @apply absolute left-0 top-0 h-full bg-primary transition-all duration-300;
+    width: var(--progress, 0%);
+  }
+}
+```
+
+## 📊 パフォーマンス最適化
+
+### 1. PurgeCSS設定
+
+```typescript
+// tailwind.config.ts
+const config: Config = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './content/**/*.{js,ts,jsx,tsx,mdx}',
+    // コンポーネントライブラリも含める
+    './node_modules/@radix-ui/**/*.{js,ts,jsx,tsx}',
+  ],
+  safelist: [
+    // 動的に生成されるクラス名を保護
+    'bg-red-500',
+    'text-green-600',
+    /^(bg|text|border)-(red|green|blue|yellow)-(50|100|200|300|400|500|600|700|800|900)$/,
+  ],
+};
+```
+
+### 2. CSS-in-JS代替パターン
+
+```tsx
+// components/dynamic-styles.tsx
+import { cn } from "@/lib/utils";
+
+interface DynamicButtonProps {
+  variant: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  size: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+}
+
+export function DynamicButton({ variant, size, children }: DynamicButtonProps) {
+  const variantClasses = {
+    primary: 'bg-blue-500 hover:bg-blue-600 text-white',
+    secondary: 'bg-gray-500 hover:bg-gray-600 text-white',
+    success: 'bg-green-500 hover:bg-green-600 text-white',
+    warning: 'bg-yellow-500 hover:bg-yellow-600 text-white',
+    danger: 'bg-red-500 hover:bg-red-600 text-white',
+  };
+
+  const sizeClasses = {
+    sm: 'px-2 py-1 text-xs',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-6 py-3 text-base',
+  };
+
+  return (
+    <button
+      className={cn(
+        'font-medium rounded transition-colors',
+        variantClasses[variant],
+        sizeClasses[size]
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+## 🧪 デザインシステムのテスト
+
+### 1. ビジュアルリグレッションテスト
+
+```typescript
+// tests/visual-regression.test.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('Design System Components', () => {
+  test('Button variants match design spec', async ({ page }) => {
+    await page.goto('/storybook/button');
+    
+    // 各バリアントのスクリーンショット
+    const variants = ['primary', 'secondary', 'outline', 'ghost'];
+    
+    for (const variant of variants) {
+      await page.locator(`[data-testid="button-${variant}"]`).screenshot({
+        path: `screenshots/button-${variant}.png`,
+      });
+    }
+  });
+
+  test('Card component responsive behavior', async ({ page }) => {
+    await page.goto('/storybook/card');
+    
+    // デスクトップ表示
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await expect(page.locator('[data-testid="card"]')).toHaveScreenshot('card-desktop.png');
+    
+    // モバイル表示
+    await page.setViewportSize({ width: 375, height: 667 });
+    await expect(page.locator('[data-testid="card"]')).toHaveScreenshot('card-mobile.png');
+  });
+});
+```
+
+### 2. アクセシビリティテスト
+
+```typescript
+// tests/accessibility.test.ts
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test.describe('Accessibility Tests', () => {
+  test('Design system components meet WCAG standards', async ({ page }) => {
+    await page.goto('/components/showcase');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Color contrast meets WCAG AA standards', async ({ page }) => {
+    await page.goto('/');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+});
+```
+
+## 📚 ドキュメンテーション
+
+### 1. Storybookセットアップ
+
+```typescript
+// .storybook/main.ts
+import type { StorybookConfig } from '@storybook/nextjs';
+
+const config: StorybookConfig = {
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-a11y',
+    '@storybook/addon-design-tokens',
+    {
+      name: '@storybook/addon-styling',
+      options: {
+        postCss: {
+          implementation: require.resolve('postcss'),
+        },
+      },
+    },
+  ],
+  framework: {
+    name: '@storybook/nextjs',
+    options: {},
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  },
+};
+
+export default config;
+```
+
+### 2. コンポーネントストーリー
+
+```tsx
+// components/ui/button.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './button';
+
+const meta: Meta<typeof Button> = {
+  title: 'UI/Button',
+  component: Button,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: 'ボタンコンポーネントは、ユーザーのアクションを促すために使用します。',
+      },
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+      description: 'ボタンの外観を決定します',
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['default', 'sm', 'lg', 'icon'],
+      description: 'ボタンのサイズを決定します',
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: 'Button',
+  },
+};
+
+export const Variants: Story = {
+  render: () => (
+    <div className="flex gap-4 flex-wrap">
+      <Button variant="default">Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
+      <Button variant="destructive">Destructive</Button>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex gap-4 items-center">
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="icon">👍</Button>
+    </div>
+  ),
+};
+```
+
+## 🚀 運用ベストプラクティス
+
+### 1. デザイントークンの管理
+
+```typescript
+// lib/design-tokens.ts
+export const designTokens = {
+  colors: {
+    primary: {
+      50: '#eff6ff',
+      100: '#dbeafe',
+      500: '#3b82f6',
+      900: '#1e3a8a',
+    },
+    semantic: {
+      success: '#10b981',
+      warning: '#f59e0b',
+      error: '#ef4444',
+      info: '#3b82f6',
+    },
+  },
+  spacing: {
+    xs: '0.5rem',
+    sm: '1rem',
+    md: '1.5rem',
+    lg: '2rem',
+    xl: '3rem',
+  },
+  typography: {
+    fontSizes: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+    },
+    lineHeights: {
+      tight: '1.25',
+      normal: '1.5',
+      relaxed: '1.75',
+    },
+  },
+} as const;
+```
+
+### 2. 組織的な採用戦略
+
+```markdown
+# デザインシステム採用ガイド
+
+## フェーズ1: 基盤構築
+- [ ] Tailwind CSS設定
+- [ ] 基本コンポーネント作成
+- [ ] Storybook環境構築
+
+## フェーズ2: コンポーネント拡張
+- [ ] 複雑なコンポーネント実装
+- [ ] テーマシステム構築
+- [ ] アクセシビリティ対応
+
+## フェーズ3: 運用とメンテナンス
+- [ ] ドキュメンテーション整備
+- [ ] テスト体制確立
+- [ ] チーム教育プログラム
+```
+
+## まとめ
+
+Tailwind CSSを使用したデザインシステムは、単なるスタイリングツールを超えて、チーム全体の開発効率とプロダクト品質を向上させる強力な仕組みです。
+
+**成功のポイント:**
+1. **段階的導入**: 小さなコンポーネントから始めて徐々に拡張
+2. **一貫性の維持**: デザイントークンとコンポーネントの統一
+3. **ドキュメンテーション**: Storybookによる可視化と説明
+4. **テスト体制**: ビジュアルリグレッションとa11yテスト
+5. **チーム教育**: 継続的な知識共有とベストプラクティス共有
+
+適切に設計されたデザインシステムは、開発速度の向上、品質の安定化、そしてチーム間のコミュニケーション改善を実現します。
+
+---
+
+**関連記事:**
+- [Next.js 15でモダンポートフォリオサイトを構築した記録](/blog/nextjs15-portfolio-development)
+- [MDXでリッチなコンテンツ管理システムを構築する方法](/blog/mdx-content-management)
+- [TypeScript型安全開発のベストプラクティス](/blog/typescript-best-practices)

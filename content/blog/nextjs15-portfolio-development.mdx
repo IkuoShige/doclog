@@ -1,0 +1,613 @@
+---
+id: "nextjs15-portfolio-development"
+title: "Next.js 15でモダンポートフォリオサイトを構築した記録"
+description: "Next.js 15 + TypeScript + Tailwind CSSを使用してポートフォリオ・ブログサイトを開発した際のノウハウとベストプラクティスを詳細に解説します。"
+date: "2025-01-15"
+category: "Web Development"
+tags: ["Next.js", "TypeScript", "Portfolio", "SSG", "Tailwind CSS", "MDX"]
+author: "Developer"
+image: "/images/blog/nextjs15-portfolio.jpg"
+featured: true
+published: true
+readingTime: 12
+---
+
+# Next.js 15でモダンポートフォリオサイトを構築した記録
+
+最近、Next.js 15を使用してポートフォリオ・ブログサイトを構築しました。本記事では、その開発過程で得たノウハウ、技術選定の理由、実装のポイントを詳しく共有します。
+
+## 🎯 プロジェクト概要
+
+### 目標
+- **ブログ**: 技術記事の発信
+- **ポートフォリオ**: プロジェクトの紹介
+- **ドキュメント**: チュートリアルとガイド
+- **パフォーマンス**: 高速な静的サイト
+- **SEO**: 検索エンジン最適化
+
+### 技術スタック選定の理由
+
+#### Next.js 15 (App Router)
+```typescript
+// next.config.ts - 静的サイト生成の設定
+const nextConfig: NextConfig = {
+  basePath: '/doclog',
+  output: 'export', // 静的サイト生成
+  images: {
+    unoptimized: true, // 静的エクスポート用
+  },
+  experimental: {
+    optimizePackageImports: ['@next/mdx'],
+  },
+};
+```
+
+**選定理由:**
+- **App Router**: 最新のファイルベースルーティング
+- **SSG**: 高速な静的サイト生成
+- **TypeScript**: 標準対応
+- **Image最適化**: 自動的なWebP変換
+
+#### MDX - コンテンツ管理
+```typescript
+// MDX設定
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeHighlight,
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'wrap' }]
+    ],
+  },
+});
+```
+
+**メリット:**
+- **Markdown**: 書きやすい記法
+- **React コンポーネント**: 埋め込み可能
+- **シンタックスハイライト**: コードの見やすさ
+- **目次自動生成**: ユーザビリティ向上
+
+## 🏗️ アーキテクチャ設計
+
+### ディレクトリ構造
+```
+doclog/
+├── content/           # MDXコンテンツ
+│   ├── blog/         # ブログ記事
+│   ├── portfolio/    # ポートフォリオ
+│   └── documents/    # ドキュメント
+├── src/
+│   ├── app/          # App Router ページ
+│   ├── components/   # Reactコンポーネント
+│   ├── lib/          # ユーティリティ関数
+│   └── types/        # TypeScript型定義
+└── public/           # 静的ファイル
+```
+
+### コンテンツ管理システム
+
+#### フロントマター設計
+```yaml
+---
+id: "unique-id"
+title: "記事タイトル"
+description: "記事の概要"
+date: "2024-01-15"
+category: "カテゴリ"
+tags: ["タグ1", "タグ2"]
+author: "著者名"
+image: "/images/cover.jpg"
+featured: true
+published: true
+readingTime: 8
+---
+```
+
+#### コンテンツ取得ロジック
+```typescript
+// lib/content.ts
+export function getBlogPosts(): BlogPost[] {
+  const isServerSide = typeof window === 'undefined';
+  
+  if (!isServerSide) {
+    return [];
+  }
+
+  try {
+    const blogDir = path.join(process.cwd(), 'content/blog');
+    const files = fs.readdirSync(blogDir)
+      .filter(file => file.endsWith('.mdx'));
+
+    return files.map(file => {
+      const filePath = path.join(blogDir, file);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContents);
+      
+      return {
+        slug: file.replace('.mdx', ''),
+        ...data,
+        content
+      } as BlogPost;
+    })
+    .filter(post => post.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  } catch (error) {
+    console.error('Error reading blog posts:', error);
+    return [];
+  }
+}
+```
+
+## 💡 実装のポイント
+
+### 1. 型安全な開発
+
+#### TypeScript型定義
+```typescript
+// types/content.ts
+export interface BlogPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  tags: string[];
+  author: string;
+  image?: string;
+  featured: boolean;
+  published: boolean;
+  readingTime?: number;
+  content: string;
+}
+
+export interface PortfolioProject {
+  slug: string;
+  title: string;
+  description: string;
+  technologies: string[];
+  category: string;
+  github?: string;
+  demo?: string;
+  image?: string;
+  images?: string[];
+  date: string;
+  featured: boolean;
+  published: boolean;
+  content: string;
+}
+```
+
+### 2. コンポーネント設計
+
+#### 再利用可能なカードコンポーネント
+```tsx
+// components/blog/blog-card.tsx
+interface BlogCardProps {
+  post: BlogPost;
+  className?: string;
+}
+
+export function BlogCard({ post, className }: BlogCardProps) {
+  return (
+    <Card className={cn("h-full hover:shadow-lg transition-all", className)}>
+      <CardHeader>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+          <Calendar className="h-4 w-4" />
+          <time dateTime={post.date}>
+            {new Date(post.date).toLocaleDateString('ja-JP')}
+          </time>
+          {post.readingTime && (
+            <>
+              <Clock className="h-4 w-4 ml-2" />
+              <span>{post.readingTime}分で読めます</span>
+            </>
+          )}
+        </div>
+        <CardTitle className="line-clamp-2">{post.title}</CardTitle>
+        <CardDescription className="line-clamp-3">
+          {post.description}
+        </CardDescription>
+      </CardHeader>
+      
+      <CardContent>
+        <div className="flex flex-wrap gap-1 mb-4">
+          {post.tags.map(tag => (
+            <Badge key={tag} variant="secondary" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        
+        <Button asChild className="w-full">
+          <Link href={`/blog/${post.slug}`}>
+            記事を読む
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+### 3. 検索・フィルタリング機能
+
+#### 高度な検索システム
+```tsx
+// components/blog/blog-search-filter.tsx
+export function BlogSearchFilter({ allPosts, allTags, allCategories, onFilter }: Props) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+
+  const filteredPosts = useMemo(() => {
+    let filtered = allPosts;
+
+    // テキスト検索
+    if (searchTerm) {
+      filtered = filtered.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // カテゴリフィルタ
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(post => post.category === selectedCategory);
+    }
+
+    // タグフィルタ
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter(post =>
+        selectedTags.every(tag => post.tags.includes(tag))
+      );
+    }
+
+    // ソート
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'newest':
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case 'oldest':
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        case 'title-asc':
+          return a.title.localeCompare(b.title);
+        case 'title-desc':
+          return b.title.localeCompare(a.title);
+        default:
+          return 0;
+      }
+    });
+  }, [allPosts, searchTerm, selectedCategory, selectedTags, sortBy]);
+
+  return (
+    <div className="space-y-4">
+      {/* 検索フィールド */}
+      <div className="relative">
+        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="記事を検索..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
+      {/* フィルターオプション */}
+      <div className="flex flex-wrap gap-4">
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">すべてのカテゴリ</SelectItem>
+            {allCategories.map(category => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="newest">新しい順</SelectItem>
+            <SelectItem value="oldest">古い順</SelectItem>
+            <SelectItem value="title-asc">タイトル昇順</SelectItem>
+            <SelectItem value="title-desc">タイトル降順</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+}
+```
+
+## 🚀 パフォーマンス最適化
+
+### 1. 静的サイト生成 (SSG)
+```typescript
+// app/blog/[slug]/page.tsx
+export async function generateStaticParams() {
+  const posts = getBlogPosts();
+  
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = getBlogPost(params.slug);
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      images: post.image ? [post.image] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: post.image ? [post.image] : [],
+    },
+  };
+}
+```
+
+### 2. 画像最適化
+```tsx
+// components/ui/optimized-image.tsx
+export function OptimizedImage({ src, alt, className, ...props }: Props) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      className={cn("rounded-lg", className)}
+      loading="lazy"
+      {...props}
+    />
+  );
+}
+```
+
+### 3. コード分割とレイジーローディング
+```tsx
+// 動的インポート
+const DynamicComponent = dynamic(() => import('./heavy-component'), {
+  loading: () => <ComponentSkeleton />,
+  ssr: false,
+});
+```
+
+## 🎨 UI/UX 設計
+
+### 1. レスポンシブデザイン
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {posts.map(post => (
+    <BlogCard key={post.slug} post={post} />
+  ))}
+</div>
+```
+
+### 2. ダークモード対応
+```tsx
+// components/theme-toggle.tsx
+export function ThemeToggle() {
+  const { setTheme, theme } = useTheme();
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+    >
+      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    </Button>
+  );
+}
+```
+
+### 3. アクセシビリティ
+```tsx
+// アクセシブルなコンポーネント設計
+<button
+  aria-label="メニューを開く"
+  aria-expanded={isOpen}
+  aria-controls="navigation-menu"
+>
+  <Menu className="h-6 w-6" />
+</button>
+```
+
+## 📊 SEO最適化
+
+### 1. メタデータ設定
+```typescript
+// app/layout.tsx
+export const metadata: Metadata = {
+  title: {
+    default: 'Doclog - Modern Portfolio & Blog Platform',
+    template: '%s | Doclog',
+  },
+  description: 'モダンな技術を使用したポートフォリオ・ブログサイト',
+  keywords: ['Next.js', 'TypeScript', 'ポートフォリオ', 'ブログ'],
+  authors: [{ name: 'Developer' }],
+  creator: 'Developer',
+  openGraph: {
+    type: 'website',
+    locale: 'ja_JP',
+    url: 'https://yourdomain.com',
+    siteName: 'Doclog',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@yourusername',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+```
+
+### 2. 構造化データ
+```typescript
+// 記事ページの構造化データ
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.description,
+  author: {
+    "@type": "Person",
+    name: post.author,
+  },
+  datePublished: post.date,
+  image: post.image,
+};
+```
+
+## 🚢 デプロイメント
+
+### GitHub Actions設定
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+```
+
+## 🔧 開発のコツとベストプラクティス
+
+### 1. 型安全性の確保
+- すべてのコンポーネントでProps型を定義
+- Union Typeを活用したカテゴリ管理
+- Generic Typeによる再利用可能な関数
+
+### 2. パフォーマンス監視
+```typescript
+// Core Web Vitalsの計測
+export function reportWebVitals(metric: any) {
+  console.log(metric);
+  
+  switch (metric.name) {
+    case 'CLS':
+      console.log('Cumulative Layout Shift:', metric.value);
+      break;
+    case 'FID':
+      console.log('First Input Delay:', metric.value);
+      break;
+    case 'FCP':
+      console.log('First Contentful Paint:', metric.value);
+      break;
+    case 'LCP':
+      console.log('Largest Contentful Paint:', metric.value);
+      break;
+    case 'TTFB':
+      console.log('Time to First Byte:', metric.value);
+      break;
+  }
+}
+```
+
+### 3. エラーハンドリング
+```typescript
+// エラーバウンダリ
+export function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  return (
+    <ErrorBoundaryComponent
+      FallbackComponent={ErrorFallback}
+      onError={(error, errorInfo) => {
+        console.error('Error caught by boundary:', error, errorInfo);
+      }}
+    >
+      {children}
+    </ErrorBoundaryComponent>
+  );
+}
+```
+
+## 📈 今後の改善点
+
+### 1. 機能拡張
+- [ ] **全文検索**: Algolia or Elasticsearchの導入
+- [ ] **コメント機能**: Giscusの統合
+- [ ] **分析機能**: Google Analytics 4の詳細設定
+- [ ] **PWA対応**: オフライン読み込み機能
+
+### 2. パフォーマンス向上
+- [ ] **画像最適化**: WebPからAVIFへの移行
+- [ ] **バンドル最適化**: Tree shakingの詳細設定
+- [ ] **CDN導入**: Vercel Edge Networkの活用
+
+### 3. 開発体験改善
+- [ ] **Storybook**: コンポーネントカタログ
+- [ ] **E2Eテスト**: Playwrightの導入
+- [ ] **CI/CD強化**: Lighthouse CIの自動実行
+
+## まとめ
+
+Next.js 15を使用したポートフォリオサイトの構築は、モダンなWeb開発技術の集大成と言えます。特に以下の点が重要でした：
+
+1. **型安全性**: TypeScriptによる堅牢な開発
+2. **パフォーマンス**: SSGによる高速化
+3. **保守性**: コンポーネント指向の設計
+4. **SEO**: メタデータとサイトマップの最適化
+5. **ユーザビリティ**: レスポンシブとアクセシビリティ
+
+この経験を通じて得たノウハウが、同様のプロジェクトに取り組む開発者の参考になれば幸いです。
+
+---
+
+**関連記事:**
+- [MDXでリッチなコンテンツ管理システムを構築する方法](/blog/mdx-content-management)
+- [Tailwind CSSでモダンなデザインシステムを作る](/blog/tailwind-design-system)
+- [Next.js 15の新機能とApp Routerの活用法](/blog/nextjs-15-app-router)

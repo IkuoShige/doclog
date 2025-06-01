@@ -1,0 +1,773 @@
+---
+title: "Next.js 15 完全セットアップガイド"
+description: "Next.js 15プロジェクトの初期化から本格的な開発環境構築まで、ステップバイステップで解説する実践的なガイド"
+publishedAt: "2025-01-16"
+lastModified: "2025-01-16"
+tags: ["Next.js", "セットアップ", "開発環境", "TypeScript", "ESLint", "Prettier"]
+category: "setup-guide"
+author: "doclog"
+status: "published"
+difficulty: "beginner"
+readingTime: 15
+tableOfContents: true
+---
+
+# Next.js 15 完全セットアップガイド
+
+このガイドでは、Next.js 15を使用したモダンなWebアプリケーションの開発環境を一から構築する方法を詳しく解説します。
+
+## 前提条件
+
+### 必要なソフトウェア
+
+- **Node.js**: v18.17以上（v20推奨）
+- **npm**: v7以上またはyarn v1.22以上
+- **Git**: v2.25以上
+- **VS Code**: 最新版（推奨エディタ）
+
+### 環境確認
+
+```bash
+# バージョン確認
+node --version  # v20.x.x
+npm --version   # 10.x.x
+git --version   # 2.x.x
+```
+
+## プロジェクト初期化
+
+### 1. Next.jsプロジェクト作成
+
+```bash
+# create-next-appを使用
+npx create-next-app@latest my-app
+
+# 対話式設定での推奨選択
+✔ Would you like to use TypeScript? … Yes
+✔ Would you like to use ESLint? … Yes
+✔ Would you like to use Tailwind CSS? … Yes
+✔ Would you like to use `src/` directory? … Yes
+✔ Would you like to use App Router? … Yes
+✔ Would you like to customize the default import alias (@/*)? … Yes
+```
+
+### 2. プロジェクト構造確認
+
+```
+my-app/
+├── src/
+│   ├── app/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── favicon.ico
+│   ├── components/
+│   └── lib/
+├── public/
+├── .eslintrc.json
+├── .gitignore
+├── next.config.js
+├── package.json
+├── tailwind.config.ts
+└── tsconfig.json
+```
+
+## TypeScript設定
+
+### 1. tsconfig.json最適化
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/utils/*": ["./src/utils/*"]
+    },
+    // 厳格な型チェック
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
+
+### 2. 型定義ファイル作成
+
+```typescript
+// src/types/global.d.ts
+export interface GlobalTypes {
+  // グローバル型定義
+}
+
+// Next.js特有の型拡張
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NEXT_PUBLIC_API_URL: string;
+      DATABASE_URL: string;
+      NEXTAUTH_SECRET: string;
+    }
+  }
+}
+
+export {};
+```
+
+## ESLint・Prettier設定
+
+### 1. ESLint設定強化
+
+```json
+// .eslintrc.json
+{
+  "extends": [
+    "next/core-web-vitals",
+    "@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "import"],
+  "rules": {
+    // TypeScript
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/prefer-const": "error",
+    
+    // Import
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    
+    // React
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
+}
+```
+
+### 2. Prettier設定
+
+```json
+// .prettierrc
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "endOfLine": "lf"
+}
+```
+
+## Next.js設定最適化
+
+### 1. next.config.js設定
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // 実験的機能
+  experimental: {
+    typedRoutes: true,
+    serverComponentsExternalPackages: [],
+  },
+  
+  // 画像最適化
+  images: {
+    domains: ['example.com'],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+  },
+  
+  // セキュリティヘッダー
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
+  },
+  
+  // リダイレクト設定
+  async redirects() {
+    return [
+      {
+        source: '/old-page',
+        destination: '/new-page',
+        permanent: true,
+      },
+    ];
+  },
+  
+  // 環境変数検証
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  },
+  
+  // Webpack設定カスタマイズ
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // カスタムWebpack設定
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
+    return config;
+  },
+  
+  // パフォーマンス設定
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
+  
+  // 出力設定
+  output: 'standalone', // Docker用
+  distDir: '.next',
+};
+
+module.exports = nextConfig;
+```
+
+### 2. 環境変数設定
+
+```bash
+# .env.local
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+DATABASE_URL=postgresql://username:password@localhost:5432/mydb
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=http://localhost:3000
+
+# .env.example（リポジトリに含める）
+NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_SITE_URL=
+
+DATABASE_URL=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+```
+
+## Tailwind CSS設定
+
+### 1. 詳細設定
+
+```typescript
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'Menlo', 'monospace'],
+      },
+      animation: {
+        'fade-in': 'fade-in 0.5s ease-out',
+        'slide-up': 'slide-up 0.3s ease-out',
+      },
+      keyframes: {
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'slide-up': {
+          from: { transform: 'translateY(10px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
+};
+
+export default config;
+```
+
+### 2. グローバルスタイル
+
+```css
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+}
+```
+
+## 開発ツール設定
+
+### 1. VS Code設定
+
+```json
+// .vscode/settings.json
+{
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    "class\\s*:\\s*[\"'`]([^\"'`]*).*?[\"'`]",
+    "className\\s*=\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+  ]
+}
+```
+
+### 2. 推奨拡張機能
+
+```json
+// .vscode/extensions.json
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-json"
+  ]
+}
+```
+
+## パッケージ管理
+
+### 1. package.json最適化
+
+```json
+{
+  "name": "my-next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "analyze": "cross-env ANALYZE=true next build",
+    "clean": "rm -rf .next && rm -rf out"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.0.0"
+  }
+}
+```
+
+### 2. 依存関係管理
+
+```bash
+# package-lock.jsonの整合性チェック
+npm audit
+
+# 脆弱性修正
+npm audit fix
+
+# 依存関係更新
+npm update
+
+# 不要なパッケージ確認
+npm ls --depth=0
+```
+
+## Git設定
+
+### 1. .gitignore設定
+
+```gitignore
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+/build
+
+# Production
+/dist
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDEs
+/.vscode
+/.idea
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+```
+
+### 2. Git Hooks設定
+
+```json
+// package.json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,mdx}": [
+      "prettier --write"
+    ]
+  }
+}
+```
+
+## 基本コンポーネント作成
+
+### 1. レイアウトコンポーネント
+
+```typescript
+// src/app/layout.tsx
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+
+import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | My App',
+    default: 'My App',
+  },
+  description: 'Generated by create next app',
+  keywords: ['Next.js', 'React', 'TypeScript'],
+  authors: [{ name: 'Your Name' }],
+  creator: 'Your Name',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ja" suppressHydrationWarning>
+      <body className={inter.className}>
+        <main>{children}</main>
+      </body>
+    </html>
+  );
+}
+```
+
+### 2. ユーティリティ関数
+
+```typescript
+// src/lib/utils.ts
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function formatDate(
+  date: Date | string | number,
+  options: Intl.DateTimeFormatOptions = {}
+): string {
+  return new Intl.DateTimeFormat('ja-JP', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    ...options,
+  }).format(new Date(date));
+}
+
+export function slugify(str: string): string {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+```
+
+## 開発・本番環境の違い
+
+### 1. 開発環境特有の設定
+
+```typescript
+// 開発専用ヘルパー
+if (process.env.NODE_ENV === 'development') {
+  // 開発時のみ実行される処理
+  console.log('Development mode');
+}
+```
+
+### 2. 本番環境最適化
+
+```bash
+# 本番ビルド
+npm run build
+
+# 本番環境でのサーバー起動
+npm start
+
+# ビルド分析
+npm run analyze
+```
+
+## トラブルシューティング
+
+### よくある問題と解決法
+
+#### 1. TypeScriptエラー
+
+```bash
+# 型チェック実行
+npm run type-check
+
+# キャッシュクリア
+rm -rf .next
+npm run dev
+```
+
+#### 2. ESLintエラー
+
+```bash
+# 自動修正
+npm run lint:fix
+
+# 特定ファイルのチェック
+npx eslint src/components/Header.tsx
+```
+
+#### 3. インポートエラー
+
+```typescript
+// パスエイリアス確認
+import { Button } from '@/components/ui/button';
+```
+
+## 次のステップ
+
+1. **認証システム**: NextAuth.jsの導入
+2. **データベース**: PrismaとPostgreSQLの設定
+3. **API開発**: App Routerでのルート実装
+4. **テスト**: Jest・React Testing Libraryの設定
+5. **デプロイメント**: Vercel・GitHub Pagesの設定
+
+このセットアップガイドに従うことで、Next.js 15の強力な機能を活用した堅牢な開発環境を構築できます。

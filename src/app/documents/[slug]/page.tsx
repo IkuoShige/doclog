@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { DocumentationLayout } from '@/components/documents/documentation-layout'
+import { EnhancedDocumentationLayout } from '@/components/documents/enhanced-documentation-layout'
 import { getDocumentBySlug, getPublishedDocuments } from '@/lib/documents'
 import { getDocumentBySlug as getDocumentContentBySlug } from '@/lib/mdx-content'
 import { DocumentMDXContent } from '@/components/documents/document-mdx-content'
@@ -53,7 +53,7 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
   const documents = getPublishedDocuments()
 
   return (
-    <DocumentationLayout
+    <EnhancedDocumentationLayout
       title={document.title}
       description={document.description}
       category={document.category}
@@ -63,8 +63,9 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
       author={documentContent.author || "Admin"}
       content={documentContent.content}
       documents={documents}
+      currentSlug={document.slug}
     >
       <DocumentMDXContent content={documentContent.content} />
-    </DocumentationLayout>
+    </EnhancedDocumentationLayout>
   )
 }

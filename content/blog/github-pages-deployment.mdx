@@ -1,0 +1,372 @@
+---
+title: "GitHub Pagesで自動デプロイメントを実現する完全ガイド"
+description: "GitHub ActionsとPages機能を使用してNext.jsアプリケーションの自動デプロイメントを構築する方法"
+publishedAt: "2025-06-02"
+lastModified: "2025-06-02"
+tags: ["GitHub Pages", "デプロイメント", "CI/CD", "GitHub Actions", "Next.js", "自動化"]
+category: "deployment"
+author: "doclog"
+status: "published"
+readingTime: 12
+featured: true
+---
+
+## はじめに
+
+モダンなWeb開発において、継続的なデプロイメント（CD）は必須の技術です。本記事では、GitHub PagesとGitHub Actionsを活用してNext.jsアプリケーションの自動デプロイメントパイプラインを構築する方法を詳しく解説します。
+
+## 自動デプロイメントのメリット
+
+### 開発効率の向上
+- コードプッシュから公開までの自動化
+- 手動作業によるミスの削減
+- 迅速なフィードバックサイクル
+
+### 品質保証
+- ビルドエラーの早期発見
+- テスト自動実行による品質担保
+- 一貫性のあるデプロイメント環境
+
+## GitHub Pages設定
+
+### リポジトリ設定
+
+```json
+{
+  "name": "doclog",
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "export": "next export",
+    "deploy": "npm run build && npm run export"
+  }
+}
+```
+
+### Next.js設定
+
+```typescript
+// next.config.ts
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'dist',
+  images: {
+    unoptimized: true
+  },
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/doclog' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/doclog' : '',
+}
+
+export default nextConfig
+```
+
+## GitHub Actions設定
+
+### ワークフロー基本構成
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+### 環境変数設定
+
+```yaml
+# 環境別設定
+env:
+  NODE_ENV: production
+  NEXT_PUBLIC_BASE_URL: ${{ secrets.BASE_URL }}
+  NEXT_PUBLIC_SITE_URL: ${{ github.event.repository.html_url }}
+```
+
+## 高度なワークフロー設定
+
+### 条件分岐デプロイメント
+
+```yaml
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: E2E tests
+        run: npm run test:e2e
+
+      - name: Build for production
+        if: github.ref == 'refs/heads/main'
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
+```
+
+### キャッシュ最適化
+
+```yaml
+- name: Cache dependencies
+  uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-
+
+- name: Cache Next.js build
+  uses: actions/cache@v3
+  with:
+    path: |
+      ~/.npm
+      ${{ github.workspace }}/.next/cache
+    key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+    restore-keys: |
+      ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+```
+
+## セキュリティ設定
+
+### Secrets管理
+
+```yaml
+# GitHub Secrets設定例
+DEPLOY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+BASE_URL: ${{ secrets.BASE_URL }}
+API_KEY: ${{ secrets.API_KEY }}
+```
+
+### 権限設定
+
+```yaml
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+  checks: write
+```
+
+## パフォーマンス最適化
+
+### 並列実行
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+```
+
+### ビルド最適化
+
+```typescript
+// next.config.ts - 本番ビルド最適化
+const nextConfig: NextConfig = {
+  output: 'export',
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        net: false,
+        tls: false,
+      }
+    }
+    
+    // Bundle analyzer (開発時のみ)
+    if (process.env.ANALYZE === 'true') {
+      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          openAnalyzer: false,
+        })
+      )
+    }
+    
+    return config
+  },
+}
+```
+
+## トラブルシューティング
+
+### よくある問題と解決法
+
+#### 1. ビルドエラー
+
+```bash
+# デバッグ用ビルド
+npm run build -- --debug
+
+# 詳細ログ出力
+npm run build -- --verbose
+```
+
+#### 2. デプロイメント失敗
+
+```yaml
+- name: Debug deployment
+  if: failure()
+  run: |
+    echo "Deployment failed. Checking logs..."
+    ls -la dist/
+    cat .next/build-manifest.json
+```
+
+#### 3. キャッシュ問題
+
+```yaml
+- name: Clear cache
+  run: |
+    npm cache clean --force
+    rm -rf .next
+    rm -rf dist
+```
+
+## 監視とログ
+
+### デプロイメント状況監視
+
+```yaml
+- name: Notify deployment status
+  if: always()
+  uses: 8398a7/action-slack@v3
+  with:
+    status: ${{ job.status }}
+    channel: '#deployments'
+    webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+```
+
+### パフォーマンス測定
+
+```yaml
+- name: Lighthouse CI
+  uses: treosh/lighthouse-ci-action@v9
+  with:
+    configPath: './lighthouserc.json'
+    uploadArtifacts: true
+    temporaryPublicStorage: true
+```
+
+## ベストプラクティス
+
+### 1. ブランチ戦略
+- `main`ブランチから自動デプロイ
+- `develop`ブランチでステージング環境
+- プルリクエストでプレビュー環境
+
+### 2. テスト戦略
+- 単体テスト必須実行
+- E2Eテストによる統合確認
+- Lighthouseによるパフォーマンステスト
+
+### 3. セキュリティ
+- Dependabotによる依存関係更新
+- CodeQLによる脆弱性スキャン
+- Secretsの適切な管理
+
+### 4. 運用監視
+- デプロイメント成功率の追跡
+- ビルド時間の監視
+- エラーログの集約
+
+## まとめ
+
+GitHub PagesとGitHub Actionsを活用した自動デプロイメントにより、効率的で安全な開発・運用環境を構築できます。継続的な改善を通じて、より堅牢なデプロイメントパイプラインを育てていくことが重要です。
+
+## 参考リンク
+
+- [GitHub Pages Documentation](https://docs.github.com/en/pages)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)

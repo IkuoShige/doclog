@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import Image from 'next/image'
+import { mdxComponents } from '@/components/mdx/mdx-components'
 import 'highlight.js/styles/github-dark.css'
 
 interface DocumentMDXContentProps {
@@ -208,7 +209,7 @@ export function DocumentMDXContent({ content, className }: DocumentMDXContentPro
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight, rehypeRaw]}
-        components={markdownComponents}
+        components={{...markdownComponents, ...mdxComponents}}
       >
         {content}
       </ReactMarkdown>
