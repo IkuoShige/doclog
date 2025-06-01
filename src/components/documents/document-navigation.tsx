@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Home, List } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { getDocumentBySlug, getPublishedDocuments } from '@/lib/documents'
+import { getPublishedDocuments } from '@/lib/documents'
 import { cn } from '@/lib/utils'
 
 interface DocumentNavigationProps {

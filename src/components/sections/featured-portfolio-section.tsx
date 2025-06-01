@@ -1,7 +1,7 @@
 import { Container } from '@/components/layout/container'
 import { Typography } from '@/components/ui/typography'
 import { Button } from '@/components/ui/button'
-import { PortfolioCard } from '@/components/cards/portfolio-card'
+import { PortfolioCard } from '@/components/portfolio/portfolio-card'
 import { getPortfolioProjects } from '@/lib/content'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'

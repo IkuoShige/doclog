@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Search, FileText, Tag, Calendar } from 'lucide-react'
+import { Search, FileText, Calendar } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -36,7 +36,7 @@ export function DocumentationSearch({
 
   // フィルター済みドキュメント
   const filteredDocuments = useMemo(() => {
-    let filtered = documents.filter(doc => {
+    const filtered = documents.filter(doc => {
       // テキスト検索
       const matchesSearch = !searchQuery || 
         doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

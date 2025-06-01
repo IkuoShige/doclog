@@ -44,7 +44,10 @@ interface RelatedDocumentsProps {
 }
 
 function RelatedDocuments({ documents, currentSlug }: RelatedDocumentsProps) {
-  if (documents.length === 0) return null
+  // Filter out the current document from related documents
+  const relatedDocs = documents.filter(doc => doc.slug !== currentSlug)
+  
+  if (relatedDocs.length === 0) return null
 
   return (
     <Card>
@@ -54,7 +57,7 @@ function RelatedDocuments({ documents, currentSlug }: RelatedDocumentsProps) {
           関連ドキュメント
         </h3>
         <div className="space-y-3">
-          {documents.slice(0, 5).map(doc => (
+          {relatedDocs.slice(0, 5).map(doc => (
             <Link
               key={doc.slug}
               href={`/documents/${doc.slug}`}
