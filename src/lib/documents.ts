@@ -1,40 +1,51 @@
 import { Document } from '@/types/mdx'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 
 // サーバーサイドかどうかを判定
 const isServerSide = typeof window === 'undefined'
 
 // MDXファイルからドキュメントデータを読み込む
 function loadDocumentsFromMDX(): Document[] {
-  const documentsDir = path.join(process.cwd(), 'content/documents')
-  
-  if (!fs.existsSync(documentsDir)) {
+  if (!isServerSide) {
     return []
   }
-
-  const files = fs.readdirSync(documentsDir)
-    .filter(file => file.endsWith('.mdx'))
-
-  return files.map(file => {
-    const slug = file.replace(/\.mdx$/, '')
-    const filePath = path.join(documentsDir, file)
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const { data } = matter(fileContents)
-
-    return {
-      slug,
-      title: data.title || slug,
-      description: data.description || '',
-      category: data.category || 'その他',
-      tags: data.tags || [],
-      lastUpdated: data.lastUpdated || new Date().toISOString().split('T')[0],
-      published: data.published !== false,
-      author: data.author,
-      readingTime: data.readingTime,
+  
+  try {
+    // Server-side modules are only imported when needed
+    const fs = eval('require')('fs')
+    const path = eval('require')('path')
+    const matter = eval('require')('gray-matter')
+    
+    const documentsDir = path.join(process.cwd(), 'content/documents')
+    
+    if (!fs.existsSync(documentsDir)) {
+      return []
     }
-  })
+
+    const files = fs.readdirSync(documentsDir)
+      .filter((file: string) => file.endsWith('.mdx'))
+
+    return files.map((file: string) => {
+      const slug = file.replace(/\.mdx$/, '')
+      const filePath = path.join(documentsDir, file)
+      const fileContents = fs.readFileSync(filePath, 'utf8')
+      const { data } = matter(fileContents)
+
+      return {
+        slug,
+        title: data.title || slug,
+        description: data.description || '',
+        category: data.category || 'その他',
+        tags: data.tags || [],
+        lastUpdated: data.lastUpdated || new Date().toISOString().split('T')[0],
+        published: data.published !== false,
+        author: data.author,
+        readingTime: data.readingTime,
+      }
+    })
+  } catch (error) {
+    console.error('Error loading documents:', error)
+    return []
+  }
 }
 
 // フォールバック用の静的データ
