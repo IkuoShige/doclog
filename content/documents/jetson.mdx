@@ -1,5 +1,5 @@
 ---
-title: "Jetson関係のドキュメント"
+title: "Nvidia-sdkmanager-docker-gui"
 description: "NVIDIA Jetson シリーズの開発環境構築とプロジェクト実装ガイド"
 category: "Jetson"
 tags: ["Jetson", "NVIDIA", "Edge AI", "Linux", "開発環境"]
@@ -7,9 +7,7 @@ published: true
 lastUpdated: "2025-01-01"
 ---
 
-# Jetson 開発ガイド
-
-## Nvidia-sdkmanager-docker-gui
+# Nvidia-sdkmanager-docker-gui
 
 GitHubにて公開しています。
 
@@ -26,7 +24,7 @@ The English version of the README is available [here](https://github.com/IkuoShi
 
 DockerでsdkmanagerをGUIで使うためのDockerfileとスクリプトファイルです。
 
-### 動作環境
+## 動作環境
 以下は、Nvidia-sdkmanager-docker-guiの動作環境およびテスト結果です。
 
 - hostPC:
@@ -37,9 +35,9 @@ DockerでsdkmanagerをGUIで使うためのDockerfileとスクリプトファイ
     - Jetpack 4.6.4
 - クローンイメージの作成
 
-### dockerの環境構築
+## dockerの環境構築
 
-#### dockerのインストール・セットアップ
+### dockerのインストール・セットアップ
 ```bash
 sudo apt install docker.io
 sudo gpasswd -a $USER docker
@@ -48,9 +46,9 @@ sudo reboot
 
 PC or dockerのデーモンを再起動すると  sudoなしでdockerコマンドを使用できるようになります。
 
-### コンテナを起動
+## コンテナを起動
 
-#### 1. イメージの作成
+### 1. イメージの作成
 
 このリポジトリをクローンして、`Nvidia-sdkmanager-docker-gui`ディレクトリに移動
 ```bash
@@ -86,7 +84,7 @@ Dockerイメージを元にコンテナをbuild:
     * --ubuntu-version で -v と同様にubuntuのディストリビューションを設定
     * --docker-version でダウンロードしたsdkmanagerのversionを設定
 
-#### 2. コンテナ起動
+### 2. コンテナ起動
 ```shell
 ./launch_container.sh --ubuntu-version <distribution> --jetpack-home <path/to/jetpack_home>
 ```
@@ -101,7 +99,7 @@ Dockerイメージを元にコンテナをbuild:
     * --jetpack-home でsdkmanagerによって作成されるnvidiaディレクトリの1つ上の階層を設定可能
         * デフォルトでは、`./jetpack_home`を指定
 
-### sdkmanager (GUI) の実行
+## sdkmanager (GUI) の実行
 
 ```bash
 sdkmanager
@@ -120,7 +118,7 @@ sdkmanager
 
 認証が完了すると、`TARGET HARDWARE`や`TARGET OPERATING SYSTEM`を選択できるようになります。
 
-### sdkmanager (CLI) の実行
+## sdkmanager (CLI) の実行
 
 Jetpack 5.1.1をJetson Xavier NXにインストールする場合
 ```bash
