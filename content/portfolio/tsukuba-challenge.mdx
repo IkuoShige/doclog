@@ -4,23 +4,20 @@ title: "つくばチャレンジ"
 description: "つくばチャレンジで移動ロボットの開発と競技参加"
 category: "ロボティクス"
 technologies: 
-  - "ROS"
+  - "ROS 2"
   - "Python"
+  - "C++"
   - "Gazebo"
-  - "OpenCV"
   - "SLAM"
-  - "Machine Learning"
 tags: ["ロボティクス", "競技", "移動ロボット"]
-image: "/images/projects/tsukuba-challenge.jpg"
+image: "https://tsukubachallenge.jp/2024/wp-content/uploads/ADC_0001-e1639112837758-990x390.jpg"
 images:
-  - "/images/projects/tsukuba-challenge-01.jpg"
-  - "/images/projects/tsukuba-challenge-02.jpg"
-  - "/images/projects/tsukuba-challenge-03.jpg"
+  - "https://tsukubachallenge.jp/2024/wp-content/uploads/DSC4495-e1639112067281-990x390.jpg"
 github: "https://github.com/example/tsukuba-challenge"
 featured: true
 date: "2024-01-15"
 status: "completed"
-highlights: ["移動ロボット制御", "SLAM技術", "Pythonによるデータ処理"]
+highlights: ["移動ロボット", "SLAM", "自己位置推定", "ナビゲーション"]
 duration: "約3週間"
 teamSize: "個人開発"
 published: true
@@ -30,5 +27,69 @@ published: true
 
 ## プロジェクト概要
 
-つくばチャレンジで移動ロボットの開発と競技参加を行いました。
-ROSを活用したロボット制御や、Python, C++によるデータ処理を実装しています。
+つくばチャレンジに参加し、走行実験を通して、自律移動ロボットの知見を得る。
+
+
+> ### つくばチャレンジとは
+> 
+> 「つくばチャレンジ」は、2007年から毎年実施している、移動ロボットが遊歩道等の市街地を自律走行する技術チャレンジです。
+> 人々が普段使っているあるがままの実環境（リアルワールド）における自律走行技術の進歩を目的として、公開実験を行っています。
+>
+> [つくばチャレンジ公式サイトより](https://tsukubachallenge.jp/2024/about/overview)
+
+2023, 2024年に上田研究室からつくばチャレンジに参加した。
+
+所属チーム
+
+- 2023: むぎまる
+- 2024: きなこ
+
+## 2023年度
+
+目的: 屋外で小型移動ロボットが安全に自律移動するためのシステム構築
+目標: 安価・小型な３次元 LiDAR(Livox MID-360) を用いた自律移動システムを小型ロボットで実用
+
+### ハードウェア
+
+- ロボットには株式会社アールティの Raspberry Pi Cat を使用.
+- 計算資源としてlaptopをロボットに積載.
+- 3D LiDARとして[Livox MID-360](https://www.livoxtech.com/jp/mid-360)を使用.
+
+### ソフトウェア
+
+- 自己位置推定にAutowareのndt_scan_matcherとekf_localizer, ナビゲーションにnavigation2を利用.
+- 3次元地図作成には[FAST_LIO2](https://github.com/hku-mars/FAST_LIO)を使用.
+- ナビゲーション用の2次元地図(占有格子地図)を[pcd2pgm](https://github.com/LihanChen2004/pcd2pgm)で作成.
+
+### 結果
+
+走行中に他のロボットと衝突しリタイアしてしまった.
+自分のロボットも動いていてかつ相手のロボットも動いているのでパスの更新が間に合わなかったと考えられる.
+AutowareのndtとekfでlaptopのCPUを結構食っていたのでNav2全体の周期が遅くなっていた.
+また, laptopのバッテリーによる電圧降下で演算機能が低下していた可能性もある.
+
+## 2024年度
+
+目的: 簡素なシステムで屋外環境を安全に自律走行できるシステムの開発
+目標: 動的障害物が多い中でも動作する自己位置推定器の開発
+
+### ハードウェア
+
+- 株式会社アールティの Raspberry Pi Cat をバッテリーを増設できるように一部改造
+- 3D LiDARとして[Livox MID-360](https://www.livoxtech.com/jp/mid-360)を使用.
+
+### ソフトウェア
+
+- 自己位置推定に[emcl2_ros2](https://github.com/CIT-Autonomous-Robot-Lab/emcl2_ros2)を使用
+- ナビゲーションにnavigation2を利用.
+- 自己位置推定用とナビゲーション用の2次元地図(占有格子地図)を[slam_toolbox](https://github.com/SteveMacenski/slam_toolbox)で作成.
+- 3D LiDARでemcl2が見るscanの高さと地図を切り替える
+  - 高い位置の点群の方が特徴に富んでいるときは高い位置の点群をemcl2に使うことでロバストに自己位置推定
+
+### 結果
+
+本走行では, スタート直後に旋回してコースアウトしてしまった.
+本走行のスタート直後は、ギャラリーが集まっていてロボットにとって未知な障害物が多くなり、
+それに自己位置が引っ張られてしまったと考えられる.
+実験走行では, 地図と点群の高さの切り替えはうまく動作し, つくば市役所周辺ではロバストな自己位置推定ができていた.
+

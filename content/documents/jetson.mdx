@@ -1,7 +1,7 @@
 ---
 title: "Jetson関係のドキュメント"
 description: "NVIDIA Jetson シリーズの開発環境構築とプロジェクト実装ガイド"
-category: "開発"
+category: "Jetson"
 tags: ["Jetson", "NVIDIA", "Edge AI", "Linux", "開発環境"]
 published: true
 lastUpdated: "2025-01-01"
@@ -9,121 +9,120 @@ lastUpdated: "2025-01-01"
 
 # Jetson 開発ガイド
 
-このドキュメントでは、NVIDIA Jetson シリーズを使用したエッジAIプロジェクトの開発方法について説明します。
+## Nvidia-sdkmanager-docker-gui
 
-## 開発環境のセットアップ
+GitHubにて公開しています。
 
-Jetson の開発環境を構築する前に、適切なツールチェーンを準備する必要があります。
-モダンな開発環境の構築については、<DocumentLink slug="nextjs15-setup-guide" variant="inline">Next.js 15 セットアップガイド</DocumentLink>も参考になります。
+[![IkuoShige/Nvidia-sdkmanager-docker-gui - GitHub](https://gh-card.dev/repos/IkuoShige/Nvidia-sdkmanager-docker-gui.svg?fullname=)](https://github.com/IkuoShige/Nvidia-sdkmanager-docker-gui)
 
-### 必要なソフトウェア
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" title="%text%" src="https://hatenablog-parts.com/embed?url=https://github.com/IkuoShige/Nvidia-sdkmanager-docker-gui" width="300" height="150" frameborder="0" scrolling="no"> </iframe> 
 
-- JetPack SDK
-- CUDA Toolkit
-- OpenCV
-- TensorRT
 
-## プロジェクト構成
+<!--[](<img src="./img/sdkmanager_home.png">)-->
 
-### ディレクトリ構造
+![](https://github.com/IkuoShige/documentation/raw/main/docs/img/sdkmanager_home.png)
 
+The English version of the README is available [here](https://github.com/IkuoShige/Nvidia-sdkmanager-docker-gui/blob/main/README_EN.md).
+
+DockerでsdkmanagerをGUIで使うためのDockerfileとスクリプトファイルです。
+
+### 動作環境
+以下は、Nvidia-sdkmanager-docker-guiの動作環境およびテスト結果です。
+
+- hostPC:
+    - Ubuntu 22.04.3 LTS
+- Jetpackのインストール
+    - Jetpack 5.1.1
+    - Jetpack 5.0.2
+    - Jetpack 4.6.4
+- クローンイメージの作成
+
+### dockerの環境構築
+
+#### dockerのインストール・セットアップ
+```bash
+sudo apt install docker.io
+sudo gpasswd -a $USER docker
+sudo reboot
 ```
-jetson-project/
-├── src/
-│   ├── models/
-│   ├── inference/
-│   └── utils/
-├── configs/
-├── data/
-└── scripts/
+
+PC or dockerのデーモンを再起動すると  sudoなしでdockerコマンドを使用できるようになります。
+
+### コンテナを起動
+
+#### 1. イメージの作成
+
+このリポジトリをクローンして、`Nvidia-sdkmanager-docker-gui`ディレクトリに移動
+```bash
+git clone https://github.com/IkuoShige/Nvidia-sdkmanager-docker-gui.git
+cd Nvidia-sdkmanager-docker-gui/
 ```
 
-### 依存関係管理
+ダウンロードするにはNvidiaのアカウントにログインする必要があるため、下記のNvidiaのリンクからログインして直接ダウンロードしてください:
 
-プロジェクトの依存関係は以下のように管理します：
+- [https://developer.nvidia.com/sdk-manager](https://developer.nvidia.com/sdk-manager)
+
+ダウンロードしたファイルからDockerイメージを生成:
+```bash
+docker load -i ~/Downloads/sdkmanager-<version>-Ubuntu_<distribution>_docker.tar.gz
+```
+
+例:
+```bash
+docker load -i ~/Downloads/sdkmanager-1.9.3.10904-Ubuntu_20.04_docker.tar.gz
+```
+
+Dockerイメージを元にコンテナをbuild:
+```shell
+./build_docker_images.sh --ubuntu-version <distribution> --docker-version <sdkmanager-version>
+```
+
+例:
+```shell
+./build_docker_images.sh --ubuntu-version 20.04 --docker-version 1.9.3.10904
+```
+
+* 備考:
+    * --ubuntu-version で -v と同様にubuntuのディストリビューションを設定
+    * --docker-version でダウンロードしたsdkmanagerのversionを設定
+
+#### 2. コンテナ起動
+```shell
+./launch_container.sh --ubuntu-version <distribution> --jetpack-home <path/to/jetpack_home>
+```
+例:
+```shell
+./launch_container.sh --ubuntu-version 20.04 --jetpack-home ./jetpack_home
+```
+
+* 備考:
+    * --ubuntu-version でubuntuのディストリビューションを設定可能
+        * デフォルトでは`20.04`を指定
+    * --jetpack-home でsdkmanagerによって作成されるnvidiaディレクトリの1つ上の階層を設定可能
+        * デフォルトでは、`./jetpack_home`を指定
+
+### sdkmanager (GUI) の実行
 
 ```bash
-# 仮想環境の作成
-python3 -m venv jetson-env
-source jetson-env/bin/activate
-
-# 必要なパッケージのインストール
-pip install numpy opencv-python tensorrt
+sdkmanager
 ```
 
-## 関連リソース
+初回起動時にはログイン画面が表示されます。
 
-<DocumentLinks 
-  documents={["nextjs15-setup-guide"]}
-  title="関連する開発ガイド"
-  variant="list"
-/>
+`LOGIN`ボタンを押すと、chromeが起動し、nvidiaアカウントのログインベージへ移動します。
 
-## AI モデルの最適化
+メールアドレスとパスワードを入力し認証を行ってください。
 
-Jetson 上でのAIモデル最適化には、以下の手法を使用します：
+<!--[](<img src="./img/sdkmanager_login.png">)-->
 
-1. **TensorRT による推論高速化**
-2. **量子化による軽量化**
-3. **バッチ処理によるスループット向上**
+![Screenshot](https://github.com/IkuoShige/documentation/raw/main/docs/img/sdkmanager_login.png)
 
-### サンプルコード
 
-```python
-import tensorrt as trt
-import numpy as np
+認証が完了すると、`TARGET HARDWARE`や`TARGET OPERATING SYSTEM`を選択できるようになります。
 
-# TensorRT エンジンの作成
-def build_engine(onnx_path):
-    logger = trt.Logger(trt.Logger.WARNING)
-    builder = trt.Builder(logger)
-    config = builder.create_builder_config()
-    
-    network = builder.create_network()
-    parser = trt.OnnxParser(network, logger)
-    
-    with open(onnx_path, 'rb') as model:
-        parser.parse(model.read())
-    
-    return builder.build_engine(network, config)
+### sdkmanager (CLI) の実行
+
+Jetpack 5.1.1をJetson Xavier NXにインストールする場合
+```bash
+sdkmanager --cli install --logintype devzone --product Jetson --version 5.1.1 --targetos Linux --host --target JETSON_XAVIER_NX_TARGETS --flash all --additionalsdk 'DeepStream 6.2'
 ```
-
-## パフォーマンス最適化
-
-### メモリ管理
-
-Jetson の限られたメモリを効率的に使用するためのベストプラクティス：
-
-- **メモリプールの使用**
-- **不要なオブジェクトの削除**
-- **バッファの再利用**
-
-### GPU の活用
-
-CUDA コアを最大限活用するための設定：
-
-```python
-import cv2
-
-# GPU アクセラレーションの有効化
-cv2.cuda.setDevice(0)
-gpu_frame = cv2.cuda_GpuMat()
-```
-
-## トラブルシューティング
-
-### よくある問題
-
-1. **メモリ不足エラー**
-   - バッチサイズの調整
-   - モデルの軽量化
-
-2. **CUDA エラー**
-   - ドライバの確認
-   - CUDA バージョンの互換性
-
-3. **パフォーマンスの低下**
-   - プロファイリングツールの使用
-   - ボトルネックの特定
-
-詳細な開発環境の構築については、<DocumentLink slug="nextjs15-setup-guide" variant="banner" showDescription={true}>開発環境構築ガイド</DocumentLink>を参照してください。
