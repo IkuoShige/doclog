@@ -5,25 +5,69 @@ description: "RoboCup"
 category: "ロボティクス"
 technologies: 
   - "Python"
-  - "Machine Learning"
+  - "C++"
+  - "OpenCV"
+  - "qt5"
 tags: ["ロボティクス", "競技", "移動ロボット"]
-image: "/images/projects/robocup.jpg"
+image: "/images/projects/robocup.png"
 images:
-  - "/images/projects/robocup-01.jpg"
-  - "/images/projects/robocup-02.jpg"
-  - "/images/projects/robocup-03.jpg"
-github: "https://github.com/example/robocup/"
+  - "/images/projects/league.png"
 featured: false
 date: "2024-01-15"
 status: "completed"
-highlights: ["移動ロボット制御", "SLAM技術", "Pythonによるデータ処理"]
+highlights: ["移動ロボット", "ヒューマノイド"]
 duration: "約2年間"
 teamSize: "チーム開発"
 published: true
 ---
 
-# RoboCup
+# RoboCup Humanoid League
 
 ## プロジェクト概要
 
-RoboCupで移動ロボットの開発と競技参加を行いました。
+> ### RoboCup Humanoid Leagueとは
+> 
+> In the Humanoid League, autonomous robots with a human-like body plan and human-like senses play soccer against each other. Unlike humanoid robots outside the Humanoid League the task of perception and world modeling is not simplified by using non-human like range sensors. In addition to soccer competitions technical challenges take place. Dynamic walking, running, and kicking the ball while maintaining balance, visual perception of the ball, other players, and the field, self-localization, and team play are among the many research issues investigated in the Humanoid League. Several of the best autonomous humanoid robots in the world compete in the RoboCup Humanoid League.
+> 
+> [RoboCupSoccer - Humanoid](https://www.robocup.org/leagues/3)より
+
+2021~2022年の2年間RoboCupにチーム(CIT Brains)に加入し参加.
+
+## 経験
+
+### 開発面
+
+ロボットがサッカーをするときの行動決定を担当するソフトウェアの班で活動.
+当然チームで開発していたし、今までのチームの資産としてのソフトウェアもあるため私が全部やったわけではない.
+ロボットのボールに対するアプローチとかコーナーキック、フリーキックの動きもソフトウェアで実装.
+味方ロボット同士の連携プレーをどうやったら実装できるかを先輩と議論したり、
+シミュレータ上での検証がメインだったので、なるべく実環境のことを考えながらやってた.
+
+### チーム運営
+
+広報の作業もあり、スポンサーしていただける企業を探す、連絡を取るという作業もやった。
+一時期は空いている時間あれば、スポンサーしてもらえそうな企業を探したり、メンバーと一緒にメール案を推敲したりしていた。
+
+チームが開発や事務作業に追われて期限付きのタスクが遅れそうなことが予想されたため、
+体制を変更する時期というのもあり、プロマネのようなチーム全体のタスク管理をする役職についた.
+毎週のミーティングでは、司会を努め、タスクがどのくらい進んでいるか・滞っているかの報告を聞いていた。
+必要があればその場で議論し、方向性が間違っていないかを確認する。ミーティングの司会と同時に議事録も書いた。
+チームではgoogle driveを使っていたため、グーグルドキュメントやスプレッドシートを使用していた。
+私自身も学業もあるし時間はあるに越したことはないので、GAS(google app script)を導入して、
+手作業で面倒なことや忘れそうなことは自動化して効率化を図った。
+チーム全体のタスク管理は思ってた以上に難しく、あまりうまく動けてなかった。
+人間のコミュニケーションコストがいかに高いか思い知らされた気がする。
+しかし、人を動かす・チーム全体を見て管理するという経験は貴重でやって良かったと感じている。
+
+
+
+## 感想
+
+大学に未来ロボティクス学科として入学し、自律型二足歩行ロボットに惹かれて活動を始めた.
+
+ここでチーム開発を学んだ.
+ブランチを切って開発して、シミュレータで検証してプルリクだしてマージするという一連の流れを実践しながら学べた.
+RoboCupに出会えて充実した2年間を過ごすことができたと思う.
+苦しかったときもあったが、何もかもが新しくて楽しかった.
+
+チームで自律型二足歩行ロボットを開発していたが, 将来自分でヒューマノイドを設計して歩かせてみたい.
