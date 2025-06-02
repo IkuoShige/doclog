@@ -132,3 +132,61 @@ export const responsiveSizes = {
   // アバター画像
   avatar: '(max-width: 768px) 64px, 80px'
 } as const
+
+/**
+ * basePathを考慮した画像URLを生成
+ */
+export function getImageUrl(imagePath: string): string {
+  // 外部URLの場合はそのまま返す
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  
+  // 開発環境では basePath を適用しない
+  if (process.env.NODE_ENV === 'development') {
+    return imagePath;
+  }
+  
+  // プロダクション環境では basePath を適用
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  
+  // 既に basePath が含まれている場合は重複を避ける
+  if (imagePath.startsWith(basePath)) {
+    return imagePath;
+  }
+  
+  // パスが / で始まらない場合は追加
+  const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  
+  return `${basePath}${normalizedPath}`;
+}
+
+/**
+ * 画像が存在するかどうかを確認する関数（クライアントサイド用）
+ */
+export function checkImageExists(src: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = src;
+  });
+}
+
+/**
+ * フォールバック画像パスを取得
+ */
+export function getFallbackImagePath(): string {
+  return getImageUrl('/images/placeholder.svg');
+}
+
+/**
+ * 画像の存在確認とフォールバック処理
+ */
+export function getImageWithFallback(imagePath: string, fallback: string = '/images/placeholder.svg'): string {
+  if (!imagePath) {
+    return getImageUrl(fallback);
+  }
+  
+  return getImageUrl(imagePath);
+}

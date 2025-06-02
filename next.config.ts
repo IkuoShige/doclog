@@ -20,11 +20,16 @@ const nextConfig: NextConfig = {
   output: 'export', // 静的サイト生成用
   images: {
     unoptimized: true, // 静的エクスポート時に必要
-    domains: ['github.com'],
+    domains: ['github.com', 'tsukubachallenge.jp'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'github.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'tsukubachallenge.jp',
         pathname: '/**',
       },
     ],

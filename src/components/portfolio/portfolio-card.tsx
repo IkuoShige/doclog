@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, Github, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImageWithFallback } from '@/lib/image-utils';
+import { useState } from 'react';
 
 interface PortfolioProject {
   slug: string;
@@ -26,18 +28,29 @@ interface PortfolioCardProps {
 }
 
 export function PortfolioCard({ project, featured = false }: PortfolioCardProps) {
+  const [imageError, setImageError] = useState(false);
+  
   return (
     <Card className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 ${
       featured ? 'ring-2 ring-primary dark:ring-primary' : ''
     }`}>
       {project.image && (
-        <div className="relative aspect-video overflow-hidden rounded-t-lg">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-300 hover:scale-105"
-          />
+        <div className="relative w-full h-48 overflow-hidden rounded-t-lg bg-gray-100 dark:bg-gray-800">
+          {imageError ? (
+            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+              <span className="text-gray-500 text-sm">画像を読み込めませんでした</span>
+            </div>
+          ) : (
+            <Image
+              src={getImageWithFallback(project.image)}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-300 hover:scale-105"
+              onError={() => setImageError(true)}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+              unoptimized={true}
+            />
+          )}
           {featured && (
             <div className="absolute top-3 right-3">
               <Badge variant="default" className="bg-primary">
