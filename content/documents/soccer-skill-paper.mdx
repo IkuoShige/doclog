@@ -1,0 +1,202 @@
+---
+title: "ヒューマノイドサッカー論文比較"
+description: "T1系ヒューマノイドサッカー3論文（Progressive PA, Vision-Driven, Agile Striker）の設計思想・学習フレームワーク・実機ロバスト性の比較"
+category: "ロボティクス"
+tags: ["ヒューマノイド", "強化学習", "サッカー", "論文比較", "Sim-to-Real", "RoboCup"]
+published: true
+lastUpdated: "2025-01-01"
+---
+
+# ヒューマノイドサッカー論文比較
+
+以下は、**3本のT1系ヒューマノイドサッカー論文の差分を整理した比較ドキュメント**です。
+
+- **Learning Soccer Skills for Humanoid Robots: A Progressive Perception-Action Framework**（以下 _Progressive PA_）
+- **Learning Vision-Driven Reactive Soccer Skills for Humanoid Robots**（以下 _Vision-Driven_）
+- **Learning Agile Striker Skills for Humanoid Soccer Robots from Noisy Sensory Input**（以下 _Agile Striker_）
+
+---
+
+## 1. 全体像：何を解こうとしているのか
+
+| 論文 | 問題設定の本質 |
+|---|---|
+| Progressive PA | perceptionとactionを段階的に統合し、サッカースキルを安定的に獲得する枠組み |
+| Vision-Driven | 視覚入力から直接リアクティブなサッカー挙動を生成する end-to-end 制御 |
+| Agile Striker | ノイズ・遅延・欠落を含む不完全知覚下で、継続キックをロバストに成立させる |
+
+**最大の違いは「perceptionの扱い方」と「学習の段階設計思想」。**
+
+---
+
+## 2. Perception設計思想の違い
+
+### (A) Vision-Driven
+
+- 画像 → エンコーダ → latent → policy
+- perception と motor control を **同一ネットワーク内で統合**
+- 高い反応性（reactivity）を重視
+- 視覚が制御の一部として内部化されている
+
+**強み**
+- エンドツーエンド最適化
+- perception-action coupling が強い
+
+**弱み**
+- ノイズや欠落の明示モデリングが弱い傾向
+- デバッグ性が低い
+
+---
+
+### (B) Agile Striker
+
+- YOLOv8でボール検出（実機ではZED2i + YOLO）
+- Base frameへ変換しpolicyへ入力（p.6）
+- perception誤差を **明示的にモデリング**
+
+具体的には：
+- velocity依存ノイズ（式(3), p.5）
+- 非同期更新（10Hz vs 50Hz）
+- フレームドロップ（FOV外でゼロマスク）
+
+さらに：
+- Teacher → Student distillation（DAgger）
+- その後 **Constrained RL (N-P3O)** で再適応
+
+perceptionは分離モジュール、RLで補正する構造。
+
+---
+
+### (C) Progressive PA
+
+- perception と action を「段階的に」接続
+- 最初は状態が良く観測された環境で運動を獲得
+- その後 perception を統合
+
+Vision-Drivenほどend-to-endではない、Agileほどノイズモデリング特化でもない。
+**設計思想は"段階的統合"**。
+
+---
+
+## 3. 学習フレームワークの違い
+
+### Vision-Driven
+
+- 主にPPO系
+- AMP（Adversarial Motion Priors）などを併用
+- 模倣＋RLハイブリッド
+- 複数critic構造あり
+
+motor priorを強く使う設計。
+
+---
+
+### Agile Striker（p.3 図2参照）
+
+4段階：
+
+1. Long-distance chasing（teacher）
+2. Directional kicking（teacher）
+3. DAgger distillation（student）
+4. Online constrained RL adaptation（student）
+
+特に重要なのが：
+
+#### Constrained RL（p.5-7）
+
+- 不均一なcredit assignment問題を解決
+- 目的：maximize $J_{task}$ subject to regularization $\leq h$
+
+結果（Table IV）：
+- PPOより成功率向上
+- エネルギー半減
+- 安定回転挙動
+
+これはVision-Drivenにはない設計。
+
+---
+
+### Progressive PA
+
+- curriculum設計
+- perception-action couplingを段階的に強化
+- teacher-student的構造を持つが、constrained RLほど安全制約志向ではない
+
+---
+
+## 4. 目的の粒度の違い
+
+| 論文 | フォーカス |
+|---|---|
+| Vision-Driven | リアクティブな総合サッカー挙動 |
+| Agile Striker | 継続キックという単一技能の極限安定化 |
+| Progressive PA | perception-action統合枠組みの提案 |
+
+- Agileは **技能特化型**
+- Vision-Drivenは **技能統合型**
+- Progressiveは **枠組み提示型**
+
+---
+
+## 5. 実機ロバスト性へのアプローチ
+
+### Vision-Driven
+- sim-to-real
+- だが perceptionノイズの明示式は弱い
+
+### Agile Striker
+
+明確に：
+- ノイズモデル（式3）
+- 遅延
+- 欠落
+- Online adaptation
+- Constrained RL
+
+実機成功率：66.7%（Table III, p.7）
+
+明示的に「不完全知覚」を扱う。
+
+---
+
+## 6. アーキテクチャ比較
+
+| 項目 | Vision-Driven | Agile Striker | Progressive |
+|---|---|---|---|
+| 視覚入力 | raw image | 検出後位置 | 段階的統合 |
+| perceptionノイズ | implicit | explicit modeling | 一部 |
+| teacher-student | なし or 弱い | 明確 | あり |
+| constrained RL | なし | あり（N-P3O） | なし |
+| 継続キック評価 | あり | 明確に設計 | あり |
+| odometry併用 | 不明 | learned odometry使用 | 状況依存 |
+
+---
+
+## 7. 技術哲学の違い（重要）
+
+### Vision-Driven
+「視覚を含めて全部まとめて学習させればいい」
+
+### Agile Striker
+「perceptionは不完全。だからノイズを構造的に扱う」
+
+### Progressive PA
+「perceptionとactionは段階的に結合する」
+
+---
+
+## 8. 研究視点からの意味
+
+世界モデル・部分観測・ロバスト制御・多技能統合の観点から：
+
+- **Vision-Driven** は「世界モデルの前段」
+- **Agile Striker** は「部分観測下の安定化の設計例」
+- **Progressive** は「訓練スケジュール設計例」
+
+---
+
+## 9. 本質的な違いの一文要約
+
+- **Vision-Driven** = perceptionとcontrolのend-to-end統合
+- **Agile Striker** = imperfect perceptionを明示モデリングし、制約付きRLで安定化
+- **Progressive PA** = perception-actionを段階的に接続する学習フレームワーク

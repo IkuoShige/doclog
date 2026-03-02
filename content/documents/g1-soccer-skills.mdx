@@ -1,0 +1,380 @@
+---
+title: "G1 Soccer Skills 再現実装ガイド"
+description: "Unitree G1ヒューマノイドロボットのサッカーキック動作をPAiD論文に基づき再現するための実装ガイド"
+category: "ロボティクス"
+tags: ["ヒューマノイド", "強化学習", "Sim-to-Real", "Unitree G1", "RoboCup", "サッカー", "Isaac Sim", "MuJoCo"]
+published: true
+lastUpdated: "2025-01-01"
+---
+
+# G1 Soccer Skills 再現実装ガイド
+
+対象はこの論文（PAiD）ね：
+結論から言うと、**再現の難所は「モーションデータ（mocap）」「Unitree G1モデルの物理一致」「Isaac Sim↔MuJoCoの整合」「実機のボール位置推定」**。ここを避けて「雰囲気だけ再現」しようとすると、ほぼ確実にコケる。だから最初から**再現レベルを3段階**に分けて進める。
+
+---
+
+## 0. 再現レベル（どこまでやるか）
+
+- **Level A（必須）**：Stage I + Stage II をシミュレータ単体で再現（成功率/精度の傾向まで）
+
+- **Level B（強い再現）**：Physics-aware（SystemID + 物理ガイドDR + 観測ノイズ）まで入れる
+
+- **Level C（実機）**：D435i + YOLOv8 + LiDAR（Fast-LIO）でボールを追って実機G1で蹴る
+
+
+あなたが「再現実装」って言うなら、最低でも **A**。論文通りを名乗るなら **B**。動画を撮って勝負するなら **C**。
+
+---
+
+## 1. 全体アーキテクチャ（実装の分割）
+
+論文は「段階分け」が核：Stage I（モーション追従）→ Stage II（知覚で位置一般化）→ 物理合わせ（SystemID + DR）
+
+### 1.1 観測・行動（最重要の仕様固定）
+
+観測はこれを**そのまま**実装しないと比較不能：
+
+- (o_t = (o^{prop}_t, o^{ref}_t, o^{soc}_t))
+
+    - (o^{prop})：projected gravity / base ang vel / joint pos / joint vel / prev action
+
+    - (o^{ref})：参照のjoint pos/vel + root ang vel
+
+    - (o^{soc})：ボール位置 (g_{ball}) とゴール位置 (g_{goal})（ロボット基準）
+
+- ゴールは「5m前方中心の 1m×0.5m 矩形から一様サンプル」
+
+- Stage I：ボール位置は参照モーションに固定、Stage II：ランダム化
+
+
+行動は「関節PDのターゲット（位置）」として扱う、と書かれてる。実装はだいたい「policy出力→target joint pos→PD」でOK。
+
+---
+
+## 2. リポジトリ構成（最初に土台を固める）
+
+雰囲気で書き始めると100%破綻する。最初にフォルダを固定。
+
+```
+paid_repro/
+  configs/
+    sim.yaml
+    ppo_stage1.yaml
+    ppo_stage2.yaml
+    sysid.yaml
+  sim/
+    robot/           # G1 URDF/MJCF/USD 変換物
+    env/             # ボール・ゴール・床・乱数
+    sensors/         # gball/ggoal生成、ノイズ
+    rewards/         # Stage別
+    termination/
+  data/
+    mocap_raw/
+    mocap_clean/
+    retargeted/
+    motions_meta.json   # 蹴り足ラベル等
+  learning/
+    policy.py        # LSTM PPO対応
+    ppo.py
+    buffers.py
+    sampler.py       # adaptive sampling
+  sysid/
+    drop_test.py
+    roll_test.py
+    cmaes_opt.py
+  eval/
+    mujoco_eval.py
+    metrics.py
+  deploy/            # (Level C) 実機
+```
+
+---
+
+## 3. モーションデータ（ここを舐めると終わる）
+
+論文は **13本の人間キック（standard 10 + stylized 3）** をmocapで取って、GMRでG1へリターゲットしてる。さらに **蹴り足（左/右）をラベル付け**して Stage II の contact reward をゲートする。
+
+### 3.1 最低限そろえるもの（データ仕様）
+
+各モーションを「時系列フレーム」で持つ：
+
+- root（位置・姿勢）
+
+- 全関節角（pos）
+
+- （できれば）関節角速度（vel）
+
+- 参照root角速度（論文の (o^{ref}) に必要）
+
+- メタ：
+
+    - `kick_leg`: left/right
+
+    - `nominal_ball_pos_robot_frame`（後でStage IIのボールサンプリング中心に使う）
+
+
+### 3.2 ボール位置の定義（Stage IIの核）
+
+Appendixでは「ボール初期位置は参照モーションの終端フット接触にアンカーし、角度・半径方向のセクタ内でランダム化」って明確に言ってる。
+本編でも「nominal方向に角度摂動 + 半径オフセットで"弧（arc）"を作る」。
+
+---
+
+## 4. Stage I：モーショントラッキング（"蹴れる体"を作る）
+
+目的：知覚なしで「物理的に破綻しない、人間っぽいキックプリミティブ」を作る。
+
+### 4.1 参照整列（yaw-only alignment）
+
+「BeyondMimicに従って yaw-only alignment ΔR_t を使う」。
+実装の要点：**参照モーションを"現在のロボットyaw"に回してから誤差計算**。
+
+### 4.2 Adaptive Sampling（ここがStage Iの推進力）
+
+- モーションindex × 位相bin の失敗ヒストグラム (F\in R^{M\times B}) を持つ
+
+- エピソード開始時に (motion m, phase φ) を「Fに比例する分布」からサンプル
+
+- 難所（失敗が多い位相）に学習を寄せ、全モーションの習熟を揃える
+
+
+**実装テンプレ（疑似コード）**
+
+```text
+init F[m,b] = 1  # 0だと永久に選ばれないので最初から1推奨（スムージング）
+for episode:
+  p(m,b) ∝ smooth(F)   # 例: F^α + ε, α∈[0.3,1]
+  (m, b0) ~ p
+  φ0 = uniform_in_bin(b0)
+  reset_env(motion=m, phase=φ0)
+  rollout...
+  if terminated_by_failure:
+     b_fail = phase_to_bin(current_phase)
+     F[m, b_fail] += 1
+```
+
+### 4.3 Terrain Randomization（Stage IIで地面対応をやらないため）
+
+Stage Iに「不整地・凹凸地形」を混ぜる、と明記。
+実装例：
+
+- heightfield（低周波+高周波ノイズの合成）
+
+- 足裏摩擦のランダム化（ただしTable IIのロボット摩擦ランダム化は後でDRとしても入る）
+
+
+### 4.4 報酬（Stage Iは tracking + regularization だけ）
+
+Table Iの "Weight(I)" をそのまま入れる
+
+- tracking：anchor-pos/ori, body-pos/ori, lin-vel, ang-vel
+
+- regularization：action-rate, joint-limit, undesired-contact
+
+
+### 4.5 終了条件（失敗の定義＝adaptive samplingの燃料）
+
+エピソードは「時間切れ」か「安全制約違反で終了」
+例として：projected gravity から推定される姿勢エラー、anchor height逸脱、キネマ破綻
+
+**ここは実装で明確に閾値化**しろ。曖昧だとFがノイズだらけになる。
+
+---
+
+## 5. Stage II：Perception-Guided Positional Generalization（"どこでも蹴れる"にする）
+
+目的：Stage Iのキック形状を壊さず、ボール位置のばらつきに対応してゴールへ蹴る。
+
+### 5.1 ボール初期化（arcサンプリング）
+
+各モーションごとに nominal を決め、そこから角度摂動 + 半径オフセットで弧状に配置。Appendix側の「セクタ内サンプル」でも同じ主旨。
+
+### 5.2 rolling ball 対応（LSTMが必須）
+
+- ボール初速度を小範囲でサンプル
+
+- **LSTM policy**で時間情報を統合し、短期の転がりを暗黙予測する、と明記
+
+
+### 5.3 観測：pelvis frame の gball / ggoal
+
+式(2)(3)をそのまま：
+実装は「worldの ball/goal と pelvisの R,p から相対位置に変換」。
+
+### 5.4 報酬（Stage IIの肝：少数・ゲート・凍結）
+
+論文は「reward conflict回避」が売り。だから**追加報酬を増やすな**。Table Iの Weight(II) と本文の運用を守れ。
+
+- tracking は残すが **anchor-pos weight を 0** にして移動を許す
+
+- ball-prox：距離指数報酬、**最初の有効接触後に凍結**
+
+- contact：**最初の接触がラベルと同じ足なら**一回だけ +50
+
+- side-kick：蹴り足に応じた横方向スイングprior +50
+
+- outcome shaping：正しい接触後の短い窓で
+
+    - vel-align（方向一致）
+
+    - speed（平面速度）
+
+    - z-speed（上方向は罰）
+        さらに「最低速度しきい値でゲート」
+
+- stabilize：waist-rate / upright / foot-sep を軽く入れる
+
+
+**実装テンプレ（接触ゲート＆凍結）**
+
+```text
+if not has_valid_contact:
+  r_ball_prox = exp(-d_xy^2/σ^2)
+else:
+  r_ball_prox = r_ball_prox_frozen  # contact時の値で固定
+
+if first_contact_this_episode:
+  if contact_foot == labeled_kick_leg:
+     r_contact = +50
+     enable_outcome_window(T_outcome_steps)
+     correct_contact = true
+  else:
+     r_contact = 0
+     correct_contact = false
+
+if outcome_window_active and correct_contact and ball_speed > v_min:
+   r_vel_align = 30 * cos(angle(v_ball_xy, dir_to_goal_xy))
+   r_speed     = 10 * clamp(|v_ball_xy|, 0, v_cap)
+   r_z_pen     = -0.2 * |v_ball_z|
+```
+
+---
+
+## 6. Physics-aware Sim-to-Real（Level B：ここから"論文っぽさ"が出る）
+
+ここをやらずに「sim2realできません」は当たり前。論文も「摩擦や反発の差が致命的」と明言。
+
+### 6.1 System Identification（ボールの接触パラメータ合わせ）
+
+現実の簡易実験：
+
+- **drop test**（反発・減衰）
+
+- **rolling test**（摩擦・接線方向の損失）
+    それを Isaac Sim でも同条件で再現し、パラメータを最適化。
+
+
+最適化対象（Isaac Simのボール接触パラメータ）：
+
+- static friction / dynamic friction / restitution / linear damping / angular damping
+
+損失（高さ系列 + 水平変位系列の二乗誤差）と CMA-ES：
+
+さらに重要：**硬い床と芝（soccer field）で別々に同定して2セット作る**
+学習時は環境を2分割して使い、残差はガウシアンで摂動する。
+
+### 6.2 Domain Randomization（Table IIをそのまま）
+
+これを勝手に変えると比較不能。範囲は論文通り：
+
+- robot static friction U(0.3,1.6)
+
+- robot dynamic friction U(0.3,1.2)
+
+- robot restitution U(0.0,0.5)
+
+- joint default pos U(-0.01,0.01)
+
+- base CoM x U(-0.025,0.025), y,z U(-0.05,0.05)
+
+- push robot U(-0.5,0.5)
+
+
+### 6.3 物理ガイド観測ノイズ（距離と速度でノイズ増）
+
+ボール/ゴール観測に、状態依存でガウシアンノイズ：
+(\sigma^{obj}_t = c_{min} + |v^{obj}_t|/c_{vel} + |p^{obj}_t - p^{robot}_t|/c_{dist})
+※ cmin/cvel/cdist は論文本文だけだと値が見えない。ここは**あなたが決めてチューニング**。
+
+---
+
+## 7. 評価（再現できたかの判定）
+
+論文は MuJoCo で評価プロトコルを切ってる。最低限ここは合わせろ。
+
+### 7.1 静止球グリッド評価
+
+- 11×13 グリッド
+
+- ボール初期位置：[0.5,3.0]×[-1.5,1.5]m、0.25m刻み
+
+- 各点50試行、ロボット初期化は半径0.5m円内で一様
+
+
+### 7.2 rolling interception
+
+- ボール初速度：[0.1,0.3] m/s
+
+### 7.3 指標
+
+- Success Rate（ゴール/試行）
+
+- Kick Accuracy（cos類似度）
+
+
+---
+
+## 8. 実機デプロイ（Level C：やるならこれをそのまま）
+
+### 8.1 ボール位置推定（視野内/外で戦略が違う）
+
+- D435i depth camera
+
+- YOLOv8でボールmaskを取り、ロボット座標で相対位置を連続推定
+
+- 視野外は LiDAR + Fast-LIO でロボット全球姿勢を推定し、world系へ変換して追跡
+
+- ボールが視野から消えたら「直前のworld位置」を保持して相対位置を復元
+
+
+### 8.2 モーション選択（実行前に1本選ぶ）
+
+候補モーションをプリロードしておき、「各モーションの最終フレームroot位置」が推定ボール位置に最も近いものを選び、単一ポリシーに入力して実行
+ここを雑にすると「足が逆」「届かない」「変な回り込み」全部出る。
+
+---
+
+## 9. よくある失敗パターン（先に潰す）
+
+1. **参照モーションが物理的に無理**（リターゲットで膝/股関節が破綻）
+    → Stage Iが永遠に安定しない。まず1本を完全に追従させてから増やせ。
+
+2. **contact判定が雑**
+    → contact reward が誤爆して学習が壊れる。最初の接触・足のID・ボール速度閾値をログで検証しろ。
+
+3. **Stage IIで報酬盛りすぎ**
+    → "reward conflict回避"という論文の前提を自分で壊してる。Table I以上に増やすな
+
+4. **SystemIDなしで実機に行く**
+    → だいたい失敗する（論文もアブレーションで落ちるのを示してる）
+
+
+---
+
+## 10. 最短で進める優先順位（迷うな）
+
+1. **Level A**：MuJoCoで環境 + 観測 + 報酬（Table I）を完成、Stage I→Stage IIまで回す
+
+2. Stage Iの adaptive sampling と termination をログで固める
+
+3. Stage IIの「凍結」「ゲート」「短い窓」を実装して、静止球グリッド評価を回す
+
+4. **Level B**：SystemID（drop/roll + CMA-ES）→2サーフェス→DR→状態依存ノイズ
+
+5. **Level C**：D435i+YOLOv8+Fast-LIOでボール追跡、モーション選択で実機実行
+
+
+---
+
+必要なら次の一手として、あなたの前提（どのシミュレータでやるか、G1モデルが何で手元にあるか、mocapが取れるか）を勝手に決め打ちして、**「Stage Iのreward計算コード仕様」「接触ゲート仕様」「adaptive sampling実装の詳細ログ設計」**まで落とした"実装チェックリスト"をそのまま貼れる形で書く。
